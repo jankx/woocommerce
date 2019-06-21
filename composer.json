@@ -1,0 +1,14 @@
+{
+    "name": "jankx/ecommerce",
+    "description": "Integrate ecommerce plugins with Jankx theme framework",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Puleeno Nguyen",
+            "email": "puleeno@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
