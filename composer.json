@@ -10,7 +10,9 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "jankx/core": "dev-master"
+    },
     "autoload": {
         "psr-4": {
             "Jankx\\Ecommerce\\": "src/"
