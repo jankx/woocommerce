@@ -37,21 +37,21 @@ class PluginDetecter
     {
         $found = true;
         if (isset($rules['classes'])) {
-            foreach((array)$rules['classes'] as $className) {
+            foreach ((array)$rules['classes'] as $className) {
                 if (!class_exists($className)) {
                     return false;
                 }
             }
         }
         if (isset($rules['constants'])) {
-            foreach((array)$rules['constants'] as $constName) {
+            foreach ((array)$rules['constants'] as $constName) {
                 if (!defined($constName)) {
                     return false;
                 }
             }
         }
         if (isset($rules['functions'])) {
-            foreach((array)$rules['functions'] as $funcName) {
+            foreach ((array)$rules['functions'] as $funcName) {
                 if (!function_exists($funcName)) {
                     return false;
                 }

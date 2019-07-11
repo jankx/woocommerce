@@ -20,6 +20,6 @@ class WooCommerce
          *
          * Jankx replace this feature by Jankx site layout
          */
-        remove_action( 'woocommerce_sidebar', 'woocommerce_get_sidebar', 10 );
+        remove_action('woocommerce_sidebar', 'woocommerce_get_sidebar', 10);
     }
 }

@@ -3,7 +3,8 @@
 use Jankx\Ecommerce\Manager;
 
 if (!function_exists('jankx_ecommerce')) {
-    function jankx_ecommerce() {
+    function jankx_ecommerce()
+    {
         return Manager::instance();
     }
 }
