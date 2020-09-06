@@ -1,11 +1,11 @@
 <?php
 
-use Jankx\Ecommerce\Manager;
+use Jankx\Ecommerce\Ecommerce;
 
 if (!function_exists('jankx_ecommerce')) {
     function jankx_ecommerce()
     {
-        return Manager::instance();
+        return Ecommerce::instance();
     }
 }
 
