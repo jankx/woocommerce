@@ -11,6 +11,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
+        "jankx/core": "dev-master"
     },
     "autoload": {
         "psr-4": {
