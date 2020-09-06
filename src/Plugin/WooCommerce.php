@@ -1,5 +1,5 @@
 <?php
-namespace Jankx\Ecommerce\Plugins;
+namespace Jankx\Ecommerce\Plugin;
 
 class WooCommerce
 {
