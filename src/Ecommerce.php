@@ -1,7 +1,7 @@
 <?php
 namespace Jankx\Ecommerce;
 
-class Manager
+class Ecommerce
 {
     protected static $instance;
     protected $detecter;
