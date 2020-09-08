@@ -1,6 +1,8 @@
 <?php
 namespace Jankx\Ecommerce\Plugin;
 
+use Jankx\Ecommerce\Template;
+
 class WooCommerce
 {
     const PLUGIN_NAME = 'WooCommerce';
@@ -28,5 +30,8 @@ class WooCommerce
 
     public function renderProductContent()
     {
+        Template::render(
+            'woocommerce/single-product'
+        );
     }
 }
