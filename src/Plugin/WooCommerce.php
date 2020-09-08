@@ -44,12 +44,23 @@ class WooCommerce
         if (is_woocommerce()) {
             remove_action('jankx_template_after_main_content', 'get_sidebar', 35);
             remove_action('jankx_template_after_main_content', array($layoutLoader, 'loadSecondarySidebar'), 45);
+
+            add_action('jankx_template_after_main_content', array($this, 'createWooCommerceSidebar'), 35);
+            add_action('jankx_sidebar_shop_content', array($this, 'renderShopSidebar'));
         }
+    }
+
+    public function createWooCommerceSidebar() {
+        do_action( 'woocommerce_sidebar' );
+    }
+
+    public function renderShopSidebar() {
+        return Template::render('woocommerce/shop-sidebar');
     }
 
     public function renderProductContent()
     {
-        Template::render(
+        return Template::render(
             'woocommerce/single-product'
         );
     }
