@@ -2,10 +2,13 @@
 namespace Jankx\Ecommerce\Plugin;
 
 use Jankx\Ecommerce\Template;
+use Jankx\SiteLayout\SiteLayout;
 
 class WooCommerce
 {
     const PLUGIN_NAME = 'WooCommerce';
+
+    protected static $disableShopSidebar;
 
     public function __construct()
     {
@@ -18,6 +21,8 @@ class WooCommerce
 
         add_action('jankx_page_template_single_product', array($this, 'renderProductContent'));
         add_action('jankx_template_build_site_layout', array($this, 'customShopLayout'));
+
+        add_action('jankx_template_pre_get_current_site_layout', array($this, 'changeCurrentSiteLayout'));
     }
 
     public function registerShopSidebars()
@@ -39,22 +44,55 @@ class WooCommerce
         ));
     }
 
+    protected function checkSidebarIsActive()
+    {
+        if (is_null(static::$disableShopSidebar)) {
+            static::$disableShopSidebar = apply_filters(
+                'jankx_ecommerce_disable_shop_sidebar',
+                false
+            );
+        }
+
+        return ! static::$disableShopSidebar;
+    }
+
     public function customShopLayout($layoutLoader)
     {
         if (is_woocommerce()) {
             remove_action('jankx_template_after_main_content', 'get_sidebar', 35);
             remove_action('jankx_template_after_main_content', array($layoutLoader, 'loadSecondarySidebar'), 45);
 
-            add_action('jankx_template_after_main_content', array($this, 'createWooCommerceSidebar'), 35);
-            add_action('jankx_sidebar_shop_content', array($this, 'renderShopSidebar'));
+            if ($this->checkSidebarIsActive()) {
+                add_action('jankx_template_after_main_content', array($this, 'createWooCommerceSidebar'), 35);
+                add_action('jankx_sidebar_shop_content', array($this, 'renderShopSidebar'));
+            }
         }
     }
 
-    public function createWooCommerceSidebar() {
-        do_action( 'woocommerce_sidebar' );
+    public function createWooCommerceSidebar()
+    {
+        do_action('woocommerce_sidebar');
     }
 
-    public function renderShopSidebar() {
+    public function changeCurrentSiteLayout($pre)
+    {
+        if (is_woocommerce()) {
+            if (!$this->checkSidebarIsActive()) {
+                return SiteLayout::LAYOUT_FULL_WIDTH;
+            }
+
+            $sidebarPosition = apply_filters('jankx_template_site_layout_shop_sidebar_position', 'right');
+            if ($sidebarPosition === 'right') {
+                return SiteLayout::LAYOUT_CONTENT_SIDEBAR;
+            } else {
+                return SiteLayout::LAYOUT_SIDEBAR_CONTENT;
+            }
+        }
+        return $pre;
+    }
+
+    public function renderShopSidebar()
+    {
         return Template::render('woocommerce/shop-sidebar');
     }
 
