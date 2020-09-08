@@ -14,18 +14,37 @@ class WooCommerce
 
     public function initHooks()
     {
-        add_action('init', array($this, 'init'));
+        add_action('widgets_init', array($this, 'registerShopSidebars'));
+
         add_action('jankx_page_template_single_product', array($this, 'renderProductContent'));
+        add_action('jankx_template_build_site_layout', array($this, 'customShopLayout'));
     }
 
-    public function init()
+    public function registerShopSidebars()
     {
-        /**
-         * Remove default woocommerce sidebar
-         *
-         * Jankx replace this feature by Jankx site layout
-         */
-        remove_action('woocommerce_sidebar', 'woocommerce_get_sidebar', 10);
+        $shopSidebarArgs = array(
+            'id' => 'shop',
+            'name' => __('Shop Sidebar', 'jankx'),
+            'description' => __('The widgets of the shop will be show at here', 'jankx'),
+            'before_widget' => '<section id="%1$s" class="widget jankx-widget %2$s">',
+            'after_widget' => '</section>',
+            'before_title' => '<h3 class="jankx-title widget-title">',
+            'after_title' => '</h3>',
+        );
+
+        // Register shop sidebar
+        register_sidebar(apply_filters(
+            'jankx_ecommerce_woocommerce_sidebar_args',
+            $shopSidebarArgs
+        ));
+    }
+
+    public function customShopLayout($layoutLoader)
+    {
+        if (is_woocommerce()) {
+            remove_action('jankx_template_after_main_content', 'get_sidebar', 35);
+            remove_action('jankx_template_after_main_content', array($layoutLoader, 'loadSecondarySidebar'), 45);
+        }
     }
 
     public function renderProductContent()

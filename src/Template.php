@@ -3,10 +3,12 @@ namespace Jankx\Ecommerce;
 
 use Jankx\Template\Template as JankxTemplate;
 
-class Template {
+class Template
+{
     protected static $loader;
 
-    public static function getTemplateInstance() {
+    public static function getTemplateInstance()
+    {
         if (is_null(static::$loader)) {
             $templateDirectory = sprintf('%s/templates', dirname(JANKX_ECOMMERCE_FILE_LOADER));
             $directoryInTheme  = apply_filters('jankx_theme_template_directory_name', 'templates/ecommerce');
@@ -18,7 +20,8 @@ class Template {
         return static::$loader;
     }
 
-    public static function render() {
+    public static function render()
+    {
         return call_user_func_array(
             array(
                 static::getTemplateInstance(),
