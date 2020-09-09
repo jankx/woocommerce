@@ -2,6 +2,7 @@
 namespace Jankx\Ecommerce;
 
 use Jankx\Ecommerce\Plugin\WooCommerce;
+use Jankx\Ecommerce\Component\CartButton;
 
 class Ecommerce
 {
@@ -9,7 +10,7 @@ class Ecommerce
     protected static $supportPlugins;
 
     protected $detecter;
-    protected $plugin;
+    protected $shopPlugin;
     protected $pluginName;
 
     public static function instance()
@@ -20,14 +21,17 @@ class Ecommerce
         return self::$instance;
     }
 
-    public function __construct()
+    private function __construct()
     {
         static::$supportPlugins = array(
             WooCommerce::PLUGIN_NAME => WooCommerce::class,
         );
         $this->detecter = new PluginDetecter();
 
-        add_action('after_setup_theme', array($this->detecter, 'getECommercePlugin'));
+        add_action('after_setup_theme', array(
+            $this->detecter,
+            'getECommercePlugin'
+        ));
         add_action('after_setup_theme', array($this, 'loadFeatures'));
     }
 
@@ -39,11 +43,24 @@ class Ecommerce
             return;
         }
         $className = static::$supportPlugins[$this->pluginName];
-        $this->plugin = new $className();
+        $this->shopPlugin = new $className();
+
+        add_filter('jankx_components', array($this, 'registerEcommerceComponents'));
     }
 
-    public function getPlugin()
+    public function getShopPlugin()
     {
-        return $this->plugin;
+        return $this->shopPlugin;
+    }
+
+    public function registerEcommerceComponents($components)
+    {
+        if (!isset($components[CartButton::getName()])) {
+            $components[CartButton::getName()] = CartButton::class;
+        } else {
+            throw new \Exception(sprintf('Component %s is already exists', CartButton::getName()));
+        }
+
+        return $components;
     }
 }

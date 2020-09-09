@@ -1,10 +1,11 @@
 <?php
 namespace Jankx\Ecommerce\Plugin;
 
+use Jankx\Ecommerce\Constracts\ShopPlugin;
 use Jankx\Ecommerce\Template;
 use Jankx\SiteLayout\SiteLayout;
 
-class WooCommerce
+class WooCommerce implements ShopPlugin
 {
     const PLUGIN_NAME = 'WooCommerce';
 
@@ -101,5 +102,9 @@ class WooCommerce
         return Template::render(
             'woocommerce/single-product'
         );
+    }
+
+    public function getCartUrl()
+    {
     }
 }
