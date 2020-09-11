@@ -107,4 +107,14 @@ class WooCommerce implements ShopPlugin
     public function getCartUrl()
     {
     }
+
+    public function getPostType()
+    {
+        return 'product';
+    }
+
+    public function getProductCategoryTaxonomy()
+    {
+        return 'product_cat';
+    }
 }
