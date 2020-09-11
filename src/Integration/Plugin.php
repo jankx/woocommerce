@@ -28,20 +28,29 @@ class Plugin
     {
         static::$activePlugins = get_option('active_plugins');
         if (in_array('elementor/elementor.php', static::$activePlugins)) {
-            $this->integratedPlugins[Elementor::class] = array();
+            $this->integratedPlugins['elementor/elementor.php'] = Elementor::class;
         }
     }
 
     public function getIntegratedPlugins()
     {
-        return array_keys($this->integratedPlugins);
+        return apply_filters(
+            'jankx_ecommerce_plugin_integrations',
+            $this->integratedPlugins
+        );
     }
 
     public function integrate()
     {
-        foreach ($this->getIntegratedPlugins() as $integrateClassName) {
-            if (empty($this->integratedPlugins[$integrateClassName])) {
+        foreach ($this->getIntegratedPlugins() as $pluginName => $integrateClassName) {
+            if (class_exists($integrateClassName)) {
                 $this->integratedPlugins[$integrateClassName] = new $integrateClassName();
+            } else {
+                throw new \Exception(sprintf(
+                    'Class %s is not found to integrate with plugin %s.',
+                    $integrateClassName,
+                    $pluginName
+                ));
             }
         }
     }
