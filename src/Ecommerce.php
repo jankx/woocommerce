@@ -4,6 +4,7 @@ namespace Jankx\Ecommerce;
 use Jankx\Ecommerce\Plugin\WooCommerce;
 use Jankx\Ecommerce\Component\CartButton;
 use Jankx\Ecommerce\Integration\Plugin;
+use Jankx\Ecommerce\Template;
 
 class Ecommerce
 {
@@ -33,6 +34,7 @@ class Ecommerce
             $this->detecter,
             'getECommercePlugin'
         ));
+        add_action('template_redirect', array(Template::class, 'hookTemplates'));
         add_action('after_setup_theme', array(Plugin::class, 'getInstance'));
         add_action('after_setup_theme', array($this, 'loadFeatures'));
     }

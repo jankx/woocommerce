@@ -3,12 +3,14 @@ namespace Jankx\Ecommerce\Base;
 
 use Jankx\Ecommerce\Ecommerce;
 use Jankx\Ecommerce\Template;
+use Jankx\Ecommerce\Query\GetProductQuery;
 
 class CategoryTabsProducts extends Base
 {
     protected static $supportedFirstTabs;
 
     protected $categoryIds = array();
+    protected $readmore = array();
     protected $firstTab;
     protected $tabs;
 
@@ -74,16 +76,37 @@ class CategoryTabsProducts extends Base
         );
     }
 
-    public function generateTabContents()
+    public function buildFirstTabQuery()
     {
+        if (!count($this->tabs)) {
+            return;
+        }
+        $tabs = array_values($this->tabs);
+        $firstTab = array_shift($tabs);
+        if (is_array($firstTab)) {
+            $firstTab = array_get($firstTab, 'tab', 'featured');
+        }
+
+        $firstTabQuery = GetProductQuery::buildQuery(array(
+            'query_type' => $firstTab,
+        ));
+
+        return $firstTabQuery->getWordPressQuery();
     }
 
     public function render()
     {
+        $tabs = $this->generateTabs();
+        $firstTabContent = Template::render('product/list', array(
+            'wp_query' => $this->buildFirstTabQuery(),
+            't'        => Template::class,
+        ), 'product_list', false);
+
         Template::render(
             'base/category/tabs-products',
             array(
-                'tabs' => $this->generateTabs(),
+                'tabs' => $tabs,
+                'first_tab_content' => $firstTabContent,
                 'readmore' => $this->readmore,
             )
         );
