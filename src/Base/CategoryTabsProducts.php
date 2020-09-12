@@ -14,8 +14,9 @@ class CategoryTabsProducts implements Renderer
     protected $readmore = array();
     protected $firstTab;
     protected $tabs;
+    protected $args;
 
-    public function __construct($categoryIds, $firstTab = null)
+    public function __construct($categoryIds, $firstTab = null, $args = array())
     {
         $this->categoryIds = array_filter($categoryIds, function ($id) {
             $id = (int) trim($id);
@@ -25,6 +26,7 @@ class CategoryTabsProducts implements Renderer
             return $id;
         });
         $this->firstTab = $firstTab;
+        $this->args     = $args;
 
         if (is_null(static::$supportedFirstTabs)) {
             static::$supportedFirstTabs = apply_filters(
@@ -93,8 +95,11 @@ class CategoryTabsProducts implements Renderer
             $firstTab = array_get($firstTab, 'tab', 'featured');
         }
 
-        $firstTabQuery = GetProductQuery::buildQuery(array(
-            'query_type' => $firstTab,
+        $firstTabQuery = GetProductQuery::buildQuery(wp_parse_args(
+            array(
+                'query_type' => $firstTab,
+            ),
+            $this->args,
         ));
 
         return $firstTabQuery->getWordPressQuery();
@@ -102,18 +107,21 @@ class CategoryTabsProducts implements Renderer
 
     public function render()
     {
-        $tabs = $this->generateTabs();
+        $tabs       = $this->generateTabs();
         $pluginName = jankx_ecommerce()->getShopPlugin()->getName();
 
+        // Render the first tab content
         $firstTabContent = Template::render("{$pluginName}/product-list", array(
             'wp_query' => $this->buildFirstTabQuery(),
             'columns' => 4,
         ), 'product_list', false);
 
+        // Render the output
         Template::render(
             'base/category/tabs-products',
             array(
                 'tabs' => $tabs,
+                'widget_title' => array_get($this->args, 'widget_title'),
                 'first_tab_content' => $firstTabContent,
                 'readmore' => $this->readmore,
             )

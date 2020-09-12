@@ -37,6 +37,14 @@ class CategoryTabsProducts extends Widget_Base
         );
 
         $this->add_control(
+            'title',
+            [
+                'label' => __('Widget Title', 'jankx'),
+                'type' => \Elementor\Controls_Manager::TEXT,
+            ]
+        );
+
+        $this->add_control(
             'show_first_tab',
             [
                 'label' => __('Show First Tab', 'jankx'),
@@ -75,6 +83,17 @@ class CategoryTabsProducts extends Widget_Base
             ]
         );
 
+        $this->add_control(
+            'limit',
+            [
+                'label' => __('Number of Products', 'jankx'),
+                'type' => \Elementor\Controls_Manager::NUMBER,
+                'max' => 100,
+                'step' => 1,
+                'default' => 10,
+            ]
+        );
+
         $this->end_controls_section();
     }
 
@@ -86,7 +105,10 @@ class CategoryTabsProducts extends Widget_Base
         if (!array_get($settings, 'show_first_tab', 'no') === 'no') {
             $firstTag = null;
         }
-        $categoryTabsProducts = new BaseCategoryTabsProducts($categoryIds, $firstTag);
+        $categoryTabsProducts = new BaseCategoryTabsProducts($categoryIds, $firstTag, array(
+            'limit' => array_get($settings, 'limit', 10),
+            'widget_title' => array_get($settings, 'title', 10),
+        ));
         if (($url = array_get($settings, 'readmore_url', ''))) {
             $categoryTabsProducts->setReadMore($url);
         }

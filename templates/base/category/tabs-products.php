@@ -1,4 +1,5 @@
 <div class="jankx-ecommerce category-tabs-products">
+    <h3 class="widget-title"><?php echo $widget_title; ?></h3>
     <ul class="jankx-tabs">
         <?php foreach ($tabs as $tab => $data) : ?>
             <li data-tab="<?php echo array_get((array) $data, 'tab', $data); ?>">
