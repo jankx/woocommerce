@@ -1,11 +1,12 @@
 <?php
 namespace Jankx\Ecommerce\Base;
 
+use Jankx\Ecommerce\Constracts\Renderer;
 use Jankx\Ecommerce\Ecommerce;
 use Jankx\Ecommerce\Template;
-use Jankx\Ecommerce\Query\GetProductQuery;
+use Jankx\Ecommerce\Base\GetProductQuery;
 
-class CategoryTabsProducts extends Base
+class CategoryTabsProducts implements Renderer
 {
     protected static $supportedFirstTabs;
 
@@ -34,6 +35,11 @@ class CategoryTabsProducts extends Base
                 )
             );
         }
+    }
+
+    public function __toString()
+    {
+        return (string) $this->render();
     }
 
     public function setReadMore($url, $text = null)

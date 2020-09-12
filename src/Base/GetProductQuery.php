@@ -1,9 +1,9 @@
 <?php
-namespace Jankx\Ecommerce\Query;
+namespace Jankx\Ecommerce\Base;
 
 use WP_Query;
 
-class GetProductQuery
+class GetProductQuery extends QueryBuilder
 {
     protected $type;
     protected $wordpressQuery;
@@ -13,7 +13,7 @@ class GetProductQuery
      * Set query type
      *
      * @param string $type the type of Query
-     * @return \Jankx\Ecommerce\Query\GetProductQuery
+     * @return \Jankx\Ecommerce\Base\GetProductQuery
      */
     public function setQueryType($type = 'recents')
     {
@@ -47,27 +47,5 @@ class GetProductQuery
         }
 
         return $this->wordpressQuery;
-    }
-
-    public static function buildQuery($args)
-    {
-        $query = new static();
-
-        if (is_array($args)) {
-            foreach ($args as $key => $val) {
-                $method = preg_replace_callback(array('/^([a-z])/', '/[_|-]([a-z])/', '/.+/'), function ($matches) {
-                    if (isset($matches[1])) {
-                        return strtoupper($matches[1]);
-                    }
-                    return sprintf('set%s', $matches[0]);
-                }, $key);
-
-                if (method_exists($query, $method)) {
-                    $query->$method($val);
-                }
-            }
-        }
-
-        return $query;
     }
 }
