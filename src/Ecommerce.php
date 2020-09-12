@@ -34,7 +34,6 @@ class Ecommerce
             $this->detecter,
             'getECommercePlugin'
         ));
-        add_action('template_redirect', array(Template::class, 'hookTemplates'));
         add_action('after_setup_theme', array(Plugin::class, 'getInstance'));
         add_action('after_setup_theme', array($this, 'loadFeatures'));
     }

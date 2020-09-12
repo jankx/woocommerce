@@ -97,7 +97,9 @@ class CategoryTabsProducts extends Base
     public function render()
     {
         $tabs = $this->generateTabs();
-        $firstTabContent = Template::render('product/list', array(
+        $pluginName = jankx_ecommerce()->getShopPlugin()->getName();
+
+        $firstTabContent = Template::render("{$pluginName}/product-list", array(
             'wp_query' => $this->buildFirstTabQuery(),
             't'        => Template::class,
         ), 'product_list', false);

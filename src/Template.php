@@ -30,30 +30,4 @@ class Template
             func_get_args()
         );
     }
-
-    public static function hookTemplates()
-    {
-        add_action('jankx_ecommerce_product_featured', array(__CLASS__, 'productFeatureImage'));
-        add_action('jankx_ecommerce_product_info', array(__CLASS__, 'productName'));
-    }
-
-    public static function productFeatureImage($product)
-    {
-        return static::render(
-            'product/loop/product-image',
-            array(
-                'product' => $product,
-            )
-        );
-    }
-
-    public function productName($product)
-    {
-        return static::render(
-            'product/loop/product-name',
-            array(
-                'product' => $product,
-            )
-        );
-    }
 }

@@ -100,8 +100,13 @@ class WooCommerce implements ShopPlugin
     public function renderProductContent()
     {
         return Template::render(
-            'woocommerce/single-product'
+            $this->getName() . '/single-product'
         );
+    }
+
+    public function getName()
+    {
+        return 'woocommerce';
     }
 
     public function getCartUrl()
