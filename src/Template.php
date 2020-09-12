@@ -30,4 +30,15 @@ class Template
             func_get_args()
         );
     }
+
+    public static function search()
+    {
+        return call_user_func_array(
+            array(
+                static::getTemplateInstance(),
+                'searchTemplate'
+            ),
+            func_get_args()
+        );
+    }
 }

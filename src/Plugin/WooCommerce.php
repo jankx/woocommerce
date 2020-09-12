@@ -43,6 +43,8 @@ class WooCommerce implements ShopPlugin
         add_action('jankx_template_build_site_layout', array($this, 'customShopLayout'));
 
         add_action('jankx_template_pre_get_current_site_layout', array($this, 'changeCurrentSiteLayout'));
+
+        add_filter('wc_get_template', array($this, 'changeWooCommerceTemplates'), 10, 5);
         add_filter('body_class', array($this, 'addWoocommerceCSSBodyClass'));
     }
 
@@ -122,6 +124,20 @@ class WooCommerce implements ShopPlugin
         return Template::render(
             $this->getName() . '/single-product'
         );
+    }
+
+    public function changeWooCommerceTemplates($template, $template_name, $args, $template_path, $default_path)
+    {
+        $jankxTemplate    = sprintf('woocommerce/%s', rtrim($template_name, '.php'));
+        $searchedTemplate = Template::search($jankxTemplate);
+
+        // Return Jankx Ecommerce template when the template is existing
+        if ($searchedTemplate) {
+            return $searchedTemplate;
+        }
+
+        // Return default WooCommerce template when Jankx Ecommerce template is not found`
+        return $template;
     }
 
     // Make WooCommerce body class is global
