@@ -16,6 +16,25 @@ class WooCommerce implements ShopPlugin
         $this->initHooks();
     }
 
+    public function getName()
+    {
+        return 'woocommerce';
+    }
+
+    public function getCartUrl()
+    {
+    }
+
+    public function getPostType()
+    {
+        return 'product';
+    }
+
+    public function getProductCategoryTaxonomy()
+    {
+        return 'product_cat';
+    }
+
     public function initHooks()
     {
         add_action('widgets_init', array($this, 'registerShopSidebars'));
@@ -24,6 +43,7 @@ class WooCommerce implements ShopPlugin
         add_action('jankx_template_build_site_layout', array($this, 'customShopLayout'));
 
         add_action('jankx_template_pre_get_current_site_layout', array($this, 'changeCurrentSiteLayout'));
+        add_filter('body_class', array($this, 'addWoocommerceCSSBodyClass'));
     }
 
     public function registerShopSidebars()
@@ -104,22 +124,12 @@ class WooCommerce implements ShopPlugin
         );
     }
 
-    public function getName()
+    // Make WooCommerce body class is global
+    public function addWoocommerceCSSBodyClass($classes)
     {
-        return 'woocommerce';
-    }
-
-    public function getCartUrl()
-    {
-    }
-
-    public function getPostType()
-    {
-        return 'product';
-    }
-
-    public function getProductCategoryTaxonomy()
-    {
-        return 'product_cat';
+        if (!in_array('woocommerce', $classes)) {
+            $classes[] = 'woocommerce';
+        }
+        return $classes;
     }
 }

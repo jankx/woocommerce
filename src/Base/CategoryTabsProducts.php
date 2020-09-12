@@ -101,7 +101,7 @@ class CategoryTabsProducts extends Base
 
         $firstTabContent = Template::render("{$pluginName}/product-list", array(
             'wp_query' => $this->buildFirstTabQuery(),
-            't'        => Template::class,
+            'columns' => 4,
         ), 'product_list', false);
 
         Template::render(
