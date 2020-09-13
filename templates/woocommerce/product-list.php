@@ -9,5 +9,6 @@ if ($wp_query->have_posts()) {
         wc_get_template_part('content', 'product');
     }
 
+    wp_reset_postdata();
     woocommerce_product_loop_end();
 }

@@ -11,6 +11,9 @@ class Elementor
             'elementor/widgets/widgets_registered',
             array($this, 'registerWidgets')
         );
+        if (! empty($_REQUEST['action']) && 'elementor' === $_REQUEST['action'] && is_admin()) {
+            add_action('init', [ $this, 'registerWooCommerceFrontend' ], 5);
+        }
     }
 
     /**
@@ -22,5 +25,10 @@ class Elementor
     public function registerWidgets($widgets_manager)
     {
         $widgets_manager->register_widget_type(new CategoryTabsProducts());
+    }
+
+    public function registerWooCommerceFrontend()
+    {
+        WC()->frontend_includes();
     }
 }
