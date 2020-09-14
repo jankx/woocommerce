@@ -37,9 +37,12 @@ class WooCommerce implements ShopPlugin
 
     public function initHooks()
     {
+        add_action('jankx_init_features', function () {
+            add_theme_support('woocommerce');
+        });
         add_action('widgets_init', array($this, 'registerShopSidebars'));
 
-        add_action('jankx_page_template_single_product', array($this, 'renderProductContent'));
+        add_action('jankx_template_page_single_product', array($this, 'renderProductContent'));
         add_action('jankx_template_build_site_layout', array($this, 'customShopLayout'));
 
         add_action('jankx_template_pre_get_current_site_layout', array($this, 'changeCurrentSiteLayout'));
