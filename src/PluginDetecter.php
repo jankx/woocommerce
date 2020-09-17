@@ -29,8 +29,8 @@ class PluginDetecter
     {
         foreach ($this->detectPluginRules as $pluginName => $rules) {
             if ($this->parseRules($rules)) {
-                $this->pluginDetected = trim($pluginName);
-                return $this->pluginDetected;
+                $this->detectedPlugin = trim($pluginName);
+                return $this->detectedPlugin;
             }
         }
     }
@@ -64,6 +64,6 @@ class PluginDetecter
 
     public function getPlugin()
     {
-        return $this->pluginDetected;
+        return $this->detectedPlugin;
     }
 }
