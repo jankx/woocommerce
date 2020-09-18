@@ -3,7 +3,7 @@ namespace Jankx\Ecommerce;
 
 use Jankx\Template\Template as JankxTemplate;
 
-class Template
+class EcommerceTemplate
 {
     protected static $loader;
 

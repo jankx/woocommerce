@@ -2,7 +2,7 @@
 namespace Jankx\Ecommerce\Plugin;
 
 use Jankx\Ecommerce\Constracts\ShopPlugin;
-use Jankx\Ecommerce\Template;
+use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\SiteLayout\SiteLayout;
 
 class WooCommerce implements ShopPlugin
@@ -117,12 +117,12 @@ class WooCommerce implements ShopPlugin
 
     public function renderShopSidebar()
     {
-        return Template::render('woocommerce/shop-sidebar');
+        return EcommerceTemplate::render('woocommerce/shop-sidebar');
     }
 
     public function renderProductContent()
     {
-        return Template::render(
+        return EcommerceTemplate::render(
             $this->getName() . '/single-product'
         );
     }
@@ -130,7 +130,7 @@ class WooCommerce implements ShopPlugin
     public function changeWooCommerceTemplates($template, $template_name, $args, $template_path, $default_path)
     {
         $jankxTemplate    = sprintf('woocommerce/%s', rtrim($template_name, '.php'));
-        $searchedTemplate = Template::search($jankxTemplate);
+        $searchedTemplate = EcommerceTemplate::search($jankxTemplate);
 
         // Return Jankx Ecommerce template when the template is existing
         if ($searchedTemplate) {

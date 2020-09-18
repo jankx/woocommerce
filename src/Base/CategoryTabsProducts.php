@@ -3,7 +3,7 @@ namespace Jankx\Ecommerce\Base;
 
 use Jankx\Ecommerce\Constracts\Renderer;
 use Jankx\Ecommerce\Ecommerce;
-use Jankx\Ecommerce\Template;
+use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Base\GetProductQuery;
 
 class CategoryTabsProducts implements Renderer
@@ -111,13 +111,13 @@ class CategoryTabsProducts implements Renderer
         $pluginName = jankx_ecommerce()->getShopPlugin()->getName();
 
         // Render the first tab content
-        $firstTabContent = Template::render("{$pluginName}/product-list", array(
+        $firstTabContent = EcommerceTemplate::render("{$pluginName}/product-list", array(
             'wp_query' => $this->buildFirstTabQuery(),
             'columns' => 4,
         ), 'product_list', false);
 
         // Render the output
-        Template::render(
+        EcommerceTemplate::render(
             'base/category/tabs-products',
             array(
                 'tabs' => $tabs,

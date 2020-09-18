@@ -4,7 +4,6 @@ namespace Jankx\Ecommerce;
 use Jankx\Ecommerce\Plugin\WooCommerce;
 use Jankx\Ecommerce\Component\CartButton;
 use Jankx\Ecommerce\Integration\Plugin;
-use Jankx\Ecommerce\Template;
 
 class Ecommerce
 {

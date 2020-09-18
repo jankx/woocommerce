@@ -3,7 +3,7 @@ namespace Jankx\Ecommerce\Component;
 
 use Jankx\Component\Abstracts\Component;
 use Jankx\Component\Icon;
-use Jankx\Ecommerce\Template;
+use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Ecommerce;
 use Jankx\Component\Template as TemplateComponent;
 
@@ -51,7 +51,7 @@ class CartButton extends Component
         $this->props['icon'] = $this->buildIcon($this->props['icon']);
 
         $output  = sprintf('<div id="jankx-cart-icon" class="ecommerce-cart">');
-        $output .= Template::render(
+        $output .= EcommerceTemplate::render(
             'components/cart/cart_button_link',
             array_merge($this->props, array(
                 'badge' => 0,
