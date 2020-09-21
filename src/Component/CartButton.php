@@ -25,7 +25,7 @@ class CartButton extends Component
             ),
             'text' => null,
             'cart_url' => $eCommerce->getShopPlugin()->getCartUrl(),
-            'previ  ew' => false,
+            'preview' => false,
             'preview_content' => 'components/cart/cart_preview',
         ));
     }
