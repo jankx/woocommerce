@@ -6,7 +6,7 @@ use Jankx\Ecommerce\Ecommerce;
 use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Base\GetProductQuery;
 
-class CategoryTabsProducts implements Renderer
+class Products implements Renderer
 {
     protected static $supportedFirstTabs;
 
@@ -109,10 +109,15 @@ class CategoryTabsProducts implements Renderer
     {
         $tabs       = $this->generateTabs();
         $pluginName = jankx_ecommerce()->getShopPlugin()->getName();
+        $wp_query   = $this->buildFirstTabQuery();
+
+        if (is_null($wp_query)) {
+            return __('The products not found', 'jankx');
+        }
 
         // Render the first tab content
         $firstTabContent = EcommerceTemplate::render("{$pluginName}/product-list", array(
-            'wp_query' => $this->buildFirstTabQuery(),
+            'wp_query' => $wp_query,
             'columns' => 4,
         ), 'product_list', false);
 

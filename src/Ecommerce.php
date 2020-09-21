@@ -4,6 +4,7 @@ namespace Jankx\Ecommerce;
 use Jankx\Ecommerce\Plugin\WooCommerce;
 use Jankx\Ecommerce\Component\CartButton;
 use Jankx\Ecommerce\Integration\Plugin;
+use Jankx\Ecommerce\Base\MenuItems;
 
 class Ecommerce
 {
@@ -13,6 +14,7 @@ class Ecommerce
     protected $detecter;
     protected $shopPlugin;
     protected $pluginName;
+    protected $menu;
 
     public static function instance()
     {
@@ -28,6 +30,7 @@ class Ecommerce
             WooCommerce::PLUGIN_NAME => WooCommerce::class,
         );
         $this->detecter = new PluginDetecter();
+        $this->ecommerceMenu = new MenuItems();
 
         add_action('after_setup_theme', array(
             $this->detecter,
@@ -40,6 +43,8 @@ class Ecommerce
     public function loadFeatures()
     {
         $this->pluginName = $this->detecter->getPlugin();
+
+        $this->ecommerceMenu->register();
 
         if (empty($this->pluginName) || !isset(static::$supportPlugins[$this->pluginName])) {
             return;

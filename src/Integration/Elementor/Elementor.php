@@ -2,6 +2,7 @@
 namespace Jankx\Ecommerce\Integration\Elementor;
 
 use Jankx\Ecommerce\Integration\Elementor\Widgets\CategoryTabsProducts;
+use Jankx\Ecommerce\Integration\Elementor\Widgets\Products;
 
 class Elementor
 {
@@ -25,6 +26,7 @@ class Elementor
     public function registerWidgets($widgets_manager)
     {
         $widgets_manager->register_widget_type(new CategoryTabsProducts());
+        $widgets_manager->register_widget_type(new Products());
     }
 
     public function registerWooCommerceFrontend()
