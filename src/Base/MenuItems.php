@@ -18,7 +18,7 @@ class MenuItems
         if (!is_null(static::$ecommerceMenuItems)) {
             return static::$ecommerceMenuItems;
         }
-        static::$ecommerceMenuItems = array(
+        return static::$ecommerceMenuItems = array(
             'cart_icon' => __('Cart Icon', 'jankx'),
         );
     }
