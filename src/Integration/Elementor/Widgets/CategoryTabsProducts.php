@@ -2,6 +2,7 @@
 namespace Jankx\Ecommerce\Integration\Elementor\Widgets;
 
 use Elementor\Widget_Base;
+use Elementor\Controls_Manager;
 use Jankx\Ecommerce\Base\CategoryTabsProducts as BaseCategoryTabsProducts;
 
 class CategoryTabsProducts extends Widget_Base
@@ -30,68 +31,79 @@ class CategoryTabsProducts extends Widget_Base
     {
         $this->start_controls_section(
             'content_section',
-            [
+            array(
                 'label' => __('Content', 'plugin-name'),
-                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
-            ]
+                'tab' => Controls_Manager::TAB_CONTENT,
+            )
         );
 
         $this->add_control(
             'title',
-            [
+            array(
                 'label' => __('Widget Title', 'jankx'),
-                'type' => \Elementor\Controls_Manager::TEXT,
-            ]
+                'type' => Controls_Manager::TEXT,
+            )
         );
 
         $this->add_control(
             'show_first_tab',
-            [
+            array(
                 'label' => __('Show First Tab', 'jankx'),
-                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'type' => Controls_Manager::SWITCHER,
                 'label_on' => __('Show', 'jankx'),
                 'label_off' => __('Hide', 'jankx'),
                 'return_value' => 'yes',
                 'default' => 'no',
-            ]
+            )
         );
 
         $this->add_control(
             'first_tab',
-            [
+            array(
                 'label' => __('Choose First Tab', 'jankx'),
-                'type' => \Elementor\Controls_Manager::SELECT,
+                'type' => Controls_Manager::SELECT,
                 'default' => 'solid',
-                'options' => [
+                'options' => array(
                     'featured'  => __('Featured', 'jankx'),
                     'recents'  => __('Recents', 'jankx'),
-                ],
+                ),
                 'of_type' => 'show_first_tab',
-                'condition' => [
+                'condition' => array(
                     'show_first_tab' => 'yes',
-                ],
-            ]
+                ),
+            )
         );
 
         $this->add_control(
             'category',
-            [
+            array(
                 'label' => __('Category IDs', 'jankx'),
-                'type' => \Elementor\Controls_Manager::TEXT,
+                'type' => Controls_Manager::TEXT,
                 'default' => __('0', 'jankx'),
                 'placeholder' => __('Input your product categories to here', 'jankx'),
-            ]
+            )
         );
 
         $this->add_control(
             'limit',
-            [
+            array(
                 'label' => __('Number of Products', 'jankx'),
-                'type' => \Elementor\Controls_Manager::NUMBER,
+                'type' => Controls_Manager::NUMBER,
                 'max' => 100,
                 'step' => 1,
                 'default' => 10,
-            ]
+            )
+        );
+
+        $this->add_control(
+            'posts_per_row',
+            array(
+                'label' => __('Row Items', 'jankx'),
+                'type' => Controls_Manager::NUMBER,
+                'max' => 10,
+                'step' => 1,
+                'default' => 4,
+            )
         );
 
         $this->end_controls_section();
@@ -107,6 +119,7 @@ class CategoryTabsProducts extends Widget_Base
         }
         $categoryTabsProducts = new BaseCategoryTabsProducts($categoryIds, $firstTag, array(
             'limit' => array_get($settings, 'limit', 10),
+            'row_items' => array_get($settings, 'posts_per_row', 4),
             'widget_title' => array_get($settings, 'title', 10),
         ));
         if (($url = array_get($settings, 'readmore_url', ''))) {

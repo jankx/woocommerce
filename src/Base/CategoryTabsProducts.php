@@ -113,7 +113,7 @@ class CategoryTabsProducts implements Renderer
         // Render the first tab content
         $firstTabContent = EcommerceTemplate::render("{$pluginName}/product-list", array(
             'wp_query' => $this->buildFirstTabQuery(),
-            'columns' => 4,
+            'columns' => array_get($this->args, 'row_items', 4),
         ), 'product_list', false);
 
         // Render the output
@@ -122,6 +122,7 @@ class CategoryTabsProducts implements Renderer
             array(
                 'tabs' => $tabs,
                 'widget_title' => array_get($this->args, 'widget_title'),
+                'first_tag' => array_get(array_values($tabs), 0),
                 'first_tab_content' => $firstTabContent,
                 'readmore' => $this->readmore,
             ),
