@@ -53,6 +53,7 @@ class WooCommerce implements ShopPlugin
         // Make WooCommerce is global
         add_filter('body_class', array($this, 'addWoocommerceCSSBodyClass'));
 
+        add_filter('template_include', array($this, 'loadCustomWooCommerceTemplates'), 15);
         add_action('template_redirect', array($this, 'customWooCommerceElements'));
     }
 
@@ -174,6 +175,20 @@ class WooCommerce implements ShopPlugin
             $classes[] = 'woocommerce';
         }
         return $classes;
+    }
+
+    public function loadCustomWooCommerceTemplates($template)
+    {
+        if (is_singular('product') && preg_match('/woocommerce\/templates\/single-product\.php$/', $template)) {
+            $template = EcommerceTemplate::search(array(
+                'woocommerce/single-product',
+                'single-product'
+            ));
+            if ($template) {
+                return $template;
+            }
+        }
+        return $template;
     }
 
     public function customWooCommerceElements()
