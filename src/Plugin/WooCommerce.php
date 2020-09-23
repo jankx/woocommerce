@@ -58,6 +58,7 @@ class WooCommerce implements ShopPlugin
 
         add_filter('template_include', array($this, 'loadCustomWooCommerceTemplates'), 15);
         add_action('template_redirect', array($this, 'customWooCommerceElements'));
+        add_action('woocommerce_enqueue_styles', array($this, 'cleanWooCommerceStyleSheets'));
     }
 
     public function registerShopSidebars()
@@ -258,5 +259,18 @@ class WooCommerce implements ShopPlugin
         ));
 
         return static::$singleProductLayouts;
+    }
+
+    public function cleanWooCommerceStyleSheets($stylesheets)
+    {
+        if (!apply_filters('jankx_ecommerce_woocommerce_remove_general_stylesheet', true)) {
+            return $stylesheets;
+        }
+
+        if (isset($stylesheets['woocommerce-general'])) {
+            unset($stylesheets['woocommerce-general']);
+        }
+
+        return $stylesheets;
     }
 }
