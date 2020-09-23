@@ -8,6 +8,9 @@ use Jankx\Ecommerce\Base\MenuItems;
 
 class Ecommerce
 {
+    const NAME = 'jankx-ecommerce';
+    const VERSION = '1.0.0';
+
     protected static $instance;
     protected static $supportPlugins;
 
@@ -40,6 +43,7 @@ class Ecommerce
         ));
         add_action('after_setup_theme', array(Plugin::class, 'getInstance'));
         add_action('after_setup_theme', array($this, 'loadFeatures'));
+        add_filter('jankx_template_css_dependences', array($this, 'registerScripts'));
     }
 
     public function loadFeatures()
@@ -76,5 +80,14 @@ class Ecommerce
     public function loadHelpers()
     {
         require_once dirname(JANKX_ECOMMERCE_FILE_LOADER) . '/helpers/functions.php';
+    }
+
+    public function registerScripts($handles)
+    {
+        css(static::NAME, jankx_ecommerce_asset_url('css/ecommerce.css'), array(), static::VERSION);
+
+        array_push($handles, static::NAME);
+
+        return $handles;
     }
 }

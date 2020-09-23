@@ -212,23 +212,28 @@ class WooCommerce implements ShopPlugin
 
     public function customWooCommerceElements()
     {
-        remove_action('woocommerce_before_main_content', 'woocommerce_output_content_wrapper');
-        remove_action('woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end');
-
         if (is_woocommerce()) {
+            // Remove woocommerce content wrapper
+            remove_action('woocommerce_before_main_content', 'woocommerce_output_content_wrapper');
+            remove_action('woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end');
+
             add_action('jankx_template_after_header', array($this, 'before_main_content_sidebar'), 16);
             add_action('jankx_template_after_main_content_sidebar', array($this, 'after_main_content_sidebar'));
+
+            // Added WooCommerce before main content block
+            add_action('woocommerce_before_main_content', 'jankx_open_container', 15);
+            add_action('woocommerce_before_main_content', 'jankx_close_container', 30);
+
+            $singleProductLayout = jankx_ecommerce_single_product_layout();
+            if ($singleProductLayout && $singleProductLayout !== 'default') {
+                if (isset(static::$singleProductLayouts[$singleProductLayout]) && class_exists(static::$singleProductLayouts[$singleProductLayout])) {
+                    new static::$singleProductLayouts[$singleProductLayout]();
+                }
+            }
         }
 
         if (apply_filters('jankx_ecommerce_woocommerce_dislabe_loop_add_to_cart', false)) {
             remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart');
-        }
-
-        $singleProductLayout = jankx_ecommerce_single_product_layout();
-        if($singleProductLayout && $singleProductLayout !== 'default' ) {
-            if (isset(static::$singleProductLayouts[$singleProductLayout]) && class_exists(static::$singleProductLayouts[$singleProductLayout])) {
-                new static::$singleProductLayouts[$singleProductLayout]();
-            }
         }
     }
 
@@ -242,7 +247,8 @@ class WooCommerce implements ShopPlugin
         do_action('woocommerce_after_main_content');
     }
 
-    public function loadSupportLayouts() {
+    public function loadSupportLayouts()
+    {
         if (!is_null(static::$singleProductLayouts)) {
             return static::$singleProductLayouts;
         }
