@@ -4,9 +4,9 @@
         <?php foreach ($tabs as $tab => $data) : ?>
             <?php
                 $tab_class = array('tab');
-                if ($first_tag['tab'] === $data['tab']) {
-                    $tab_class[] = 'active';
-                }
+            if ($first_tag['tab'] === $data['tab']) {
+                $tab_class[] = 'active';
+            }
                 $tab_class = apply_filters('jankx_element_tab_class', $tab_class, $data);
             ?>
             <li class="<?php echo implode(' ', $tab_class); ?>" data-tab="<?php echo array_get((array) $data, 'tab', $data); ?>">
