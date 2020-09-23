@@ -3,7 +3,7 @@ namespace Jankx\Ecommerce\Integration\Elementor\Widgets;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
-use Jankx\Ecommerce\Base\CategoryTabsProducts as BaseCategoryTabsProducts;
+use Jankx\Ecommerce\Base\Modules\CategoryTabsProductsModule;
 
 class CategoryTabsProducts extends Widget_Base
 {
@@ -117,7 +117,7 @@ class CategoryTabsProducts extends Widget_Base
         if (!array_get($settings, 'show_first_tab', 'no') === 'no') {
             $firstTag = null;
         }
-        $categoryTabsProducts = new BaseCategoryTabsProducts($categoryIds, $firstTag, array(
+        $categoryTabsProducts = new CategoryTabsProductsModule($categoryIds, $firstTag, array(
             'limit' => array_get($settings, 'limit', 10),
             'row_items' => array_get($settings, 'posts_per_row', 4),
             'widget_title' => array_get($settings, 'title', 10),

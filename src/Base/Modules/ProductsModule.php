@@ -1,12 +1,12 @@
 <?php
-namespace Jankx\Ecommerce\Base;
+namespace Jankx\Ecommerce\Base\Modules;
 
 use Jankx\Ecommerce\Constracts\Renderer;
 use Jankx\Ecommerce\Ecommerce;
 use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Base\GetProductQuery;
 
-class Products implements Renderer
+class ProductsModule implements Renderer
 {
     protected static $supportedFirstTabs;
 
