@@ -180,35 +180,56 @@ class WooCommerce implements ShopPlugin
     public function loadCustomWooCommerceTemplates($template)
     {
         if (is_singular('product') && preg_match('/woocommerce\/templates\/single-product\.php$/', $template)) {
-            $template = EcommerceTemplate::search(array(
+            $customTemplate = EcommerceTemplate::search(array(
                 'woocommerce/single-product',
                 'single-product'
             ));
-            if ($template) {
-                return $template;
+        } elseif (is_product_taxonomy()) {
+            $object = get_queried_object();
+            $searchTemplates = array(
+                'woocommerce/archive-product',
+                'archive-product'
+            );
+            if (is_tax('product_cat') || is_tax('product_tag')) {
+                array_unshift($searchTemplates, 'woocommerce/taxonomy-' . $object->taxonomy);
             }
+            $customTemplate = EcommerceTemplate::search($searchTemplates);
+        } elseif (is_post_type_archive('product') || is_page(wc_get_page_id('shop'))) {
+            $customTemplate = EcommerceTemplate::search(array(
+                'woocommerce/archive-product',
+                'archive-product'
+            ));
         }
+        if ($customTemplate) {
+            return $customTemplate;
+        }
+
         return $template;
     }
 
     public function customWooCommerceElements()
     {
-        remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wrapper' );
-        remove_action( 'woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end' );
+        remove_action('woocommerce_before_main_content', 'woocommerce_output_content_wrapper');
+        remove_action('woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end');
 
-        add_action('jankx_template_before_main_content_sidebar', array($this, 'before_main_content_sidebar'));
-        add_action('jankx_template_after_main_content_sidebar', array($this, 'after_main_content_sidebar'));
+        if (is_woocommerce()) {
+            add_action('jankx_template_before_main_content_sidebar', array($this, 'before_main_content_sidebar'));
+            add_action('jankx_template_after_main_content_sidebar', array($this, 'after_main_content_sidebar'));
+        }
+
 
         if (apply_filters('jankx_ecommerce_woocommerce_dislabe_loop_add_to_cart', false)) {
             remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart');
         }
     }
 
-    public function before_main_content_sidebar() {
-        do_action( 'woocommerce_before_main_content' );
+    public function before_main_content_sidebar()
+    {
+        do_action('woocommerce_before_main_content');
     }
 
-    public function after_main_content_sidebar() {
-        do_action( 'woocommerce_after_main_content' );
+    public function after_main_content_sidebar()
+    {
+        do_action('woocommerce_after_main_content');
     }
 }
