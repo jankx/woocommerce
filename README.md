@@ -7,3 +7,4 @@ Integrate ecommerce plugins with Jankx theme framework
 
 - [x] WooCommerce
 - [ ] BigCommerce For WordPress
+- [ ] Ecwid Ecommerce Shopping Cart
