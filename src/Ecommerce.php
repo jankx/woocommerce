@@ -2,7 +2,7 @@
 namespace Jankx\Ecommerce;
 
 use Jankx\Ecommerce\Plugin\WooCommerce;
-use Jankx\Ecommerce\Component\CartButton;
+use Jankx\Ecommerce\Base\Component\CartButton;
 use Jankx\Ecommerce\Integration\Plugin;
 use Jankx\Ecommerce\Base\MenuItems;
 
@@ -29,6 +29,8 @@ class Ecommerce
         static::$supportPlugins = array(
             WooCommerce::PLUGIN_NAME => WooCommerce::class,
         );
+        $this->loadHelpers();
+
         $this->detecter = new PluginDetecter();
         $this->ecommerceMenu = new MenuItems();
 
@@ -69,5 +71,10 @@ class Ecommerce
         }
 
         return $components;
+    }
+
+    public function loadHelpers()
+    {
+        require_once dirname(JANKX_ECOMMERCE_FILE_LOADER) . '/helpers/functions.php';
     }
 }

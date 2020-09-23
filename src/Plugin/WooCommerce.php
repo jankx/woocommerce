@@ -1,15 +1,17 @@
 <?php
 namespace Jankx\Ecommerce\Plugin;
 
+use Jankx\SiteLayout\SiteLayout;
 use Jankx\Ecommerce\Constracts\ShopPlugin;
 use Jankx\Ecommerce\EcommerceTemplate;
-use Jankx\SiteLayout\SiteLayout;
+use Jankx\Ecommerce\Base\Layouts\ProductInfoTopWithSummarySidebar;
 
 class WooCommerce implements ShopPlugin
 {
     const PLUGIN_NAME = 'WooCommerce';
 
     protected static $disableShopSidebar;
+    protected static $singleProductLayouts;
 
     public function __construct()
     {
@@ -41,6 +43,7 @@ class WooCommerce implements ShopPlugin
         add_theme_support('woocommerce');
 
         // Register WooCommerce widgets
+        add_action('init', array($this, 'loadSupportLayouts'), 20);
         add_action('widgets_init', array($this, 'registerShopSidebars'));
 
         add_action('jankx_template_build_site_layout', array($this, 'customShopLayout'));
@@ -213,13 +216,19 @@ class WooCommerce implements ShopPlugin
         remove_action('woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end');
 
         if (is_woocommerce()) {
-            add_action('jankx_template_before_main_content_sidebar', array($this, 'before_main_content_sidebar'));
+            add_action('jankx_template_after_header', array($this, 'before_main_content_sidebar'), 16);
             add_action('jankx_template_after_main_content_sidebar', array($this, 'after_main_content_sidebar'));
         }
 
-
         if (apply_filters('jankx_ecommerce_woocommerce_dislabe_loop_add_to_cart', false)) {
             remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart');
+        }
+
+        $singleProductLayout = jankx_ecommerce_single_product_layout();
+        if($singleProductLayout && $singleProductLayout !== 'default' ) {
+            if (isset(static::$singleProductLayouts[$singleProductLayout]) && class_exists(static::$singleProductLayouts[$singleProductLayout])) {
+                new static::$singleProductLayouts[$singleProductLayout]();
+            }
         }
     }
 
@@ -231,5 +240,17 @@ class WooCommerce implements ShopPlugin
     public function after_main_content_sidebar()
     {
         do_action('woocommerce_after_main_content');
+    }
+
+    public function loadSupportLayouts() {
+        if (!is_null(static::$singleProductLayouts)) {
+            return static::$singleProductLayouts;
+        }
+
+        static::$singleProductLayouts = apply_filters('jankx_ecommerce_woocommerce_single_layouts', array(
+            ProductInfoTopWithSummarySidebar::LAYOUT_NAME => ProductInfoTopWithSummarySidebar::class,
+        ));
+
+        return static::$singleProductLayouts;
     }
 }

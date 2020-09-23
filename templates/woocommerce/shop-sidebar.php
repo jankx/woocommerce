@@ -1,4 +1,5 @@
 <aside id="jankx-shop-sidebar" class="sidebar shop">
+    <?php do_action('jankx_ecommerce_before_shop_sidebar'); ?>
     <?php
     if (is_active_sidebar('shop')) {
         dynamic_sidebar('shop');

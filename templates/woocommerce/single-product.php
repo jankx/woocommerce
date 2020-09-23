@@ -23,7 +23,13 @@ get_header('shop'); ?>
     <?php while (have_posts()) : ?>
         <?php the_post(); ?>
 
-        <?php jankx_ecommerce_template('woocommerce/content-single-product'); ?>
+        <?php
+            if (has_action('jankx_ecommerce_woocommerce_content_single_product')) {
+                do_action('jankx_ecommerce_woocommerce_content_single_product');
+            } else {
+                jankx_ecommerce_template('woocommerce/content-single-product');
+            }
+        ?>
 
     <?php endwhile; // end of the loop. ?>
 

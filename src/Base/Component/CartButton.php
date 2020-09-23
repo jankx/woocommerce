@@ -1,5 +1,5 @@
 <?php
-namespace Jankx\Ecommerce\Component;
+namespace Jankx\Ecommerce\Base\Component;
 
 use Jankx\Component\Abstracts\Component;
 use Jankx\Component\Icon;
