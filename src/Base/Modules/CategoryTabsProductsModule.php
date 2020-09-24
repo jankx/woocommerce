@@ -5,6 +5,7 @@ use Jankx\Ecommerce\Constracts\Renderer;
 use Jankx\Ecommerce\Ecommerce;
 use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Base\GetProductQuery;
+use Jankx\Ecommerce\Base\TemplateManager;
 
 class CategoryTabsProductsModule implements Renderer
 {
@@ -108,7 +109,7 @@ class CategoryTabsProductsModule implements Renderer
 
     public function render()
     {
-        static::createProductJsTemplate();
+        TemplateManager::createProductJsTemplate();
 
         $tabs       = $this->generateTabs();
         $pluginName = jankx_ecommerce()->getShopPlugin()->getName();
@@ -132,17 +133,5 @@ class CategoryTabsProductsModule implements Renderer
             null,
             false
         );
-    }
-
-    public static function createProductJsTemplate()
-    {
-        if (static::$templateIsCreated) {
-            return;
-        }
-        static::$templateIsCreated = true;
-        init_script(sprintf(
-            '<script type="text/x-tmpl" id="jankx-ecommerce-product-tpl">%s</script>',
-            EcommerceTemplate::render('tpl/product', array(), null, false)
-        ), false);
     }
 }
