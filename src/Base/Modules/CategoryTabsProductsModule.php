@@ -9,6 +9,7 @@ use Jankx\Ecommerce\Base\GetProductQuery;
 class CategoryTabsProductsModule implements Renderer
 {
     protected static $supportedFirstTabs;
+    protected static $templateIsCreated;
 
     protected $categoryIds = array();
     protected $readmore = array();
@@ -107,6 +108,8 @@ class CategoryTabsProductsModule implements Renderer
 
     public function render()
     {
+        static::createProductJsTemplate();
+
         $tabs       = $this->generateTabs();
         $pluginName = jankx_ecommerce()->getShopPlugin()->getName();
 
@@ -129,5 +132,17 @@ class CategoryTabsProductsModule implements Renderer
             null,
             false
         );
+    }
+
+    public static function createProductJsTemplate()
+    {
+        if (static::$templateIsCreated) {
+            return;
+        }
+        static::$templateIsCreated = true;
+        init_script(sprintf(
+            '<script type="text/x-tmpl" id="jankx-ecommerce-product-tpl">%s</script>',
+            EcommerceTemplate::render('tpl/product', array(), null, false)
+        ), false);
     }
 }
