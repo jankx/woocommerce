@@ -47,7 +47,7 @@ class MenuItems
 
     public function cartIconItem($item, $key)
     {
-        $item['title'] = __("Cart Icon", 'jankx');
+        $item['title'] = __("Cart Icon", 'jankx_ecommerce');
         return $item;
     }
 

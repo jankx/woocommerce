@@ -9,7 +9,7 @@ use Jankx\Ecommerce\Base\MenuItems;
 class Ecommerce
 {
     const NAME = 'jankx-ecommerce';
-    const VERSION = '1.0.0';
+    const VERSION = '1.0.34';
 
     protected static $instance;
     protected static $supportPlugins;
@@ -43,7 +43,9 @@ class Ecommerce
         ));
         add_action('after_setup_theme', array(Plugin::class, 'getInstance'));
         add_action('after_setup_theme', array($this, 'loadFeatures'));
-        add_filter('jankx_template_css_dependences', array($this, 'registerScripts'));
+        
+        add_filter('jankx_template_css_dependences', array($this, 'registerEcommerceStylesheet'));
+        add_action('wp_enqueue_scripts', array($this, 'registerScripts'));
     }
 
     public function loadFeatures()
@@ -57,6 +59,8 @@ class Ecommerce
         }
         $className = static::$supportPlugins[$this->pluginName];
         $this->shopPlugin = new $className();
+
+        add_theme_support('render_js_template');
 
         add_filter('jankx_components', array($this, 'registerEcommerceComponents'));
     }
@@ -82,12 +86,28 @@ class Ecommerce
         require_once dirname(JANKX_ECOMMERCE_FILE_LOADER) . '/helpers/functions.php';
     }
 
-    public function registerScripts($handles)
+    public function registerEcommerceStylesheet($handles)
     {
         css(static::NAME, jankx_ecommerce_asset_url('css/ecommerce.css'), array(), static::VERSION);
 
         array_push($handles, static::NAME);
 
         return $handles;
+    }
+
+    public function registerScripts()
+    {
+        // Register script
+        wp_register_script(static::NAME, jankx_ecommerce_asset_url('js/ecommerce.js'), array(), static::VERSION, true);
+
+        wp_localize_script(static::NAME, 'jankx_ecommerce', array(
+            'get_product_url' => rest_url('jankx/v1/ecommerce/get_product'),
+            'errors' => array(
+                'get_data_error' => __('Get data has exception', 'jankx_ecommerce'),
+            )
+        ));
+
+        // Call the script
+        wp_enqueue_script(static::NAME);
     }
 }
