@@ -5,9 +5,12 @@ use Jankx\SiteLayout\SiteLayout;
 use Jankx\Ecommerce\Constracts\ShopPlugin;
 use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Base\Layouts\ProductInfoTopWithSummarySidebar;
+use Jankx\Ecommerce\Traits\WooCommerceData;
 
 class WooCommerce implements ShopPlugin
 {
+    use WooCommerceData;
+
     const PLUGIN_NAME = 'WooCommerce';
 
     protected static $disableShopSidebar;
@@ -59,6 +62,7 @@ class WooCommerce implements ShopPlugin
         add_filter('template_include', array($this, 'loadCustomWooCommerceTemplates'), 15);
         add_action('template_redirect', array($this, 'customWooCommerceElements'));
         add_action('woocommerce_enqueue_styles', array($this, 'cleanWooCommerceStyleSheets'));
+        add_filter('jankx_ecommerce_localize_object_data', array($this, 'registerGlobalVars'));
     }
 
     public function registerShopSidebars()
@@ -272,5 +276,17 @@ class WooCommerce implements ShopPlugin
         }
 
         return $stylesheets;
+    }
+
+    public function getProductMethod()
+    {
+        return 'wc_get_product';
+    }
+
+    public function registerGlobalVars($data)
+    {
+        $data['currency'] = get_woocommerce_currency_symbol();
+
+        return $data;
     }
 }

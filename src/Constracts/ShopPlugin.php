@@ -10,4 +10,8 @@ interface ShopPlugin
     public function getPostType();
 
     public function getProductCategoryTaxonomy();
+
+    public function getProductMethod();
+
+    public function getProductData($product);
 }

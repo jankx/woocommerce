@@ -9,7 +9,11 @@
             }
                 $tab_class = apply_filters('jankx_element_tab_class', $tab_class, $data);
             ?>
-            <li class="<?php echo implode(' ', $tab_class); ?>" data-tab="<?php echo array_get((array) $data, 'tab', $data); ?>">
+            <li
+                class="<?php echo implode(' ', $tab_class); ?>"
+                data-tab="<?php echo array_get((array) $data, 'tab', $data); ?>"
+                data-tab-type="<?php echo array_get($data, 'type'); ?>"
+            >
                 <?php if (isset($data['url'])) : ?>
                     <a href="<?php echo $data['url']; ?>">
                         <?php echo $tab; ?>

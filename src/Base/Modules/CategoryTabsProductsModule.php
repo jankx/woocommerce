@@ -58,13 +58,14 @@ class CategoryTabsProductsModule implements Renderer
         );
     }
 
-    public function generateTabs()
+    public function generateTabs($type = 'category')
     {
         $this->tabs = [];
         if ($this->firstTab && isset(static::$supportedFirstTabs[$this->firstTab])) {
             $this->tabs[static::$supportedFirstTabs[$this->firstTab]] = array(
                 'tab' => $this->firstTab,
                 'url' => '#',
+                'type' => 'special'
             );
         }
         $taxonomy = jankx_ecommerce()->getShopPlugin()->getProductCategoryTaxonomy();
@@ -77,6 +78,7 @@ class CategoryTabsProductsModule implements Renderer
             $this->tabs[$term->name] = array(
                 'tab' => $term->term_id,
                 'url' => get_term_link($term, $taxonomy),
+                'type' => 'category'
             );
         }
 
@@ -111,7 +113,7 @@ class CategoryTabsProductsModule implements Renderer
     {
         TemplateManager::createProductJsTemplate();
 
-        $tabs       = $this->generateTabs();
+        $tabs       = $this->generateTabs('category');
         $pluginName = jankx_ecommerce()->getShopPlugin()->getName();
 
         // Render the first tab content

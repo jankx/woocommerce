@@ -7,8 +7,10 @@ use WooCommerce;
 class GetProductQuery extends QueryBuilder
 {
     protected $type;
+    protected $categories = array();
     protected $wordpressQuery;
     protected $limit = 10;
+    protected $fields = '';
 
     /**
      * Set query type
@@ -30,6 +32,20 @@ class GetProductQuery extends QueryBuilder
         return $this;
     }
 
+    public function setFields($fields)
+    {
+        $this->fields = $fields;
+    }
+
+    public function setCategories($categoryIds)
+    {
+        if (is_int($categoryIds)) {
+            $this->categories = array($categoryIds);
+        } else {
+             $this->categories = (array) $categoryIds;
+        }
+    }
+
     public function buildWordPressQuery()
     {
         $integrator = jankx_ecommerce()->getShopPlugin();
@@ -37,11 +53,21 @@ class GetProductQuery extends QueryBuilder
         $taxQuery   = array();
         $queryArgs  = array(
             'post_type' => $postType,
+            'fields' => $this->fields,
             'posts_per_page' => apply_filters(
                 "jankx_ecommerce_query_{$this->type}_limit",
                 $this->limit
             ),
         );
+
+        if ($this->categories) {
+            $taxQuery[] = array(
+                'taxonomy' => $integrator->getProductCategoryTaxonomy(),
+                'field'    => 'ids',
+                'terms'    => $this->categories,
+                'operator' => 'IN',
+            );
+        }
 
         if ($this->type === 'featured') {
             if ($integrator->getName() === 'woocommerce') {
