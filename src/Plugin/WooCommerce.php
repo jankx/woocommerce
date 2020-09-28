@@ -187,6 +187,7 @@ class WooCommerce implements ShopPlugin
 
     public function loadCustomWooCommerceTemplates($template)
     {
+        $customTemplate = false;
         if (is_singular('product') && preg_match('/woocommerce\/templates\/single-product\.php$/', $template)) {
             $customTemplate = EcommerceTemplate::search(array(
                 'woocommerce/single-product',
