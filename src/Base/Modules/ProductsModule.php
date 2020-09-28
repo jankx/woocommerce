@@ -12,20 +12,10 @@ class ProductsModule implements Renderer
 
     protected $categoryIds = array();
     protected $readmore = array();
-    protected $firstTab;
-    protected $tabs;
     protected $args;
 
-    public function __construct($categoryIds, $firstTab = null, $args = array())
+    public function __construct($args = array())
     {
-        $this->categoryIds = array_filter($categoryIds, function ($id) {
-            $id = (int) trim($id);
-            if ($id <= 0) {
-                return;
-            }
-            return $id;
-        });
-        $this->firstTab = $firstTab;
         $this->args     = $args;
 
         if (is_null(static::$supportedFirstTabs)) {
@@ -56,78 +46,41 @@ class ProductsModule implements Renderer
         );
     }
 
-    public function generateTabs()
-    {
-        $this->tabs = [];
-        if ($this->firstTab && isset(static::$supportedFirstTabs[$this->firstTab])) {
-            $this->tabs[static::$supportedFirstTabs[$this->firstTab]] = array(
-                'tab' => $this->firstTab,
-                'url' => '#',
-            );
-        }
-        $taxonomy = jankx_ecommerce()->getShopPlugin()->getProductCategoryTaxonomy();
-
-        foreach ($this->categoryIds as $categoryId) {
-            $term = get_term($categoryId, $taxonomy);
-            if (is_null($term) || is_wp_error($term)) {
-                continue;
-            }
-            $this->tabs[$term->name] = array(
-                'tab' => $term->term_id,
-                'url' => get_term_link($term, $taxonomy),
-            );
-        }
-
-        return $this->tabs = apply_filters(
-            'jankx_ecommerce_category_tabs_products_tabs',
-            $this->tabs
-        );
-    }
-
     public function buildFirstTabQuery()
     {
-        if (!count($this->tabs)) {
-            return;
-        }
-        $tabs = array_values($this->tabs);
-        $firstTab = array_shift($tabs);
-        if (is_array($firstTab)) {
-            $firstTab = array_get($firstTab, 'tab', 'featured');
-        }
+        $productQuery = GetProductQuery::buildQuery($this->args);
 
-        $firstTabQuery = GetProductQuery::buildQuery(wp_parse_args(
-            array(
-                'query_type' => $firstTab,
-            ),
-            $this->args,
-        ));
-
-        return $firstTabQuery->getWordPressQuery();
+        return $productQuery->getWordPressQuery();
     }
+
 
     public function render()
     {
-        $tabs       = $this->generateTabs();
-        $pluginName = jankx_ecommerce()->getShopPlugin()->getName();
         $wp_query   = $this->buildFirstTabQuery();
+        $pluginName = jankx_ecommerce()->getShopPlugin()->getName();
 
         if (is_null($wp_query)) {
             return __('The products not found', 'jankx');
         }
 
-        // Render the first tab content
-        $firstTabContent = EcommerceTemplate::render("{$pluginName}/product-list", array(
+        $data = apply_filters('jankx_ecommerce_products_module_data', array(
             'wp_query' => $wp_query,
             'columns' => 4,
-        ), 'product_list', false);
+        ));
+        // Render the first tab content
+        $productList = EcommerceTemplate::render(
+            "{$pluginName}/product-list",
+            $data,
+            'product_list',
+            false
+        );
 
         // Render the output
         return EcommerceTemplate::render(
-            'base/category/tabs-products',
+            'base/products/products',
             array(
-                'tabs' => $tabs,
                 'widget_title' => array_get($this->args, 'widget_title'),
-                'first_tab_content' => $firstTabContent,
+                'products' => $productList,
                 'readmore' => $this->readmore,
             ),
             null,

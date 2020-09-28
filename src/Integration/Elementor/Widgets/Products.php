@@ -2,6 +2,7 @@
 namespace Jankx\Ecommerce\Integration\Elementor\Widgets;
 
 use Elementor\Widget_Base;
+use Elementor\Controls_Manager;
 use Jankx\Ecommerce\Base\Modules\ProductsModule;
 
 class Products extends Widget_Base
@@ -18,7 +19,7 @@ class Products extends Widget_Base
 
     public function get_icon()
     {
-        return 'eicon-product';
+        return 'eicon-products';
     }
 
     public function get_categories()
@@ -31,63 +32,57 @@ class Products extends Widget_Base
         $this->start_controls_section(
             'content_section',
             [
-                'label' => __('Content', 'plugin-name'),
-                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+                'label' => __('Content', 'jankx_ecommerce'),
+                'tab' => Controls_Manager::TAB_CONTENT,
             ]
         );
 
         $this->add_control(
             'title',
             [
-                'label' => __('Widget Title', 'jankx'),
-                'type' => \Elementor\Controls_Manager::TEXT,
+                'label' => __('Widget Title', 'jankx_ecommerce'),
+                'type' => Controls_Manager::TEXT,
             ]
         );
 
+        $taxQuery = array('taxonomy' => 'product_cat', 'fields' => 'id=>name', 'hide_empty' => false);
+        $productCats = version_compare($GLOBALS['wp_version'], '4.5.0') >= 0
+            ? get_terms($taxQuery)
+            : get_terms($taxQuery['taxonomy'], $taxQuery);
+
         $this->add_control(
-            'show_first_tab',
+            'product_categories',
             [
-                'label' => __('Show First Tab', 'jankx'),
-                'type' => \Elementor\Controls_Manager::SWITCHER,
-                'label_on' => __('Show', 'jankx'),
-                'label_off' => __('Hide', 'jankx'),
-                'return_value' => 'yes',
-                'default' => 'no',
+                'label' => __('Product Categories', 'jankx_ecommerce'),
+                'type' => Controls_Manager::SELECT2,
+                'multiple' => true,
+                'options' => $productCats,
+                'default' => '',
             ]
         );
 
+        $taxQuery = array('taxonomy' => 'product_tag', 'fields' => 'id=>name', 'hide_empty' => false);
+        $productTags = version_compare($GLOBALS['wp_version'], '4.5.0') >= 0
+            ? get_terms($taxQuery)
+            : get_terms($taxQuery['taxonomy'], $taxQuery);
+
         $this->add_control(
-            'first_tab',
+            'product_tags',
             [
-                'label' => __('Choose First Tab', 'jankx'),
-                'type' => \Elementor\Controls_Manager::SELECT,
-                'default' => 'solid',
-                'options' => [
-                    'featured'  => __('Featured', 'jankx'),
-                    'recents'  => __('Recents', 'jankx'),
-                ],
-                'of_type' => 'show_first_tab',
-                'condition' => [
-                    'show_first_tab' => 'yes',
-                ],
+                'label' => __('Product Tags', 'jankx_ecommerce'),
+                'type' => Controls_Manager::SELECT2,
+                'multiple' => true,
+                'options' => $productTags,
+                'default' => 'none',
             ]
         );
 
-        $this->add_control(
-            'category',
-            [
-                'label' => __('Category IDs', 'jankx'),
-                'type' => \Elementor\Controls_Manager::TEXT,
-                'default' => __('0', 'jankx'),
-                'placeholder' => __('Input your product categories to here', 'jankx'),
-            ]
-        );
 
         $this->add_control(
             'limit',
             [
-                'label' => __('Number of Products', 'jankx'),
-                'type' => \Elementor\Controls_Manager::NUMBER,
+                'label' => __('Number of Products to show', 'jankx_ecommerce'),
+                'type' => Controls_Manager::NUMBER,
                 'max' => 100,
                 'step' => 1,
                 'default' => 10,
@@ -100,21 +95,18 @@ class Products extends Widget_Base
     protected function render()
     {
         $settings = $this->get_settings_for_display();
-        $categoryIds = explode(',', array_get($settings, 'category', ''));
-        $firstTag = array_get($settings, 'first_tab', 'feature');
-        if (!array_get($settings, 'show_first_tab', 'no') === 'no') {
-            $firstTag = null;
-        }
-        $categoryTabsProducts = new ProductsModule($categoryIds, $firstTag, array(
+        $productsModule = new ProductsModule(array(
             'limit' => array_get($settings, 'limit', 10),
             'widget_title' => array_get($settings, 'title', 10),
+            'categories' => array_get($settings, 'product_categories', array()),
+            'tags' => array_get($settings, 'product_tags', array()),
         ));
         if (($url = array_get($settings, 'readmore_url', ''))) {
-            $categoryTabsProducts->setReadMore($url);
+            $productsModule->setReadMore($url);
         }
 
         // Render the content
-        echo $categoryTabsProducts;
+        echo $productsModule;
     }
 
     protected function _content_template()
