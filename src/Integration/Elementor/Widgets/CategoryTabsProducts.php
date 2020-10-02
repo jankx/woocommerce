@@ -14,7 +14,7 @@ class CategoryTabsProducts extends Widget_Base
 
     public function get_title()
     {
-        return __('Category Tabs Products', 'jankx');
+        return __('Category Tabs Products', 'jankx_ecommerce');
     }
 
     public function get_icon()
@@ -32,7 +32,7 @@ class CategoryTabsProducts extends Widget_Base
         $this->start_controls_section(
             'content_section',
             array(
-                'label' => __('Content', 'plugin-name'),
+                'label' => __('Content', 'jankx_ecommerce'),
                 'tab' => Controls_Manager::TAB_CONTENT,
             )
         );
@@ -40,7 +40,7 @@ class CategoryTabsProducts extends Widget_Base
         $this->add_control(
             'title',
             array(
-                'label' => __('Widget Title', 'jankx'),
+                'label' => __('Widget Title', 'jankx_ecommerce'),
                 'type' => Controls_Manager::TEXT,
             )
         );
@@ -48,10 +48,10 @@ class CategoryTabsProducts extends Widget_Base
         $this->add_control(
             'show_first_tab',
             array(
-                'label' => __('Show First Tab', 'jankx'),
+                'label' => __('Show First Tab', 'jankx_ecommerce'),
                 'type' => Controls_Manager::SWITCHER,
-                'label_on' => __('Show', 'jankx'),
-                'label_off' => __('Hide', 'jankx'),
+                'label_on' => __('Show', 'jankx_ecommerce'),
+                'label_off' => __('Hide', 'jankx_ecommerce'),
                 'return_value' => 'yes',
                 'default' => 'no',
             )
@@ -60,12 +60,12 @@ class CategoryTabsProducts extends Widget_Base
         $this->add_control(
             'first_tab',
             array(
-                'label' => __('Choose First Tab', 'jankx'),
+                'label' => __('Choose First Tab', 'jankx_ecommerce'),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'solid',
                 'options' => array(
-                    'featured'  => __('Featured', 'jankx'),
-                    'recents'  => __('Recents', 'jankx'),
+                    'featured'  => __('Featured', 'jankx_ecommerce'),
+                    'recents'  => __('Recents', 'jankx_ecommerce'),
                 ),
                 'of_type' => 'show_first_tab',
                 'condition' => array(
@@ -77,17 +77,17 @@ class CategoryTabsProducts extends Widget_Base
         $this->add_control(
             'category',
             array(
-                'label' => __('Category IDs', 'jankx'),
+                'label' => __('Category IDs', 'jankx_ecommerce'),
                 'type' => Controls_Manager::TEXT,
-                'default' => __('0', 'jankx'),
-                'placeholder' => __('Input your product categories to here', 'jankx'),
+                'default' => __('0', 'jankx_ecommerce'),
+                'placeholder' => __('Input your product categories to here', 'jankx_ecommerce'),
             )
         );
 
         $this->add_control(
             'limit',
             array(
-                'label' => __('Number of Products', 'jankx'),
+                'label' => __('Number of Products', 'jankx_ecommerce'),
                 'type' => Controls_Manager::NUMBER,
                 'max' => 100,
                 'step' => 1,
@@ -98,7 +98,7 @@ class CategoryTabsProducts extends Widget_Base
         $this->add_control(
             'posts_per_row',
             array(
-                'label' => __('Row Items', 'jankx'),
+                'label' => __('Row Items', 'jankx_ecommerce'),
                 'type' => Controls_Manager::NUMBER,
                 'max' => 10,
                 'step' => 1,
