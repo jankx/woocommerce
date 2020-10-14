@@ -1,5 +1,5 @@
 {
-  "name": "@jankx/asset",
+  "name": "@jankx/ecommerce",
   "version": "1.0.0",
   "description": "Jankx Assets is used to manage CSS, JS, libraries with beautiful syntax.",
   "main": "js/index.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jankx/asset.git"
+    "url": "git+https://github.com/jankx/ecommerce.git"
   },
   "keywords": [
     "assets",
@@ -20,9 +20,9 @@
   "author": "Jankx Team <puleeno@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jankx/asset/issues"
+    "url": "https://github.com/jankx/ecommerce/issues"
   },
-  "homepage": "https://github.com/jankx/asset#readme",
+  "homepage": "https://github.com/jankx/ecommerce#readme",
   "devDependencies": {
     "cross-env": "^7.0.2",
     "file-loader": "^6.1.0",
