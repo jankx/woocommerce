@@ -89,6 +89,17 @@ class Products extends Widget_Base
             ]
         );
 
+        $this->add_control(
+            'items_per_row',
+            [
+                'label' => __('Number items per row', 'jankx_ecommerce'),
+                'type' => Controls_Manager::NUMBER,
+                'max' => 6,
+                'step' => 1,
+                'default' => 4,
+            ]
+        );
+
         $this->end_controls_section();
     }
 
@@ -97,6 +108,7 @@ class Products extends Widget_Base
         $settings = $this->get_settings_for_display();
         $productsModule = new ProductsModule(array(
             'limit' => array_get($settings, 'limit', 10),
+            'items_per_row' => array_get($settings, 'items_per_row', 4),
             'widget_title' => array_get($settings, 'title', 10),
             'categories' => array_get($settings, 'product_categories', array()),
             'tags' => array_get($settings, 'product_tags', array()),

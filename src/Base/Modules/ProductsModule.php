@@ -65,7 +65,7 @@ class ProductsModule implements Renderer
 
         $data = apply_filters('jankx_ecommerce_products_module_data', array(
             'wp_query' => $wp_query,
-            'columns' => 4,
+            'columns' => array_get($this->args, 'items_per_row', 4),
         ));
         // Render the first tab content
         $productList = EcommerceTemplate::render(
