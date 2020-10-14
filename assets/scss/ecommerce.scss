@@ -1,1 +1,25 @@
 /*!
+ * Module Name: Jankx Ecommerce
+ * Author: Puleeno Nguyen
+ * Author URI: https://puleeno.com
+ * Version: 1.0.04
+ */
+
+.cart-icon {
+    position: relative;
+    margin-right: 10px;
+
+    .cart-badge {
+        display: inline-block;
+        height: 18px;
+        width: 18px;
+        border-radius: 50%;
+        background-color: #ea1303;
+        position: absolute;
+        top: -3px;
+        right: -7px;
+        text-align: center;
+        font-size: 80%;
+        padding: 4px 0;
+    }
+}

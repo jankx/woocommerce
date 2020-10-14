@@ -10,7 +10,7 @@ use Jankx\Ecommerce\Base\Rest\RestManager;
 class Ecommerce
 {
     const NAME = 'jankx-ecommerce';
-    const VERSION = '1.0.54';
+    const VERSION = '1.0.1';
 
     protected static $instance;
     protected static $supportPlugins;
@@ -44,7 +44,7 @@ class Ecommerce
         ));
         add_action('after_setup_theme', array(Plugin::class, 'getInstance'));
         add_action('after_setup_theme', array($this, 'loadFeatures'));
-        
+
         add_filter('jankx_template_css_dependences', array($this, 'registerEcommerceStylesheet'));
         add_action('wp_enqueue_scripts', array($this, 'registerScripts'));
     }
@@ -105,11 +105,10 @@ class Ecommerce
         wp_register_script(
             static::NAME,
             jankx_ecommerce_asset_url('js/ecommerce.js'),
-            array(),
+            array( 'tether-drop' ),
             static::VERSION,
             true
         );
-
         wp_localize_script(static::NAME, 'jankx_ecommerce', apply_filters(
             'jankx_ecommerce_localize_object_data',
             array(
@@ -120,8 +119,21 @@ class Ecommerce
                 )
             )
         ));
-
-        // Call the script
+        // Call the scripts
         wp_enqueue_script(static::NAME);
+
+        $styleMetadata = get_file_data(
+            sprintf('%s/assets/css/ecommerce.css', dirname(JANKX_ECOMMERCE_FILE_LOADER)),
+            array(
+                'version' => 'Version',
+            )
+        );
+        wp_register_style(
+            static::NAME,
+            jankx_ecommerce_asset_url('css/ecommerce.css'),
+            array( 'tether-drop' ),
+            empty($styleMetadata['version']) ? static::VERSION : $styleMetadata['version']
+        );
+        wp_enqueue_style(static::NAME);
     }
 }

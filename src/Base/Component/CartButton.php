@@ -48,13 +48,14 @@ class CartButton extends Component
 
     public function render()
     {
+        global $woocommerce;
         $this->props['icon'] = $this->buildIcon($this->props['icon']);
 
-        $output  = sprintf('<div id="jankx-cart-icon" class="ecommerce-cart">');
+        $output  = sprintf('<div class="jankx-ecommerce cart-icon">');
         $output .= EcommerceTemplate::render(
             'components/cart/cart_button_link',
             array_merge($this->props, array(
-                'badge' => 0,
+                'badge' => $woocommerce->cart->get_cart_contents_count(),
             )),
             'ecommerce_cart_button',
             false
