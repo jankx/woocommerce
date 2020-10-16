@@ -2,5 +2,5 @@
  * Module Name: Jankx Ecommerce
  * Author: Puleeno Nguyen
  * Author URI: https://puleeno.com
- * Version: 1.0.05
- */.cart-icon{position:relative;margin-right:10px}.cart-icon .cart-badge{display:inline-block;height:18px;width:18px;border-radius:50%;color:#fff;background-color:#ea1303;position:absolute;top:-3px;right:-7px;text-align:center;font-size:80%;padding:4px 0}
+ * Version: 1.0.08
+ */.jankx-ecommerce.cart-icon a{display:block}.cart-icon{position:relative;margin-right:10px}.cart-icon .cart-badge{display:flex;height:18px;width:18px;border-radius:50%;color:#fff;background-color:#ea1303;position:absolute;top:-10px;right:-7px;justify-content:center;align-items:center;font-size:80%;padding:4px 0}
