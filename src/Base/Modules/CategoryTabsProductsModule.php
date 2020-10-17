@@ -34,7 +34,7 @@ class CategoryTabsProductsModule implements Renderer
             static::$supportedFirstTabs = apply_filters(
                 'jankx_ecommerce_category_tabs_products_first_tabs',
                 array(
-                    'featured' => __('Featured', 'jankx'),
+                    'featured' => __('Featured'),
                     'recents' => __('Recents', 'jankx'),
                 )
             );
