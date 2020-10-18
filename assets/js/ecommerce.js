@@ -72,12 +72,14 @@ document.addEventListener("DOMContentLoaded", function(){
   /**
    * Create drop for Cart button preview content
    */
+  var cartContent = document.getElementById('jankx-ecommerce-cart-content');
   var ecommerceCartPreview = new Drop({
     target: document.querySelector('.jankx-ecommerce.cart-icon'),
-    content: 'Welcome to the future!',
+    content: cartContent.innerHTML,
     position: 'bottom left',
     openOn: 'click',
-  })
+  });
+
 });
 
 

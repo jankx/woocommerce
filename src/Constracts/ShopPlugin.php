@@ -14,4 +14,6 @@ interface ShopPlugin
     public function getProductMethod();
 
     public function getProductData($product);
+
+    public function getCartContent($args = array());
 }

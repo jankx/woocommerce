@@ -9,6 +9,9 @@ use Jankx\Component\Template as TemplateComponent;
 
 class CartButton extends Component
 {
+    protected static $cartContentRendered = false;
+    protected static $shopPlugin;
+
     public static function getName()
     {
         return 'cart_button';
@@ -17,6 +20,7 @@ class CartButton extends Component
     protected function parseProps($props)
     {
         $eCommerce   = Ecommerce::instance();
+        $this->shopPlugin = $eCommerce->getShopPlugin();
         $this->props = wp_parse_args($props, array(
             'show_badge' => true,
             'icon' => array(
@@ -24,7 +28,7 @@ class CartButton extends Component
                 'font' => 'material',
             ),
             'text' => null,
-            'cart_url' => $eCommerce->getShopPlugin()->getCartUrl(),
+            'cart_url' => $this->shopPlugin->getCartUrl(),
             'preview' => false,
             'preview_content' => 'components/cart/cart_preview',
         ));
@@ -73,6 +77,18 @@ class CartButton extends Component
         }
         $output .= '</div>';
 
+        if (!static::$cartContentRendered) {
+            add_action('wp_footer', array($this, 'renderCartContentInFooter'));
+            static::$cartContentRendered = true;
+        }
         return $output;
+    }
+
+    public function renderCartContentInFooter() {
+        ?>
+        <script type="text/x-tmpl" id="jankx-ecommerce-cart-content">
+            <?php echo $this->shopPlugin->getCartContent(); ?>
+        </script>
+        <?php
     }
 }
