@@ -20,7 +20,7 @@ class CartButton extends Component
     protected function parseProps($props)
     {
         $eCommerce   = Ecommerce::instance();
-        $this->shopPlugin = $eCommerce->getShopPlugin();
+        static::$shopPlugin = $eCommerce->getShopPlugin();
         $this->props = wp_parse_args($props, array(
             'show_badge' => true,
             'icon' => array(
@@ -28,7 +28,7 @@ class CartButton extends Component
                 'font' => 'material',
             ),
             'text' => null,
-            'cart_url' => $this->shopPlugin->getCartUrl(),
+            'cart_url' => static::$shopPlugin->getCartUrl(),
             'preview' => false,
             'preview_content' => 'components/cart/cart_preview',
         ));
@@ -87,7 +87,7 @@ class CartButton extends Component
     public function renderCartContentInFooter() {
         ?>
         <script type="text/x-tmpl" id="jankx-ecommerce-cart-content">
-            <?php echo $this->shopPlugin->getCartContent(); ?>
+            <?php echo static::$shopPlugin->getCartContent(); ?>
         </script>
         <?php
     }
