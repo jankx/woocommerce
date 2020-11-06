@@ -20,6 +20,7 @@ class Products extends WP_Rest_Request
             array(
                 'methods' => array('POST', 'GET'),
                 'callback' => array($this, 'getProducts'),
+                'permission_callback' => '__return_true'
             )
         );
     }
