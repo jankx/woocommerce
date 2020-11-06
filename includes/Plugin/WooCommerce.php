@@ -4,7 +4,6 @@ namespace Jankx\Ecommerce\Plugin;
 use Jankx\SiteLayout\SiteLayout;
 use Jankx\Ecommerce\Constracts\ShopPlugin;
 use Jankx\Ecommerce\EcommerceTemplate;
-use Jankx\Ecommerce\Base\Layouts\ProductInfoTopWithSummarySidebar;
 use Jankx\Ecommerce\Traits\WooCommerceData;
 
 class WooCommerce implements ShopPlugin
@@ -14,7 +13,6 @@ class WooCommerce implements ShopPlugin
     const PLUGIN_NAME = 'WooCommerce';
 
     protected static $disableShopSidebar;
-    protected static $singleProductLayouts;
 
     public function __construct()
     {
@@ -46,7 +44,6 @@ class WooCommerce implements ShopPlugin
         add_theme_support('woocommerce');
 
         // Register WooCommerce widgets
-        add_action('init', array($this, 'loadSupportLayouts'), 20);
         add_action('widgets_init', array($this, 'registerShopSidebars'));
 
         add_action('jankx_template_build_site_layout', array($this, 'customShopLayout'));
@@ -80,22 +77,6 @@ class WooCommerce implements ShopPlugin
         // Register shop sidebar
         register_sidebar(apply_filters(
             'jankx_ecommerce_woocommerce_sidebar_args',
-            $shopSidebarArgs
-        ));
-
-        $shopSidebarArgs = array(
-            'id' => 'product_summary',
-            'name' => __('Product Summary Sidebar', 'jankx'),
-            'description' => __('The widgets of the product summary will be show at here', 'jankx'),
-            'before_widget' => '<section id="%1$s" class="widget jankx-widget %2$s">',
-            'after_widget' => '</section>',
-            'before_title' => '<h3 class="jankx-title widget-title">',
-            'after_title' => '</h3>',
-        );
-
-        // Register shop sidebar
-        register_sidebar(apply_filters(
-            'jankx_ecommerce_woocommerce_product_summary_sidebar_args',
             $shopSidebarArgs
         ));
     }
@@ -229,13 +210,6 @@ class WooCommerce implements ShopPlugin
             // Added WooCommerce before main content block
             add_action('woocommerce_before_main_content', 'jankx_open_container', 15);
             add_action('woocommerce_before_main_content', 'jankx_close_container', 30);
-
-            $singleProductLayout = jankx_ecommerce_single_product_layout();
-            if ($singleProductLayout && $singleProductLayout !== 'default') {
-                if (isset(static::$singleProductLayouts[$singleProductLayout]) && class_exists(static::$singleProductLayouts[$singleProductLayout])) {
-                    new static::$singleProductLayouts[$singleProductLayout]();
-                }
-            }
         }
 
         if (apply_filters('jankx_ecommerce_woocommerce_dislabe_loop_add_to_cart', false)) {
@@ -251,19 +225,6 @@ class WooCommerce implements ShopPlugin
     public function after_main_content_sidebar()
     {
         do_action('woocommerce_after_main_content');
-    }
-
-    public function loadSupportLayouts()
-    {
-        if (!is_null(static::$singleProductLayouts)) {
-            return static::$singleProductLayouts;
-        }
-
-        static::$singleProductLayouts = apply_filters('jankx_ecommerce_woocommerce_single_layouts', array(
-            ProductInfoTopWithSummarySidebar::LAYOUT_NAME => ProductInfoTopWithSummarySidebar::class,
-        ));
-
-        return static::$singleProductLayouts;
     }
 
     public function cleanWooCommerceStyleSheets($stylesheets)

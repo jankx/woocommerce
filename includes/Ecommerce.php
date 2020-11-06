@@ -6,6 +6,8 @@ use Jankx\Ecommerce\Base\Component\CartButton;
 use Jankx\Ecommerce\Integration\Plugin;
 use Jankx\Ecommerce\Base\MenuItems;
 use Jankx\Ecommerce\Base\Rest\RestManager;
+use Jankx\Ecommerce\Base\Layouts\ProductInfoTopWithSummarySidebar;
+
 
 class Ecommerce
 {
@@ -14,6 +16,8 @@ class Ecommerce
 
     protected static $instance;
     protected static $supportPlugins;
+    protected static $singleProductLayouts;
+
 
     protected $detecter;
     protected $shopPlugin;
@@ -44,6 +48,8 @@ class Ecommerce
         ));
         add_action('after_setup_theme', array(Plugin::class, 'getInstance'));
         add_action('after_setup_theme', array($this, 'loadFeatures'));
+        add_action('after_setup_theme', array($this, 'loadSupportLayouts'), 20);
+        add_action('after_setup_theme', array($this, 'setupShopLayout'), 30);
 
         add_filter('jankx_template_css_dependences', array($this, 'registerEcommerceStylesheet'));
         add_action('wp_enqueue_scripts', array($this, 'registerScripts'));
@@ -135,5 +141,28 @@ class Ecommerce
             empty($styleMetadata['version']) ? static::VERSION : $styleMetadata['version']
         );
         wp_enqueue_style(static::NAME);
+    }
+
+
+    public function loadSupportLayouts()
+    {
+        if (!is_null(static::$singleProductLayouts)) {
+            return static::$singleProductLayouts;
+        }
+
+        static::$singleProductLayouts = apply_filters('jankx_ecommerce_woocommerce_single_layouts', array(
+            ProductInfoTopWithSummarySidebar::LAYOUT_NAME => ProductInfoTopWithSummarySidebar::class,
+        ));
+
+        return static::$singleProductLayouts;
+    }
+
+    public function setupShopLayout() {
+        $singleProductLayout = jankx_ecommerce_single_product_layout();
+        if ($singleProductLayout && $singleProductLayout !== 'default') {
+            if (isset(static::$singleProductLayouts[$singleProductLayout]) && class_exists(static::$singleProductLayouts[$singleProductLayout])) {
+                new static::$singleProductLayouts[$singleProductLayout]();
+            }
+        }
     }
 }
