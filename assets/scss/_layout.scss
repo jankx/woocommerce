@@ -2,6 +2,7 @@
     .top-product-info-content,
     .product-info-and-actions {
         display: flex;
+        flex-wrap: wrap;
     }
 
     .product-info-and-actions,
@@ -53,7 +54,7 @@
             width: 45%;
         }
         .product-info-and-actions .right-block {
-            width: 505;
+            width: 55%;
         }
     }
 }

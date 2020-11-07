@@ -3,6 +3,7 @@ namespace Jankx\Ecommerce\Base\Layouts;
 
 use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Ecommerce;
+use Jankx\Ecommerce\Base\Modules\ViewedProductsModule;
 
 class ProductInfoTopWithSidebar
 {
@@ -127,6 +128,14 @@ class ProductInfoTopWithSidebar
         <?php
     }
 
+    public function print_viewed_products()
+    {
+        $viewedProducts = new ViewedProductsModule();
+        EcommerceTemplate::render('base/products/viewed-products', array(
+            'viewed_products' => $viewedProducts
+        ));
+    }
+
     public function load_single_product_layout()
     {
         add_action('jankx_ecommerce_summary_content', array($this, 'print_product_name'), 5);
@@ -144,5 +153,7 @@ class ProductInfoTopWithSidebar
         add_action('jankx_ecommerce_product_info_top_right_block', array($this, 'print_call_to_order'), 30);
 
         add_action('woocommerce_single_product_summary', 'woocommerce_product_description_tab');
+        add_action('woocommerce_after_single_product', array($this, 'print_viewed_products'));
+        add_action('woocommerce_after_single_product', 'comments_template');
     }
 }
