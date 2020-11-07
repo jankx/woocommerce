@@ -252,7 +252,8 @@ class WooCommerce implements ShopPlugin
         return $data;
     }
 
-    public function getCartContent($args = array()) {
+    public function getCartContent($args = array())
+    {
         global $woocommerce;
         if (function_exists('woocommerce_mini_cart')) {
             return EcommerceTemplate::render('tpl/cart', array(), null, false);

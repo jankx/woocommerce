@@ -2,8 +2,55 @@
  * Module Name: Jankx Ecommerce
  * Author: Puleeno Nguyen
  * Author URI: https://puleeno.com
- * Version: 1.0.11
+ * Version: 1.0.24
  */
+.jxe-pitl .top-product-info-content,
+.jxe-pitl .product-info-and-actions {
+  display: flex;
+}
+.jxe-pitl .product-info-and-actions,
+.jxe-pitl .product-info-sidebar,
+.jxe-pitl .product-info-and-actions .left-block,
+.jxe-pitl .product-info-and-actions .right-block {
+  width: 100%;
+}
+.jxe-pitl .product-info-and-actions,
+.jxe-pitl .product-info-sidebar,
+.jxe-pitl .product-info-and-actions .left-block,
+.jxe-pitl .product-info-and-actions .right-block {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.jxe-pitl .top-product-info-content, .jxe-pitl .product-info-and-actions {
+  margin-left: -10px;
+  margin-right: -10px;
+}
+.jxe-pitl.woocommerce #content div.product div.summary, .jxe-pitl.woocommerce div.product div.summary, .jxe-pitl .woocommerce-page #content div.product div.summary, .jxe-pitl .woocommerce-page div.product div.summary {
+  float: none;
+  width: auto;
+  clear: none;
+}
+
+@media (min-width: 767px) {
+  .jxe-pitl .product-info-and-actions .left-block,
+.jxe-pitl .product-info-and-actions .right-block {
+    width: 50%;
+  }
+}
+@media (min-width: 998px) {
+  .jxe-pitl .product-info-and-actions {
+    flex: 1;
+  }
+  .jxe-pitl .product-info-sidebar {
+    width: 205px;
+  }
+  .jxe-pitl .product-info-and-actions .left-block {
+    width: 45%;
+  }
+  .jxe-pitl .product-info-and-actions .right-block {
+    width: 505;
+  }
+}
 .jankx-ecommerce.cart-icon a {
   display: block;
 }

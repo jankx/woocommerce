@@ -84,7 +84,8 @@ class CartButton extends Component
         return $output;
     }
 
-    public function renderCartContentInFooter() {
+    public function renderCartContentInFooter()
+    {
         ?>
         <script type="text/x-tmpl" id="jankx-ecommerce-cart-content">
             <?php echo static::$shopPlugin->getCartContent(); ?>

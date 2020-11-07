@@ -6,8 +6,7 @@ use Jankx\Ecommerce\Base\Component\CartButton;
 use Jankx\Ecommerce\Integration\Plugin;
 use Jankx\Ecommerce\Base\MenuItems;
 use Jankx\Ecommerce\Base\Rest\RestManager;
-use Jankx\Ecommerce\Base\Layouts\ProductInfoTopWithSummarySidebar;
-
+use Jankx\Ecommerce\Base\Layouts\ProductInfoTopWithSidebar;
 
 class Ecommerce
 {
@@ -151,13 +150,14 @@ class Ecommerce
         }
 
         static::$singleProductLayouts = apply_filters('jankx_ecommerce_woocommerce_single_layouts', array(
-            ProductInfoTopWithSummarySidebar::LAYOUT_NAME => ProductInfoTopWithSummarySidebar::class,
+            ProductInfoTopWithSidebar::LAYOUT_NAME => ProductInfoTopWithSidebar::class,
         ));
 
         return static::$singleProductLayouts;
     }
 
-    public function setupShopLayout() {
+    public function setupShopLayout()
+    {
         $singleProductLayout = jankx_ecommerce_single_product_layout();
         if ($singleProductLayout && $singleProductLayout !== 'default') {
             if (isset(static::$singleProductLayouts[$singleProductLayout]) && class_exists(static::$singleProductLayouts[$singleProductLayout])) {
