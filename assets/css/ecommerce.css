@@ -2,7 +2,7 @@
  * Module Name: Jankx Ecommerce
  * Author: Puleeno Nguyen
  * Author URI: https://puleeno.com
- * Version: 1.0.27
+ * Version: 1.0.28
  */
 .jxe-pitl .top-product-info-content,
 .jxe-pitl .product-info-and-actions {
@@ -56,6 +56,14 @@
   }
   .jxe-pitl.jankx-cs #jankx-shop-sidebar {
     width: 40%;
+  }
+}
+@media (min-width: 1200px) {
+  .jxe-pitl.jankx-cs #jankx-main-content {
+    width: 65%;
+  }
+  .jxe-pitl.jankx-cs #jankx-shop-sidebar {
+    width: 35%;
   }
 }
 .jankx-ecommerce.cart-icon a {

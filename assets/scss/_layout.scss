@@ -67,3 +67,16 @@
         }
     }
 }
+
+@media(min-width: 1200px) {
+    .jxe-pitl {
+        &.jankx-cs {
+            #jankx-main-content {
+                width: 65%;
+            }
+            #jankx-shop-sidebar {
+                width: 35%;
+            }
+        }
+    }
+}
