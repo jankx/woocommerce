@@ -56,5 +56,14 @@
         .product-info-and-actions .right-block {
             width: 55%;
         }
+
+        &.jankx-cs {
+            #jankx-main-content {
+                width: 60%;
+            }
+            #jankx-shop-sidebar {
+                width: 40%;
+            }
+        }
     }
 }
