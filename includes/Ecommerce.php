@@ -7,6 +7,7 @@ use Jankx\Ecommerce\Integration\Plugin;
 use Jankx\Ecommerce\Base\MenuItems;
 use Jankx\Ecommerce\Base\Rest\RestManager;
 use Jankx\Ecommerce\Base\Layouts\ProductInfoTopWithSidebar;
+use Jankx\Ecommerce\Widgets\Manager as WidgetManager;
 
 class Ecommerce
 {
@@ -52,6 +53,8 @@ class Ecommerce
 
         add_filter('jankx_template_css_dependences', array($this, 'registerEcommerceStylesheet'));
         add_action('wp_enqueue_scripts', array($this, 'registerScripts'));
+
+        add_action('widgets_init', array(WidgetManager::class, 'register'));
     }
 
     public function loadFeatures()
