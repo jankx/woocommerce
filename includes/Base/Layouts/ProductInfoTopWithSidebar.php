@@ -87,11 +87,6 @@ class ProductInfoTopWithSidebar
         EcommerceTemplate::render('product-info-top/layout/summary');
     }
 
-    public function print_main_featured_functions()
-    {
-        EcommerceTemplate::render('product-info-top/featured-functions');
-    }
-
     public function print_product_promotions()
     {
         EcommerceTemplate::render('product-info-top/product-promotions');
@@ -143,7 +138,6 @@ class ProductInfoTopWithSidebar
         add_action('jankx_ecommerce_summary_content', array($this, 'print_related_products'));
 
         add_action('jankx_ecommerce_product_info_top_left_block', 'woocommerce_show_product_images');
-        add_action('jankx_ecommerce_product_info_top_left_block', array($this, 'print_main_featured_functions'));
 
         add_action('jankx_ecommerce_product_info_top_right_block', 'woocommerce_template_single_price', 5);
         add_action('jankx_ecommerce_product_info_top_right_block', array($this, 'print_product_promotions'), 10);
