@@ -13,6 +13,7 @@ class ProductInfoTopWithSidebar
     {
         add_action('widgets_init', array($this, 'registerSidebars'));
         add_action('template_redirect', array($this, 'initFrontend'), 5);
+        add_filter( 'woocommerce_output_related_products_args', array($this, 'changeRelatedProductColumns'));
     }
 
     public function initFrontend()
@@ -97,11 +98,6 @@ class ProductInfoTopWithSidebar
         EcommerceTemplate::render('product-info-top/product-stock');
     }
 
-    public function print_user_actions()
-    {
-        EcommerceTemplate::render('product-info-top/action-buttons');
-    }
-
     public function print_notes()
     {
         EcommerceTemplate::render('product-info-top/notes');
@@ -149,5 +145,13 @@ class ProductInfoTopWithSidebar
         add_action('woocommerce_single_product_summary', 'woocommerce_product_description_tab');
         add_action('woocommerce_after_single_product', array($this, 'print_viewed_products'));
         add_action('woocommerce_after_single_product', 'comments_template');
+    }
+
+    public function changeRelatedProductColumns($args) {
+        $args = array_merge($args, array(
+            'posts_per_page' => 6,
+            'columns'        => 6,
+        ));
+        return $args;
     }
 }
