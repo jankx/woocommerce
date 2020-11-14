@@ -39,3 +39,10 @@ function jankx_ecommerce_asset_url($path = '')
     );
     return sprintf('%s/assets/%s', $ecommerceDirUrl, $path);
 }
+
+function jankx_ecommerce_get_recently_view_products() {
+    $viewed_products = ! empty( $_COOKIE['woocommerce_recently_viewed'] ) ? (array) explode( '|', wp_unslash( $_COOKIE['woocommerce_recently_viewed'] ) ) : array(); // @codingStandardsIgnoreLine
+    $viewed_products = array_reverse( array_filter( array_map( 'absint', $viewed_products ) ) );
+
+    return apply_filters('jankx_ecommerce_recently_viewed_products', $viewed_products);
+}

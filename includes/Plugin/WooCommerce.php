@@ -10,7 +10,7 @@ class WooCommerce implements ShopPlugin
 {
     use WooCommerceData;
 
-    const PLUGIN_NAME = 'WooCommerce';
+    const PLUGIN_NAME = 'woocommerce';
 
     protected static $disableShopSidebar;
 
@@ -21,7 +21,7 @@ class WooCommerce implements ShopPlugin
 
     public function getName()
     {
-        return 'woocommerce';
+        return static::PLUGIN_NAME;
     }
 
     public function getCartUrl()
@@ -258,5 +258,14 @@ class WooCommerce implements ShopPlugin
         if (function_exists('woocommerce_mini_cart')) {
             return EcommerceTemplate::render('tpl/cart', array(), null, false);
         }
+    }
+
+    public function viewProduct()
+    {
+        if (!is_woocommerce() || !is_singular('product')) {
+            return;
+        }
+        global $post;
+        wc_setcookie('woocommerce_recently_viewed', $post->ID);
     }
 }

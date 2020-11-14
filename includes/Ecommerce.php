@@ -75,6 +75,7 @@ class Ecommerce
         add_theme_support('render_js_template');
 
         add_filter('jankx_components', array($this, 'registerEcommerceComponents'));
+        add_action('wp', array($this->shopPlugin, 'viewProduct'));
     }
 
     public function getShopPlugin()
