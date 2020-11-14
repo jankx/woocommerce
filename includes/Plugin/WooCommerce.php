@@ -266,6 +266,12 @@ class WooCommerce implements ShopPlugin
             return;
         }
         global $post;
-        wc_setcookie('woocommerce_recently_viewed', $post->ID);
+        $viewed_products = array_get($_COOKIE, 'woocommerce_recently_viewed', '');
+        $viewed_products = explode('|', $viewed_products);
+        if (!in_array($post->ID, $viewed_products)) {
+            $viewed_products[] = $post->ID;
+        }
+
+        wc_setcookie('woocommerce_recently_viewed', implode('|', $viewed_products));
     }
 }
