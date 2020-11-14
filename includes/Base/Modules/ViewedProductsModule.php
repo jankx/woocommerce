@@ -5,6 +5,7 @@ namespace Jankx\Ecommerce\Base\Modules;
 use WP_Query;
 use Jankx\Ecommerce\Constracts\Renderer;
 use Jankx\Ecommerce\Ecommerce;
+use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Plugin\WooCommerce;
 
 class ViewedProductsModule implements Renderer
@@ -53,5 +54,9 @@ class ViewedProductsModule implements Renderer
             'woocommerce_recently_viewed_products_widget_query_args',
             $query_args
         ));
+
+        return EcommerceTemplate::render('base/products/viewed-products', array(
+            'wp_query' => $recently_views
+        ), null, false);
     }
 }

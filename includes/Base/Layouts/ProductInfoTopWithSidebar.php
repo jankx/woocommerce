@@ -131,9 +131,7 @@ class ProductInfoTopWithSidebar
     public function print_viewed_products()
     {
         $viewedProducts = new ViewedProductsModule();
-        EcommerceTemplate::render('base/products/viewed-products', array(
-            'viewed_products' => $viewedProducts
-        ));
+        echo $viewedProducts;
     }
 
     public function load_single_product_layout()
