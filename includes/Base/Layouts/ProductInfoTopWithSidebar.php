@@ -4,6 +4,7 @@ namespace Jankx\Ecommerce\Base\Layouts;
 use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Ecommerce;
 use Jankx\Ecommerce\Base\Modules\ViewedProductsModule;
+use Jankx\Ecommerce\Base\Modules\SimilarPriceProductsModule;
 
 class ProductInfoTopWithSidebar
 {
@@ -123,6 +124,12 @@ class ProductInfoTopWithSidebar
         return $args;
     }
 
+    public function print_similar_price_products()
+    {
+        $similarProducts = new SimilarPriceProductsModule();
+        echo $similarProducts;
+    }
+
     public function print_viewed_products()
     {
         $viewedProducts = new ViewedProductsModule();
@@ -145,6 +152,7 @@ class ProductInfoTopWithSidebar
 
         add_action('woocommerce_single_product_summary', 'woocommerce_product_description_tab');
 
+        add_action('woocommerce_after_single_product', array($this, 'print_similar_price_products'));
         add_action('woocommerce_after_single_product', array($this, 'print_viewed_products'));
         add_action('woocommerce_after_single_product', 'woocommerce_upsell_display', 15);
         add_action('woocommerce_after_single_product', 'comments_template', 20);

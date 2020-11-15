@@ -46,6 +46,8 @@ if (woocommerce_product_loop()) {
      */
     do_action('woocommerce_before_shop_loop');
 
+    wc_set_loop_prop( 'columns', apply_filters('jankx_archive_products_columns', 4));
+
     woocommerce_product_loop_start();
 
     if (wc_get_loop_prop('total')) {

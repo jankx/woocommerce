@@ -116,6 +116,10 @@ class WooCommerce implements ShopPlugin
 
     public function changeCurrentSiteLayout($pre)
     {
+        if (!is_null($pre)) {
+            return $pre;
+        }
+
         if (is_woocommerce()) {
             if (!$this->checkSidebarIsActive()) {
                 return SiteLayout::LAYOUT_FULL_WIDTH;
