@@ -2,7 +2,7 @@
  * Module Name: Jankx Ecommerce
  * Author: Puleeno Nguyen
  * Author URI: https://puleeno.com
- * Version: 1.0.28
+ * Version: 1.0.29
  */
 .jxe-pitl .top-product-info-content,
 .jxe-pitl .product-info-and-actions {
@@ -43,7 +43,7 @@
     flex: 1;
   }
   .jxe-pitl .product-info-sidebar {
-    width: 205px;
+    width: 240px;
   }
   .jxe-pitl .product-info-and-actions .left-block {
     width: 45%;
