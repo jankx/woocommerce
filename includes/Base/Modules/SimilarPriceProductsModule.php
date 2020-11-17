@@ -30,7 +30,7 @@ class SimilarPriceProductsModule implements Renderer
             return;
         }
 
-        $number = 6;
+        $number = 4;
         $query_args = array(
             'posts_per_page' => $number,
             'no_found_rows'  => 1,
