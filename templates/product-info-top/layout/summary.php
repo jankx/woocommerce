@@ -1,4 +1,4 @@
-<div class="top-product-info">
+<div <?php post_class('top-product-info'); ?>>
     <?php jankx_open_container(); ?>
         <div class="top-product-info-content">
             <div class="product-info-and-actions">

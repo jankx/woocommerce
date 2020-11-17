@@ -142,7 +142,7 @@ class ProductInfoTopWithSidebar
         add_action('jankx_ecommerce_summary_content', array($this, 'print_the_summary_structure'));
         add_action('jankx_ecommerce_summary_content', array($this, 'print_related_products'));
 
-        add_action('jankx_ecommerce_product_info_top_left_block', 'woocommerce_show_product_images');
+        add_action('jankx_ecommerce_product_info_top_left_block', 'woocommerce_show_product_images', 5);
 
         add_action('jankx_ecommerce_product_info_top_right_block', 'woocommerce_template_single_price', 5);
         add_action('jankx_ecommerce_product_info_top_right_block', array($this, 'print_product_stock'), 15);
