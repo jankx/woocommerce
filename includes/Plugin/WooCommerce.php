@@ -48,7 +48,7 @@ class WooCommerce implements ShopPlugin
 
         add_action('jankx_template_build_site_layout', array($this, 'customShopLayout'));
         add_action('jankx_template_page_single_product', array($this, 'renderProductContent'));
-        add_action('jankx_template_pre_get_current_site_layout', array($this, 'changeCurrentSiteLayout'));
+        add_action('jankx_template_default_site_layout', array($this, 'changeDefaultSiteLayout'));
 
         // Custom WooCommercce templates
         add_filter('wc_get_template', array($this, 'changeWooCommerceTemplates'), 10, 5);
@@ -84,9 +84,10 @@ class WooCommerce implements ShopPlugin
     protected function checkSidebarIsActive()
     {
         if (is_null(static::$disableShopSidebar)) {
+            $siteLayout = SiteLayout::getInstance();
             static::$disableShopSidebar = apply_filters(
                 'jankx_ecommerce_disable_shop_sidebar',
-                false
+                $siteLayout->getLayout() === SiteLayout::LAYOUT_FULL_WIDTH
             );
         }
 
@@ -114,17 +115,12 @@ class WooCommerce implements ShopPlugin
         do_action('woocommerce_sidebar');
     }
 
-    public function changeCurrentSiteLayout($pre)
+    public function changeDefaultSiteLayout($layout)
     {
-        if (!is_null($pre)) {
-            return $pre;
-        }
-
         if (is_woocommerce()) {
-            if (!$this->checkSidebarIsActive()) {
+            if (!is_single()) {
                 return SiteLayout::LAYOUT_FULL_WIDTH;
             }
-
             $sidebarPosition = apply_filters('jankx_template_site_layout_shop_sidebar_position', 'right');
             if ($sidebarPosition === 'right') {
                 return SiteLayout::LAYOUT_CONTENT_SIDEBAR;
@@ -132,7 +128,7 @@ class WooCommerce implements ShopPlugin
                 return SiteLayout::LAYOUT_SIDEBAR_CONTENT;
             }
         }
-        return $pre;
+        return $layout;
     }
 
     public function renderShopSidebar()
