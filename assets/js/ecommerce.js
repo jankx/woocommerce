@@ -30,6 +30,10 @@ document.addEventListener("DOMContentLoaded", function(){
         return;
       }
 
+      contentwrap.parentElement.innerHTML =
+        contentwrap.parentElement.innerHTML +
+        '<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>';
+
       // Create XML HTTP to request Ajax
       var xmlhttp;
 
@@ -65,6 +69,10 @@ document.addEventListener("DOMContentLoaded", function(){
         render_product_template(xmlhttp.responseJSON.products, contentwrap);
       } else {
           contentwrap.parentElement.innerHTML = jankx_ecommerce.errors.get_data_error;
+      }
+      loading = contentwrap.querySelector('.lds-ellipsis');
+      if (loading) {
+        loading.remove();
       }
     });
   })
