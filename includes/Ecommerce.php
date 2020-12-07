@@ -12,7 +12,7 @@ use Jankx\Ecommerce\Widgets\Manager as WidgetManager;
 class Ecommerce
 {
     const NAME = 'jankx-ecommerce';
-    const VERSION = '1.0.18';
+    const VERSION = '1.0.19';
 
     protected static $instance;
     protected static $supportPlugins;
