@@ -18,7 +18,9 @@
 if (! defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
-get_header('shop'); ?>
+get_header('shop');
+do_action('jankx_ecommerce_after_shop_header');
+?>
 
     <?php while (have_posts()) : ?>
         <?php the_post(); ?>

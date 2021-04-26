@@ -13,18 +13,18 @@ class ProductInfoTopWithSidebar
     public function __construct()
     {
         add_action('widgets_init', array($this, 'registerSidebars'));
-        add_action('woocommerce_before_single_product', array($this, 'initFrontend'), 5);
-        add_filter('woocommerce_output_related_products_args', array($this, 'changeRelatedProductColumns'));
+        add_action('woocommerce_before_single_product', array($this, 'init_frontend'), 5);
+        add_filter('woocommerce_output_related_products_args', array($this, 'change_related_product_columns'));
     }
 
-    public function initFrontend()
+    public function init_frontend()
     {
         if (!is_singular('product')) {
             return;
         }
         add_filter('body_class', array($this, 'createBodyClass'));
-        add_action('woocommerce_before_single_product', array($this, 'remove_woocommerce_template_single_contents'), 15);
-        add_action('woocommerce_before_single_product', array($this, 'load_single_product_layout'), 20);
+        add_action('jankx_ecommerce_after_shop_header', array($this, 'remove_woocommerce_template_single_contents'), 15);
+        add_action('jankx_ecommerce_after_shop_header', array($this, 'load_single_product_layout'), 20);
 
         add_action('jankx_template_after_header', function () {
             do_action('jankx_ecommerce_summary_content');
@@ -115,7 +115,7 @@ class ProductInfoTopWithSidebar
         <?php
     }
 
-    public function changeRelatedProductColumns($args)
+    public function change_related_product_columns($args)
     {
         $args = array_merge($args, array(
             'posts_per_page' => 6,
