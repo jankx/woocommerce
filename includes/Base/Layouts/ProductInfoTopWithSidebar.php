@@ -13,7 +13,7 @@ class ProductInfoTopWithSidebar
     public function __construct()
     {
         add_action('widgets_init', array($this, 'registerSidebars'));
-        add_action('template_redirect', array($this, 'initFrontend'), 5);
+        add_action('woocommerce_before_single_product', array($this, 'initFrontend'), 5);
         add_filter('woocommerce_output_related_products_args', array($this, 'changeRelatedProductColumns'));
     }
 
@@ -23,8 +23,8 @@ class ProductInfoTopWithSidebar
             return;
         }
         add_filter('body_class', array($this, 'createBodyClass'));
-        add_action('template_redirect', array($this, 'remove_woocommerce_template_single_contents'), 15);
-        add_action('template_redirect', array($this, 'load_single_product_layout'), 20);
+        add_action('woocommerce_before_single_product', array($this, 'remove_woocommerce_template_single_contents'), 15);
+        add_action('woocommerce_before_single_product', array($this, 'load_single_product_layout'), 20);
 
         add_action('jankx_template_after_header', function () {
             do_action('jankx_ecommerce_summary_content');
