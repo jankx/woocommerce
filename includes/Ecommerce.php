@@ -85,10 +85,10 @@ class Ecommerce
 
     public function registerEcommerceComponents($components)
     {
-        if (!isset($components[CartButton::getName()])) {
-            $components[CartButton::getName()] = CartButton::class;
+        if (!isset($components[CartButton::COMPONENT_NAME])) {
+            $components[CartButton::COMPONENT_NAME] = CartButton::class;
         } else {
-            throw new \Exception(sprintf('Component %s is already exists', CartButton::getName()));
+            throw new \Exception(sprintf('Component %s is already exists', CartButton::COMPONENT_NAME));
         }
 
         return $components;

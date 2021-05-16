@@ -9,12 +9,14 @@ use Jankx\Component\Template as TemplateComponent;
 
 class CartButton extends Component
 {
+    const COMPONENT_NAME = 'cart_button';
+
     protected static $cartContentRendered = false;
     protected static $shopPlugin;
 
-    public static function getName()
+    public function getName()
     {
-        return 'cart_button';
+        return static::COMPONENT_NAME;
     }
 
     protected function parseProps($props)
