@@ -1,6 +1,7 @@
 <?php
 namespace Jankx\Ecommerce\Integration\Elementor\Widgets;
 
+use Jankx;
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Jankx\Ecommerce\Base\Modules\CategoryTabsProductsModule;
@@ -24,7 +25,10 @@ class CategoryTabsProducts extends Widget_Base
 
     public function get_categories()
     {
-        return array('woocommerce-elements');
+        return array(
+            'woocommerce-elements',
+            Jankx::templateStylesheet()
+        );
     }
 
     protected function _register_controls()
