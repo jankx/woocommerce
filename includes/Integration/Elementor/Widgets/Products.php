@@ -15,7 +15,10 @@ class Products extends Widget_Base
 
     public function get_title()
     {
-        return __('Products', 'jankx');
+        return sprintf(
+            __('%s Products', 'jankx'),
+            Jankx::templateName()
+        );
     }
 
     public function get_icon()

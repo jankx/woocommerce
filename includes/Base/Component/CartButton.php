@@ -2,7 +2,7 @@
 namespace Jankx\Ecommerce\Base\Component;
 
 use Jankx\Component\Abstracts\Component;
-use Jankx\Component\Icon;
+use Jankx\Component\Components\Icon;
 use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Ecommerce;
 use Jankx\Component\Template as TemplateComponent;
