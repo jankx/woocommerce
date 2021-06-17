@@ -1,0 +1,11 @@
+{% if wp_query.have_posts() %}
+    {{ function('woocommerce_product_loop_start') }}
+
+    {% for post in wp_query.posts %}
+        {% do wp_query.the_post() %}
+        {{ function('wc_get_template_part', 'content', 'product') }}
+    {% endfor %}
+
+    {{ function('wp_reset_postdata') }}
+    {{ function('woocommerce_product_loop_end') }}
+{% endif %}
