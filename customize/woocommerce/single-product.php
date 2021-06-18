@@ -29,7 +29,9 @@ do_action('jankx_ecommerce_after_shop_header');
         if (has_action('jankx_ecommerce_woocommerce_content_single_product')) {
             do_action('jankx_ecommerce_woocommerce_content_single_product');
         } else {
-            jankx_ecommerce_template('woocommerce/content-single-product');
+            jankx_ecommerce_template( 'woocommerce/content-single-product', array(
+                'product' => &$GLOBALS['product'],
+            ) );
         }
         ?>
 

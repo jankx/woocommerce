@@ -37,6 +37,7 @@ class Ecommerce
         static::$supportPlugins = array(
             WooCommerce::PLUGIN_NAME => WooCommerce::class,
         );
+        $this->bootstrap();
         $this->loadHelpers();
 
         $this->detecter = new PluginDetecter();
@@ -57,6 +58,10 @@ class Ecommerce
         add_action('widgets_init', array(WidgetManager::class, 'register'));
     }
 
+    private function bootstrap() {
+        define('JANKX_ECOMMERCE_ROOT_DIR', dirname(__DIR__));
+    }
+
     public function loadFeatures()
     {
         $this->pluginName = $this->detecter->getPlugin();
@@ -73,6 +78,7 @@ class Ecommerce
         RestManager::getInstance();
 
         add_theme_support('render_js_template');
+        add_theme_support('woocommerce');
 
         add_filter('jankx_components', array($this, 'registerEcommerceComponents'));
         add_action('wp', array($this->shopPlugin, 'viewProduct'));

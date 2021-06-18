@@ -1,0 +1,11 @@
+<div id="product-{{ product.get_id() }}" class="{{ function('wc_get_product_class', '', product) | join(' ') }}">
+    {% do action('woocommerce_before_single_product_summary') %}
+
+    <div class="summary entry-summary">
+        {% do action('woocommerce_single_product_summary') %}
+    </div>
+
+    {% do action('woocommerce_after_single_product_summary') %}
+</div>
+
+{% do action('woocommerce_after_single_product') %}

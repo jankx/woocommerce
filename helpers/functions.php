@@ -5,7 +5,7 @@ function jankx_ecommerce_template()
 {
     return call_user_func_array(
         array(
-            EcommerceTemplate::getTemplateInstance(),
+            EcommerceTemplate::getEngine(),
             'render'
         ),
         func_get_args()

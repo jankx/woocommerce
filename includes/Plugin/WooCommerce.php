@@ -168,32 +168,19 @@ class WooCommerce implements ShopPlugin
 
     public function loadCustomWooCommerceTemplates($template)
     {
-        $customTemplate = false;
-        if (is_singular('product') && preg_match('/woocommerce\/templates\/single-product\.php$/', $template)) {
-            $customTemplate = EcommerceTemplate::search(array(
-                'woocommerce/single-product',
-                'single-product'
-            ));
-        } elseif (is_product_taxonomy()) {
-            $object = get_queried_object();
-            $searchTemplates = array(
-                'woocommerce/archive-product',
-                'archive-product'
-            );
-            if (is_tax('product_cat') || is_tax('product_tag')) {
-                array_unshift($searchTemplates, 'woocommerce/taxonomy-' . $object->taxonomy);
+        if (strpos($template, sprintf(WP_CONTENT_DIR . '/plugins/woocommerce')) !== false) {
+            if (is_singular('product')) {
+                return sprintf(
+                    '%s/customize/woocommerce/single-product.php',
+                    constant('JANKX_ECOMMERCE_ROOT_DIR')
+                );
+            } elseif (is_product_taxonomy()) {
+                return sprintf(
+                    '%s/customize/woocommerce/archive-product.php',
+                    constant('JANKX_ECOMMERCE_ROOT_DIR')
+                );
             }
-            $customTemplate = EcommerceTemplate::search($searchTemplates);
-        } elseif (is_post_type_archive('product') || is_page(wc_get_page_id('shop'))) {
-            $customTemplate = EcommerceTemplate::search(array(
-                'woocommerce/archive-product',
-                'archive-product'
-            ));
         }
-        if ($customTemplate) {
-            return $customTemplate;
-        }
-
         return $template;
     }
 
