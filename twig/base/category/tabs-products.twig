@@ -1,0 +1,39 @@
+<div class="jankx-ecommerce category-tabs-products">
+    {% if widget_title %}
+    <h3 class="widget-title">{{ widget_title }}</h3>
+    {% endif %}
+    <ul class="jankx-tabs">
+        {% for tab, data in tabs %}
+            {% set tab_class = ['tab'] %}
+            {% if first_tag.tab == data.tab %}
+                {% set tab_class = tab_class|merge(['active']) %}
+            {% endif %}
+            {% set tab_class = filters('jankx_element_tab_class', tab_class, data) %}
+            <li
+                class="{{ tab_class|join(' ') }}"
+                data-tab="{{ data.tab }}"
+                data-tab-type="{{ data.type }}"
+            >
+                {% if data.url is defined %}
+                    <a href="{{ data.url }}">{{ tab }}</a>
+                {% else %}
+                    {{ tab }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="jankx-tab-content">
+        {{ first_tab_content }}
+    </div>
+    {% if readmore is not empty %}
+    <div class="jankx-read view-all-link">
+        <a href="<?php echo array_get($readmore, 'url', '#');  ?>">
+        {% if readmore.text is defined %}
+            {{ readmore.text }}
+        {% else %}
+            Read more
+        {% endif %}
+        </a>
+    </div>
+    {% endif %}
+</div>

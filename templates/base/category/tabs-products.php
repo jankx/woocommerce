@@ -1,5 +1,5 @@
 <div class="jankx-ecommerce category-tabs-products">
-    <h3 class="widget-title"><?php echo $widget_title; ?></h3>
+    <?php if ($widget_title): ?><h3 class="widget-title"><?php echo $widget_title; ?></h3><?php endif; ?>
     <ul class="jankx-tabs">
         <?php foreach ($tabs as $tab => $data) : ?>
             <?php
