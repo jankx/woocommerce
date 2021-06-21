@@ -116,12 +116,6 @@ class CategoryTabsProductsModule implements Renderer
         $tabs       = $this->generateTabs('category');
         $pluginName = jankx_ecommerce()->getShopPlugin()->getName();
 
-        // Render the first tab content
-        $firstTabContent = EcommerceTemplate::render("{$pluginName}/product-list", array(
-            'wp_query' => $this->buildFirstTabQuery(),
-            'columns' => array_get($this->args, 'row_items', 4),
-        ), 'product_list', false);
-
         // Render the output
         return EcommerceTemplate::render(
             'base/category/tabs-products',
@@ -129,8 +123,10 @@ class CategoryTabsProductsModule implements Renderer
                 'tabs' => $tabs,
                 'widget_title' => array_get($this->args, 'widget_title'),
                 'first_tag' => array_get(array_values($tabs), 0),
-                'first_tab_content' => $firstTabContent,
                 'readmore' => $this->readmore,
+                'wp_query' => $this->buildFirstTabQuery(),
+                'columns' => array_get($this->args, 'row_items', 4),
+                'plugin_name' => $pluginName,
             ),
             null,
             false
