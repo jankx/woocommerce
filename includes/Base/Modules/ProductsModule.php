@@ -70,8 +70,8 @@ class ProductsModule implements Renderer
         if ($pluginName === 'woocommerce') {
             wc_set_loop_prop('columns', apply_filters(
                 'jankx_tabs_products_columns',
-                array_get($this->args, 'items_per_row', 4
-            )));
+                array_get($this->args, 'items_per_row', 4)
+            ));
         }
         // Render the first tab content
         $productList = EcommerceTemplate::render(

@@ -1,6 +1,8 @@
 <?php
 namespace Jankx\Ecommerce\Base\Component;
 
+use WC_Cart;
+use WC_Session_Handler;
 use Jankx\Component\Abstracts\Component;
 use Jankx\Component\Components\Icon;
 use Jankx\Ecommerce\EcommerceTemplate;
@@ -56,6 +58,15 @@ class CartButton extends Component
     {
         global $woocommerce;
         $this->props['icon'] = $this->buildIcon($this->props['icon']);
+
+        if (is_null($woocommerce->session)) {
+            $woocommerce->session = new WC_Session_Handler();
+            $woocommerce->session->init();
+        }
+
+        if (is_null($woocommerce->cart)) {
+            $woocommerce->cart = new WC_Cart();
+        }
 
         $output  = sprintf('<div class="jankx-ecommerce cart-icon">');
         $output .= EcommerceTemplate::render(

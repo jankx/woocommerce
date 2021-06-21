@@ -58,7 +58,8 @@ class Ecommerce
         add_action('widgets_init', array(WidgetManager::class, 'register'));
     }
 
-    private function bootstrap() {
+    private function bootstrap()
+    {
         define('JANKX_ECOMMERCE_ROOT_DIR', dirname(__DIR__));
     }
 

@@ -16,7 +16,8 @@ class EcommerceTemplate
     {
         if (is_null(static::$engine)) {
             $activeEngine = Jankx::getActiveTemplateEngine();
-            $defaultTemplateDir = sprintf('%s/%s',
+            $defaultTemplateDir = sprintf(
+                '%s/%s',
                 dirname(JANKX_ECOMMERCE_FILE_LOADER),
                 in_array($activeEngine, array(
                     Plates::ENGINE_NAME,
