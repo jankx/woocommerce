@@ -27,10 +27,6 @@ class CartButton extends Component
         static::$shopPlugin = $eCommerce->getShopPlugin();
         $this->props = wp_parse_args($props, array(
             'show_badge' => true,
-            'icon' => array(
-                'name' => 'cart',
-                'font' => 'material',
-            ),
             'text' => null,
             'cart_url' => static::$shopPlugin->getCartUrl(),
             'preview' => false,
@@ -38,26 +34,9 @@ class CartButton extends Component
         ));
     }
 
-    protected function buildIcon($icon)
-    {
-        if (is_a($icon, Icon::class)) {
-            return $icon;
-        }
-        if (is_array($icon) && !empty($icon['name'])) {
-            return new Icon(array(
-                'name' => $icon['name'],
-                'font' => array_get($icon, 'font', 'material')
-            ));
-        }
-        return new Icon(array(
-            'name' => $icon,
-        ));
-    }
-
     public function render()
     {
         global $woocommerce;
-        $this->props['icon'] = $this->buildIcon($this->props['icon']);
 
         if (is_null($woocommerce->session)) {
             $woocommerce->session = new WC_Session_Handler();
@@ -74,7 +53,6 @@ class CartButton extends Component
             array_merge($this->props, array(
                 'badge' => $woocommerce->cart->get_cart_contents_count(),
             )),
-            'ecommerce_cart_button',
             false
         );
         if ($this->props['preview']) {
