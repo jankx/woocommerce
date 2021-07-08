@@ -55,8 +55,12 @@ class ViewedProductsModule implements Renderer
             $query_args
         ));
 
-        return EcommerceTemplate::render('base/products/viewed-products', array(
+        $content = EcommerceTemplate::render('base/products/viewed-products', array(
             'wp_query' => $recently_views
-        ), null, false);
+        ), false);
+
+        wp_reset_postdata();
+
+        return $content;
     }
 }

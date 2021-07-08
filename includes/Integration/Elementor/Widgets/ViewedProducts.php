@@ -1,8 +1,10 @@
 <?php
 namespace Jankx\Ecommerce\Integration\Elementor\Widgets;
 
+use WP_Query;
 use Elementor\Widget_Base;
 use Jankx;
+use Jankx\Ecommerce\Base\Modules\ViewedProductsModule;
 
 class ViewedProducts extends Widget_Base
 {
@@ -28,6 +30,6 @@ class ViewedProducts extends Widget_Base
 
     protected function render()
     {
-        echo 'viewed products';
+        echo new ViewedProductsModule();
     }
 }
