@@ -1,5 +1,5 @@
 <?php
-namespace Jankx\Ecommerce\Base\Modules;
+namespace Jankx\Ecommerce\Base\Renderer;
 
 use Jankx\Ecommerce\Constracts\Renderer;
 use Jankx\Ecommerce\Ecommerce;

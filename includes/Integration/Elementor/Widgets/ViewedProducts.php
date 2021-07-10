@@ -4,7 +4,7 @@ namespace Jankx\Ecommerce\Integration\Elementor\Widgets;
 use WP_Query;
 use Elementor\Widget_Base;
 use Jankx;
-use Jankx\Ecommerce\Base\Modules\ViewedProductsModule;
+use Jankx\Ecommerce\Base\Renderer\ViewedProductsModule;
 
 class ViewedProducts extends Widget_Base
 {

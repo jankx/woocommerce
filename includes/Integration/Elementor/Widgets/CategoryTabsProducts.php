@@ -4,7 +4,7 @@ namespace Jankx\Ecommerce\Integration\Elementor\Widgets;
 use Jankx;
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
-use Jankx\Ecommerce\Base\Modules\CategoryTabsProductsModule;
+use Jankx\Ecommerce\Base\Renderer\CategoryTabsProductsModule;
 
 class CategoryTabsProducts extends Widget_Base
 {

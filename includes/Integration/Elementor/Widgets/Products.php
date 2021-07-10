@@ -4,7 +4,7 @@ namespace Jankx\Ecommerce\Integration\Elementor\Widgets;
 use Jankx;
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
-use Jankx\Ecommerce\Base\Modules\ProductsModule;
+use Jankx\Ecommerce\Base\Renderer\ProductsModule;
 
 class Products extends Widget_Base
 {

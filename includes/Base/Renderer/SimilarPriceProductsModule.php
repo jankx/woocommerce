@@ -1,6 +1,6 @@
 <?php
 
-namespace Jankx\Ecommerce\Base\Modules;
+namespace Jankx\Ecommerce\Base\Renderer;
 
 use WP_Query;
 use Jankx\Ecommerce\Constracts\Renderer;

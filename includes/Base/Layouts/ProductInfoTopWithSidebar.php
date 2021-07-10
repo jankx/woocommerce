@@ -3,8 +3,8 @@ namespace Jankx\Ecommerce\Base\Layouts;
 
 use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Ecommerce;
-use Jankx\Ecommerce\Base\Modules\ViewedProductsModule;
-use Jankx\Ecommerce\Base\Modules\SimilarPriceProductsModule;
+use Jankx\Ecommerce\Base\Renderer\ViewedProductsModule;
+use Jankx\Ecommerce\Base\Renderer\SimilarPriceProductsModule;
 
 class ProductInfoTopWithSidebar
 {
