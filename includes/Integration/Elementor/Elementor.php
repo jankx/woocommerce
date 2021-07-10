@@ -3,7 +3,6 @@ namespace Jankx\Ecommerce\Integration\Elementor;
 
 use Jankx\Ecommerce\Integration\Elementor\Widgets\CategoryTabsProducts;
 use Jankx\Ecommerce\Integration\Elementor\Widgets\Products;
-use Jankx\Ecommerce\Integration\Elementor\Widgets\ViewedProducts;
 
 class Elementor
 {
@@ -28,7 +27,6 @@ class Elementor
     {
         $widgets_manager->register_widget_type(new CategoryTabsProducts());
         $widgets_manager->register_widget_type(new Products());
-        $widgets_manager->register_widget_type(new ViewedProducts());
     }
 
     public function registerWooCommerceFrontend()

@@ -121,7 +121,7 @@ class Ecommerce
         wp_register_script(
             static::NAME,
             jankx_ecommerce_asset_url('js/ecommerce.js'),
-            array( 'tether-drop' ),
+            array( 'poperjs' ),
             static::VERSION,
             true
         );
@@ -147,7 +147,7 @@ class Ecommerce
         wp_register_style(
             static::NAME,
             jankx_ecommerce_asset_url('css/ecommerce.css'),
-            array( 'tether-drop' ),
+            array(),
             empty($styleMetadata['version']) ? static::VERSION : $styleMetadata['version']
         );
         wp_enqueue_style(static::NAME);

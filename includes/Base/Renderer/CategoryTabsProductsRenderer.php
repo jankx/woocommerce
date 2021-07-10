@@ -7,26 +7,20 @@ use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Base\GetProductQuery;
 use Jankx\Ecommerce\Base\TemplateManager;
 
-class CategoryTabsProductsModule implements Renderer
+class CategoryTabsProductsRenderer implements Renderer
 {
     protected static $supportedFirstTabs;
     protected static $templateIsCreated;
 
-    protected $categoryIds = array();
+    protected $categories = array();
     protected $readmore = array();
     protected $firstTab;
     protected $tabs;
     protected $args;
 
-    public function __construct($categoryIds, $firstTab = null, $args = array())
+    public function __construct($categories, $firstTab = null, $args = array())
     {
-        $this->categoryIds = array_filter($categoryIds, function ($id) {
-            $id = (int) trim($id);
-            if ($id <= 0) {
-                return;
-            }
-            return $id;
-        });
+        $this->categories = $categories;
         $this->firstTab = $firstTab;
         $this->args     = $args;
 
@@ -70,12 +64,15 @@ class CategoryTabsProductsModule implements Renderer
         }
         $taxonomy = jankx_ecommerce()->getShopPlugin()->getProductCategoryTaxonomy();
 
-        foreach ($this->categoryIds as $categoryId) {
+        foreach ($this->categories as $categoryId => $tabTitle) {
             $term = get_term($categoryId, $taxonomy);
             if (is_null($term) || is_wp_error($term)) {
                 continue;
             }
-            $this->tabs[$term->name] = array(
+
+            $tabTitle = empty($tabTitle) ? $term->name : $tabTitle;
+
+            $this->tabs[$tabTitle] = array(
                 'tab' => $term->term_id,
                 'url' => get_term_link($term, $taxonomy),
                 'type' => 'category'

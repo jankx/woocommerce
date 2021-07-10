@@ -4,7 +4,7 @@ namespace Jankx\Ecommerce\Integration\Elementor\Widgets;
 use Jankx;
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
-use Jankx\Ecommerce\Base\Renderer\CategoryTabsProductsModule;
+use Jankx\Ecommerce\Base\Renderer\CategoryTabsProductsRenderer;
 
 class CategoryTabsProducts extends Widget_Base
 {
@@ -33,6 +33,17 @@ class CategoryTabsProducts extends Widget_Base
 
     protected function _register_controls()
     {
+        global $wp_version;
+        $args = array(
+            'taxonomy' => 'product_cat',
+            'hide_empty' => false,
+            'fields' => 'id=>name',
+        );
+
+        $product_categories = version_compare($wp_version, '4.5')
+            ? get_terms($args) :
+            get_terms($args['taxonomy'], $args);
+
         $this->start_controls_section(
             'content_section',
             array(
@@ -78,14 +89,36 @@ class CategoryTabsProducts extends Widget_Base
             )
         );
 
-        $this->add_control(
+        $repeater = new \Elementor\Repeater();
+
+        $repeater->add_control(
+            'list_title',
+            [
+                'label' => __('Title', 'jankx_ecommerce'),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'label_block' => true,
+            ]
+        );
+
+        $repeater->add_control(
             'category',
-            array(
-                'label' => __('Category IDs', 'jankx_ecommerce'),
-                'type' => Controls_Manager::TEXT,
-                'default' => __('0', 'jankx_ecommerce'),
-                'placeholder' => __('Input your product categories to here', 'jankx_ecommerce'),
-            )
+            [
+                'label' => __('Category', 'jankx_ecommerce'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => 'solid',
+                'options' => $product_categories,
+            ]
+        );
+
+        $this->add_control(
+            'categories',
+            [
+                'label' => __('Categories', 'jankx_ecommerce'),
+                'type' => \Elementor\Controls_Manager::REPEATER,
+                'fields' => $repeater->get_controls(),
+                'default' => [],
+                'title_field' => '{{{ list_title }}}',
+            ]
         );
 
         $this->add_control(
@@ -113,15 +146,34 @@ class CategoryTabsProducts extends Widget_Base
         $this->end_controls_section();
     }
 
+    protected function makeRendererTabs($datas)
+    {
+        $categories = array();
+        if (!is_array($datas)) {
+            return $categories;
+        }
+
+        foreach ($datas as $data) {
+            $categories[$data['category']] = array_get($data, 'list_title');
+        }
+        return $categories;
+    }
+
     protected function render()
     {
         $settings = $this->get_settings_for_display();
-        $categoryIds = explode(',', array_get($settings, 'category', ''));
+        $categories = array_get($settings, 'categories', array());
+
+        if (empty($categories)) {
+            return;
+        }
+
         $firstTag = array_get($settings, 'first_tab', 'feature');
         if (!array_get($settings, 'show_first_tab', 'no') === 'no') {
             $firstTag = null;
         }
-        $categoryTabsProducts = new CategoryTabsProductsModule($categoryIds, $firstTag, array(
+
+        $categoryTabsProducts = new CategoryTabsProductsRenderer($this->makeRendererTabs($categories), $firstTag, array(
             'limit' => array_get($settings, 'limit', 10),
             'row_items' => array_get($settings, 'posts_per_row', 4),
             'widget_title' => array_get($settings, 'title', 10),
