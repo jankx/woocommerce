@@ -5,6 +5,7 @@ use Jankx\Ecommerce\Constracts\Renderer;
 use Jankx\Ecommerce\Ecommerce;
 use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Base\GetProductQuery;
+use Jankx\PostLayout\PostLayoutManager;
 
 class ProductsRenderer implements Renderer
 {
@@ -69,12 +70,6 @@ class ProductsRenderer implements Renderer
 
         do_action("jankx/ecommerce/loop/before", $this->args);
 
-        if ($pluginName === 'woocommerce') {
-            wc_set_loop_prop('columns', apply_filters(
-                'jankx_tabs_products_columns',
-                array_get($this->args, 'items_per_row', 4)
-            ));
-        }
         // Render the first tab content
         $productList = EcommerceTemplate::render(
             "{$pluginName}/product-list",

@@ -91,7 +91,7 @@ class Products extends Widget_Base
             ]
         );
         $this->add_control(
-            'layout_style',
+            'layout',
             [
                 'label' => __('Layout', 'jankx_ecommerce'),
                 'type' => Controls_Manager::SELECT,
@@ -138,6 +138,7 @@ class Products extends Widget_Base
             'widget_title' => array_get($settings, 'title', 10),
             'categories' => array_get($settings, 'product_categories', array()),
             'tags' => array_get($settings, 'product_tags', array()),
+            'layout' => array_get($settings, 'layout'),
         ));
         if (($url = array_get($settings, 'readmore_url', ''))) {
             $productsModule->setReadMore($url);
