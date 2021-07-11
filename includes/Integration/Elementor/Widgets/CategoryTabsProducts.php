@@ -5,6 +5,8 @@ use Jankx;
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Jankx\Ecommerce\Base\Renderer\CategoryTabsProductsRenderer;
+use Jankx\PostLayout\PostLayoutManager;
+use Jankx\PostLayout\Layout\Card;
 
 class CategoryTabsProducts extends Widget_Base
 {
@@ -43,6 +45,8 @@ class CategoryTabsProducts extends Widget_Base
         $product_categories = version_compare($wp_version, '4.5')
             ? get_terms($args) :
             get_terms($args['taxonomy'], $args);
+
+        $postLayoutManager = PostLayoutManager::getInstance();
 
         $this->start_controls_section(
             'content_section',
@@ -118,6 +122,18 @@ class CategoryTabsProducts extends Widget_Base
                 'fields' => $repeater->get_controls(),
                 'default' => [],
                 'title_field' => '{{{ list_title }}}',
+            ]
+        );
+
+        $this->add_control(
+            'sub_layout',
+            [
+                'label' => __('Layout', 'jankx_ecommerce'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => Card::LAYOUT_NAME,
+                'options' => $postLayoutManager->getLayouts(array(
+                    'type' => 'names'
+                )),
             ]
         );
 

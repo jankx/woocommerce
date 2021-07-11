@@ -12,7 +12,7 @@ use Jankx\Ecommerce\Widgets\Manager as WidgetManager;
 class Ecommerce
 {
     const NAME = 'jankx-ecommerce';
-    const VERSION = '1.0.19';
+    const VERSION = '1.0.0.0';
 
     protected static $instance;
     protected static $supportPlugins;
@@ -121,7 +121,7 @@ class Ecommerce
         wp_register_script(
             static::NAME,
             jankx_ecommerce_asset_url('js/ecommerce.js'),
-            array( 'poperjs' ),
+            array( 'popperjs' ),
             static::VERSION,
             true
         );

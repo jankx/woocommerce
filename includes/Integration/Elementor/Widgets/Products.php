@@ -5,6 +5,8 @@ use Jankx;
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Jankx\Ecommerce\Base\Renderer\ProductsRenderer;
+use Jankx\PostLayout\PostLayoutManager;
+use Jankx\PostLayout\Layout\Card;
 
 class Products extends Widget_Base
 {
@@ -36,6 +38,20 @@ class Products extends Widget_Base
 
     protected function _register_controls()
     {
+
+        $taxQuery = array('taxonomy' => 'product_cat', 'fields' => 'id=>name', 'hide_empty' => false);
+        $productCats = version_compare($GLOBALS['wp_version'], '4.5.0') >= 0
+            ? get_terms($taxQuery)
+            : get_terms($taxQuery['taxonomy'], $taxQuery);
+
+        $taxQuery = array('taxonomy' => 'product_tag', 'fields' => 'id=>name', 'hide_empty' => false);
+        $productTags = version_compare($GLOBALS['wp_version'], '4.5.0') >= 0
+            ? get_terms($taxQuery)
+            : get_terms($taxQuery['taxonomy'], $taxQuery);
+
+        $postLayoutManager = PostLayoutManager::getInstance();
+
+
         $this->start_controls_section(
             'content_section',
             [
@@ -52,11 +68,6 @@ class Products extends Widget_Base
             ]
         );
 
-        $taxQuery = array('taxonomy' => 'product_cat', 'fields' => 'id=>name', 'hide_empty' => false);
-        $productCats = version_compare($GLOBALS['wp_version'], '4.5.0') >= 0
-            ? get_terms($taxQuery)
-            : get_terms($taxQuery['taxonomy'], $taxQuery);
-
         $this->add_control(
             'product_categories',
             [
@@ -68,10 +79,6 @@ class Products extends Widget_Base
             ]
         );
 
-        $taxQuery = array('taxonomy' => 'product_tag', 'fields' => 'id=>name', 'hide_empty' => false);
-        $productTags = version_compare($GLOBALS['wp_version'], '4.5.0') >= 0
-            ? get_terms($taxQuery)
-            : get_terms($taxQuery['taxonomy'], $taxQuery);
 
         $this->add_control(
             'product_tags',
@@ -81,6 +88,18 @@ class Products extends Widget_Base
                 'multiple' => true,
                 'options' => $productTags,
                 'default' => 'none',
+            ]
+        );
+        $this->add_control(
+            'layout_style',
+            [
+                'label' => __('Layout', 'jankx_ecommerce'),
+                'type' => Controls_Manager::SELECT,
+                'multiple' => true,
+                'options' => $postLayoutManager->getLayouts(array(
+                    'type' => 'names'
+                )),
+                'default' => Card::LAYOUT_NAME,
             ]
         );
 
