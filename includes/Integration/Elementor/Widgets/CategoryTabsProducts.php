@@ -175,7 +175,7 @@ class CategoryTabsProducts extends Widget_Base
 
         $categoryTabsProducts = new CategoryTabsProductsRenderer($this->makeRendererTabs($categories), $firstTag, array(
             'limit' => array_get($settings, 'limit', 10),
-            'row_items' => array_get($settings, 'posts_per_row', 4),
+            'items_per_row' => array_get($settings, 'posts_per_row', 4),
             'widget_title' => array_get($settings, 'title', 10),
         ));
         if (($url = array_get($settings, 'readmore_url', ''))) {

@@ -2,11 +2,11 @@
 namespace Jankx\Ecommerce\Plugin;
 
 use Jankx\SiteLayout\SiteLayout;
-use Jankx\Ecommerce\Constracts\ShopPlugin;
+use Jankx\Ecommerce\Abstracts\ShopPlugin;
 use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Traits\WooCommerceData;
 
-class WooCommerce implements ShopPlugin
+class WooCommerce extends ShopPlugin
 {
     use WooCommerceData;
 
@@ -60,6 +60,8 @@ class WooCommerce implements ShopPlugin
         add_action('template_redirect', array($this, 'customWooCommerceElements'));
         add_action('woocommerce_enqueue_styles', array($this, 'cleanWooCommerceStyleSheets'));
         add_filter('jankx_ecommerce_localize_object_data', array($this, 'registerGlobalVars'));
+
+        add_action("jankx/ecommerce/loop/before", array($this, 'customizeProductColumns'));
     }
 
     public function registerShopSidebars()
@@ -260,5 +262,12 @@ class WooCommerce implements ShopPlugin
         }
 
         wc_setcookie('woocommerce_recently_viewed', implode('|', $viewed_products));
+    }
+
+    public function customizeProductColumns($args)
+    {
+        if (isset($args['items_per_row'])) {
+            wc_set_loop_prop('columns', intval($args['items_per_row']));
+        }
     }
 }

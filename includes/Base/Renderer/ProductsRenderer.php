@@ -6,7 +6,7 @@ use Jankx\Ecommerce\Ecommerce;
 use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Base\GetProductQuery;
 
-class ProductsModule implements Renderer
+class ProductsRenderer implements Renderer
 {
     protected static $supportedFirstTabs;
 
@@ -66,6 +66,8 @@ class ProductsModule implements Renderer
         $data = apply_filters('jankx_ecommerce_products_module_data', array(
             'wp_query' => $wp_query,
         ));
+
+        do_action("jankx/ecommerce/loop/before", $this->args);
 
         if ($pluginName === 'woocommerce') {
             wc_set_loop_prop('columns', apply_filters(

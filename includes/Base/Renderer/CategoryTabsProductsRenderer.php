@@ -111,10 +111,12 @@ class CategoryTabsProductsRenderer implements Renderer
         TemplateManager::createProductJsTemplate();
 
         $tabs       = $this->generateTabs('category');
-        $pluginName = jankx_ecommerce()->getShopPlugin()->getName();
+        $plugin = jankx_ecommerce()->getShopPlugin();
+
+        do_action("jankx/ecommerce/loop/before", $this->args);
 
         // Render the output
-        return EcommerceTemplate::render(
+        $content = EcommerceTemplate::render(
             'base/category/tabs-products',
             array(
                 'tabs' => $tabs,
@@ -122,11 +124,12 @@ class CategoryTabsProductsRenderer implements Renderer
                 'first_tag' => array_get(array_values($tabs), 0),
                 'readmore' => $this->readmore,
                 'wp_query' => $this->buildFirstTabQuery(),
-                'columns' => array_get($this->args, 'row_items', 4),
-                'plugin_name' => $pluginName,
+                'plugin_name' => $plugin->getName(),
             ),
             null,
             false
         );
+
+        return $content;
     }
 }

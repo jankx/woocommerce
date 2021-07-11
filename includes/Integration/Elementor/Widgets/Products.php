@@ -4,7 +4,7 @@ namespace Jankx\Ecommerce\Integration\Elementor\Widgets;
 use Jankx;
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
-use Jankx\Ecommerce\Base\Renderer\ProductsModule;
+use Jankx\Ecommerce\Base\Renderer\ProductsRenderer;
 
 class Products extends Widget_Base
 {
@@ -113,7 +113,7 @@ class Products extends Widget_Base
     protected function render()
     {
         $settings = $this->get_settings_for_display();
-        $productsModule = new ProductsModule(array(
+        $productsModule = new ProductsRenderer(array(
             'limit' => array_get($settings, 'limit', 10),
             'items_per_row' => array_get($settings, 'items_per_row', 4),
             'widget_title' => array_get($settings, 'title', 10),

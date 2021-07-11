@@ -28,7 +28,6 @@
         <?php
             EcommerceTemplate::render("{$plugin_name}/product-list", array(
                 'wp_query' => $wp_query,
-                'columns' => $columns,
             ));
         ?>
     </div>

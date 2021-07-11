@@ -3,8 +3,8 @@ namespace Jankx\Ecommerce\Base\Layouts;
 
 use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Ecommerce;
-use Jankx\Ecommerce\Base\Renderer\ViewedProductsModule;
-use Jankx\Ecommerce\Base\Renderer\SimilarPriceProductsModule;
+use Jankx\Ecommerce\Base\Renderer\ViewedProductsRenderer;
+use Jankx\Ecommerce\Base\Renderer\SimilarPriceProductsRenderer;
 
 class ProductInfoTopWithSidebar
 {
@@ -126,13 +126,13 @@ class ProductInfoTopWithSidebar
 
     public function print_similar_price_products()
     {
-        $similarProducts = new SimilarPriceProductsModule();
+        $similarProducts = new SimilarPriceProductsRenderer();
         echo $similarProducts;
     }
 
     public function print_viewed_products()
     {
-        $viewedProducts = new ViewedProductsModule();
+        $viewedProducts = new ViewedProductsRenderer();
         echo $viewedProducts;
     }
 

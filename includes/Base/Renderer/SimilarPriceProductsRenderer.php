@@ -8,7 +8,7 @@ use Jankx\Ecommerce\Ecommerce;
 use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Plugin\WooCommerce;
 
-class SimilarPriceProductsModule implements Renderer
+class SimilarPriceProductsRenderer implements Renderer
 {
     public function render()
     {
