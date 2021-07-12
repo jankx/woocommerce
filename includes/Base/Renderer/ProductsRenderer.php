@@ -6,6 +6,7 @@ use Jankx\Ecommerce\Ecommerce;
 use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Base\GetProductQuery;
 use Jankx\PostLayout\PostLayoutManager;
+use Jankx\PostLayout\Layout\Card;
 
 class ProductsRenderer implements Renderer
 {
@@ -58,36 +59,19 @@ class ProductsRenderer implements Renderer
     public function render()
     {
         $wp_query   = $this->buildFirstTabQuery();
-        $pluginName = jankx_ecommerce()->getShopPlugin()->getName();
+        $plugin = jankx_ecommerce()->getShopPlugin();
 
         if (is_null($wp_query)) {
             return __('The products not found', 'jankx');
         }
 
-        $data = apply_filters('jankx_ecommerce_products_module_data', array(
-            'wp_query' => $wp_query,
-        ));
-
         do_action("jankx/ecommerce/loop/before", $this->args);
 
-        // Render the first tab content
-        $productList = EcommerceTemplate::render(
-            "{$pluginName}/product-list",
-            $data,
-            'product_list',
-            false
-        );
+        // $layout = array_get($this->args, 'layout', Card::LAYOUT_NAME);
+        $layout = 'grid';
+        $postLayout = PostLayoutManager::createLayout($layout, $wp_query);
 
-        // Render the output
-        return EcommerceTemplate::render(
-            'base/products/products',
-            array(
-                'widget_title' => array_get($this->args, 'widget_title'),
-                'products' => $productList,
-                'readmore' => $this->readmore,
-            ),
-            null,
-            false
-        );
+        $postLayout->setContentGenerator($plugin->getContentGenerator());
+        $postLayout->render();
     }
 }

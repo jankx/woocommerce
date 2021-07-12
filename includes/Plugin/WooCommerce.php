@@ -270,4 +270,14 @@ class WooCommerce extends ShopPlugin
             wc_set_loop_prop('columns', intval($args['items_per_row']));
         }
     }
+
+    public function getContentGenerator() {
+        return array(
+            'function' => 'wc_get_template_part',
+            'args' => array(
+                'content',
+                'product'
+            )
+        );
+    }
 }
