@@ -49,8 +49,6 @@ class Products extends Widget_Base
             ? get_terms($taxQuery)
             : get_terms($taxQuery['taxonomy'], $taxQuery);
 
-        $postLayoutManager = PostLayoutManager::getInstance();
-
 
         $this->start_controls_section(
             'content_section',
@@ -96,7 +94,7 @@ class Products extends Widget_Base
                 'label' => __('Layout', 'jankx_ecommerce'),
                 'type' => Controls_Manager::SELECT,
                 'multiple' => true,
-                'options' => $postLayoutManager->getLayouts(array(
+                'options' => PostLayoutManager::getLayouts(array(
                     'type' => 'names'
                 )),
                 'default' => Card::LAYOUT_NAME,

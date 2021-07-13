@@ -23,10 +23,7 @@
         {% endfor %}
     </ul>
     <div class="jankx-tab-content">
-        {% include [plugin_name, 'product-list.twig'] | join('/') with {
-            wp_query: wp_query,
-            columns: columns
-        } %}
+        {{ tab_content | raw }}
     </div>
     {% if readmore is not empty %}
     <div class="jankx-read view-all-link">

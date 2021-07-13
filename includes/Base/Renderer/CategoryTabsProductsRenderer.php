@@ -6,6 +6,9 @@ use Jankx\Ecommerce\Ecommerce;
 use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Base\GetProductQuery;
 use Jankx\Ecommerce\Base\TemplateManager;
+use Jankx\TemplateLoader;
+use Jankx\PostLayout\PostLayoutManager;
+use Jankx\PostLayout\Layout\Card;
 
 class CategoryTabsProductsRenderer implements Renderer
 {
@@ -112,8 +115,21 @@ class CategoryTabsProductsRenderer implements Renderer
 
         $tabs       = $this->generateTabs('category');
         $plugin = jankx_ecommerce()->getShopPlugin();
+        $postLayoutManager = PostLayoutManager::getInstance(
+            TemplateLoader::getTemplateEngine()
+                ->getId()
+        );
 
         do_action("jankx/ecommerce/loop/before", $this->args);
+
+
+        $productLayout = $postLayoutManager->createLayout(
+            array_get($this->args, 'layout', Card::LAYOUT_NAME),
+            $this->buildFirstTabQuery()
+        );
+        $productLayout->setContentGenerator(
+            $plugin->getContentGenerator()
+        );
 
         // Render the output
         $content = EcommerceTemplate::render(
@@ -123,7 +139,7 @@ class CategoryTabsProductsRenderer implements Renderer
                 'widget_title' => array_get($this->args, 'widget_title'),
                 'first_tag' => array_get(array_values($tabs), 0),
                 'readmore' => $this->readmore,
-                'wp_query' => $this->buildFirstTabQuery(),
+                'tab_content' => $productLayout->render(false),
                 'plugin_name' => $plugin->getName(),
             ),
             null,

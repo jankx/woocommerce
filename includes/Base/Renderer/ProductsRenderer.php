@@ -7,6 +7,7 @@ use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Base\GetProductQuery;
 use Jankx\PostLayout\PostLayoutManager;
 use Jankx\PostLayout\Layout\Card;
+use Jankx\TemplateLoader;
 
 class ProductsRenderer implements Renderer
 {
@@ -60,6 +61,9 @@ class ProductsRenderer implements Renderer
     {
         $wp_query   = $this->buildFirstTabQuery();
         $plugin = jankx_ecommerce()->getShopPlugin();
+        $postLayout = PostLayoutManager::getInstance(
+            TemplateLoader::getTemplateEngine()->getId()
+        );
 
         if (is_null($wp_query)) {
             return __('The products not found', 'jankx');
@@ -69,9 +73,11 @@ class ProductsRenderer implements Renderer
 
         // $layout = array_get($this->args, 'layout', Card::LAYOUT_NAME);
         $layout = 'grid';
-        $postLayout = PostLayoutManager::createLayout($layout, $wp_query);
+        $postLayout = $postLayout->createLayout($layout, $wp_query);
 
-        $postLayout->setContentGenerator($plugin->getContentGenerator());
+        $postLayout->setContentGenerator(
+            $plugin->getContentGenerator()
+        );
         $postLayout->render();
     }
 }

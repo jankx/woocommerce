@@ -46,8 +46,6 @@ class CategoryTabsProducts extends Widget_Base
             ? get_terms($args) :
             get_terms($args['taxonomy'], $args);
 
-        $postLayoutManager = PostLayoutManager::getInstance();
-
         $this->start_controls_section(
             'content_section',
             array(
@@ -131,7 +129,7 @@ class CategoryTabsProducts extends Widget_Base
                 'label' => __('Layout', 'jankx_ecommerce'),
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'default' => Card::LAYOUT_NAME,
-                'options' => $postLayoutManager->getLayouts(array(
+                'options' => PostLayoutManager::getLayouts(array(
                     'type' => 'names'
                 )),
             ]

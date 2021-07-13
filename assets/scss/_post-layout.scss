@@ -1,0 +1,15 @@
+.jankx-posts {
+    &.post-type-product{
+        margin: 0;
+    }
+}
+
+.woocommerce, .woocommerce-page {
+    .jankx-posts {
+        &.post-type-product {
+            ul.products {
+                margin: 0;
+            }
+        }
+    }
+}

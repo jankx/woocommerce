@@ -62,6 +62,9 @@ class WooCommerce extends ShopPlugin
         add_filter('jankx_ecommerce_localize_object_data', array($this, 'registerGlobalVars'));
 
         add_action("jankx/ecommerce/loop/before", array($this, 'customizeProductColumns'));
+
+        add_action('jankx/layout/product/loop/start', 'woocommerce_product_loop_start');
+        add_action('jankx/layout/product/loop/end', 'woocommerce_product_loop_end');
     }
 
     public function registerShopSidebars()

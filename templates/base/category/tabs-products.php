@@ -25,11 +25,7 @@
         <?php endforeach; ?>
     </ul>
     <div class="jankx-tab-content">
-        <?php
-            EcommerceTemplate::render("{$plugin_name}/product-list", array(
-                'wp_query' => $wp_query,
-            ));
-        ?>
+        <?php echo $tab_content; ?>
     </div>
     <?php if (!empty($readmore)) : ?>
     <div class="jankx-read view-all-link">
