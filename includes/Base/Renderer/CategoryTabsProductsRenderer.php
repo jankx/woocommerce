@@ -1,14 +1,15 @@
 <?php
 namespace Jankx\Ecommerce\Base\Renderer;
 
+use Jankx\TemplateLoader;
 use Jankx\Ecommerce\Constracts\Renderer;
 use Jankx\Ecommerce\Ecommerce;
 use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Base\GetProductQuery;
 use Jankx\Ecommerce\Base\TemplateManager;
-use Jankx\TemplateLoader;
 use Jankx\PostLayout\PostLayoutManager;
 use Jankx\PostLayout\Layout\Card;
+use Jankx\PostLayout\Layout\Tabs;
 
 class CategoryTabsProductsRenderer implements Renderer
 {
@@ -31,7 +32,7 @@ class CategoryTabsProductsRenderer implements Renderer
             static::$supportedFirstTabs = apply_filters(
                 'jankx_ecommerce_category_tabs_products_first_tabs',
                 array(
-                    'featured' => __('Featured'),
+                    'featured' => __('Featured', 'jankx'),
                     'recents' => __('Recents', 'jankx'),
                 )
             );
@@ -109,6 +110,29 @@ class CategoryTabsProductsRenderer implements Renderer
         return $firstTabQuery->getWordPressQuery();
     }
 
+    public function transformDataTabs2PostLayoutTabs($tabs)
+    {
+        $shopPlugin = Ecommerce::instance()->getShopPlugin();
+        $postLayoutTabs = array();
+
+        foreach ($tabs as $tab_title => $tab) {
+            if (!isset($tab['tab'])) {
+                continue;
+            }
+
+            $postLayoutTabs[] = array(
+                'title' => $tab_title,
+                'object' => array(
+                    'type' => 'taxonomy',
+                    'type_name' => $shopPlugin->getProductCategoryTaxonomy(),
+                    'id' => array_get($tab, 'tab'),
+                ),
+                'url' => array_get($tab, 'url'),
+            );
+        }
+        return $postLayoutTabs;
+    }
+
     public function render()
     {
         TemplateManager::createProductJsTemplate();
@@ -122,30 +146,11 @@ class CategoryTabsProductsRenderer implements Renderer
 
         do_action("jankx/ecommerce/loop/before", $this->args);
 
+        $productLayout = $postLayoutManager->createLayout(Tabs::LAYOUT_NAME, $this->buildFirstTabQuery());
+        $productLayout->addTabs($this->transformDataTabs2PostLayoutTabs($tabs));
+        $productLayout->addChildLayout(array_get($this->args, 'sub_layout', Card::LAYOUT_NAME));
+        $productLayout->setContentGenerator($plugin->getContentGenerator());
 
-        $productLayout = $postLayoutManager->createLayout(
-            array_get($this->args, 'layout', Card::LAYOUT_NAME),
-            $this->buildFirstTabQuery()
-        );
-        $productLayout->setContentGenerator(
-            $plugin->getContentGenerator()
-        );
-
-        // Render the output
-        $content = EcommerceTemplate::render(
-            'base/category/tabs-products',
-            array(
-                'tabs' => $tabs,
-                'widget_title' => array_get($this->args, 'widget_title'),
-                'first_tag' => array_get(array_values($tabs), 0),
-                'readmore' => $this->readmore,
-                'tab_content' => $productLayout->render(false),
-                'plugin_name' => $plugin->getName(),
-            ),
-            null,
-            false
-        );
-
-        return $content;
+        return $productLayout->render(false);
     }
 }

@@ -274,7 +274,8 @@ class WooCommerce extends ShopPlugin
         }
     }
 
-    public function getContentGenerator() {
+    public function getContentGenerator()
+    {
         return array(
             'function' => 'wc_get_template_part',
             'args' => array(

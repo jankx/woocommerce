@@ -130,7 +130,8 @@ class CategoryTabsProducts extends Widget_Base
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'default' => Card::LAYOUT_NAME,
                 'options' => PostLayoutManager::getLayouts(array(
-                    'field' => 'names'
+                    'field' => 'names',
+                    'type' => 'children'
                 )),
             ]
         );
