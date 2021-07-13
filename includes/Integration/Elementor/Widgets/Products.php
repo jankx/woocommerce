@@ -95,7 +95,7 @@ class Products extends Widget_Base
                 'type' => Controls_Manager::SELECT,
                 'multiple' => true,
                 'options' => PostLayoutManager::getLayouts(array(
-                    'type' => 'names'
+                    'field' => 'names'
                 )),
                 'default' => Card::LAYOUT_NAME,
             ]
