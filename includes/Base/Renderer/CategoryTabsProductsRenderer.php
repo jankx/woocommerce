@@ -56,11 +56,19 @@ class CategoryTabsProductsRenderer implements Renderer
         );
     }
 
-    public function generateTabs($type = 'category')
+    public function generateTabs()
     {
         $this->tabs = [];
         if ($this->firstTab && isset(static::$supportedFirstTabs[$this->firstTab])) {
-            $this->tabs[static::$supportedFirstTabs[$this->firstTab]] = array(
+            $firstTabTitle = array_get(
+                $this->args,
+                'first_tab_title'
+            );
+            if (empty($firstTabTitle)) {
+                $firstTabTitle = static::$supportedFirstTabs[$this->firstTab];
+            }
+
+            $this->tabs[$firstTabTitle] = array(
                 'tab' => $this->firstTab,
                 'url' => '#',
                 'type' => 'special'
@@ -107,6 +115,13 @@ class CategoryTabsProductsRenderer implements Renderer
             $this->args,
         ));
 
+        if (is_int($firstTab)) {
+            $firstTabQuery->setCategories($firstTab);
+        } else {
+            $firstTabQuery->setCategories(array_map(function($item){
+                return $item['tab'];
+            }, $tabs));
+        }
         return $firstTabQuery->getWordPressQuery();
     }
 
@@ -137,7 +152,7 @@ class CategoryTabsProductsRenderer implements Renderer
     {
         TemplateManager::createProductJsTemplate();
 
-        $tabs       = $this->generateTabs('category');
+        $tabs = $this->generateTabs();
         $postLayoutManager = PostLayoutManager::getInstance(
             TemplateLoader::getTemplateEngine()
                 ->getId()
@@ -145,7 +160,10 @@ class CategoryTabsProductsRenderer implements Renderer
 
         do_action("jankx/ecommerce/loop/before", $this->args);
 
-        $productLayout = $postLayoutManager->createLayout(Tabs::LAYOUT_NAME, $this->buildFirstTabQuery());
+        $productLayout = $postLayoutManager->createLayout(
+            Tabs::LAYOUT_NAME,
+            $this->buildFirstTabQuery()
+        );
         $productLayout->addTabs($this->transformDataTabs2PostLayoutTabs($tabs));
         $productLayout->addChildLayout(array_get($this->args, 'sub_layout', Card::LAYOUT_NAME));
 

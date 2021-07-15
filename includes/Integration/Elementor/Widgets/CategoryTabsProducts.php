@@ -79,7 +79,7 @@ class CategoryTabsProducts extends Widget_Base
             array(
                 'label' => __('Choose First Tab', 'jankx_ecommerce'),
                 'type' => Controls_Manager::SELECT,
-                'default' => 'featured',
+                'default' => 'recents',
                 'options' => array(
                     'featured'  => __('Featured', 'jankx_ecommerce'),
                     'recents'  => __('Recents', 'jankx_ecommerce'),
@@ -89,6 +89,15 @@ class CategoryTabsProducts extends Widget_Base
                     'show_first_tab' => 'yes',
                 ),
             )
+        );
+        $this->add_control(
+            'first_tab_title',
+            [
+                'label' => __('First Tab Title', 'jankx_ecommerce'),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => '',
+                'label_block' => true,
+            ]
         );
 
         $repeater = new \Elementor\Repeater();
@@ -192,6 +201,7 @@ class CategoryTabsProducts extends Widget_Base
             'limit' => array_get($settings, 'limit', 10),
             'items_per_row' => array_get($settings, 'posts_per_row', 4),
             'widget_title' => array_get($settings, 'title', 10),
+            'first_tab_title' => array_get($settings, 'first_tab_title'),
         ));
         if (($url = array_get($settings, 'readmore_url', ''))) {
             $categoryTabsProducts->setReadMore($url);
