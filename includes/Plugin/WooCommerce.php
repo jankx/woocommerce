@@ -287,7 +287,8 @@ class WooCommerce extends ShopPlugin
         );
     }
 
-    public function setContentWrapperTagForPostLayout($layoutName, $postLayout) {
+    public function setContentWrapperTagForPostLayout($layoutName, $postLayout)
+    {
         $postLayout->setContentGenerator($this->getContentGenerator());
         $postLayout->setContentWrapperTag('ul.products');
     }
