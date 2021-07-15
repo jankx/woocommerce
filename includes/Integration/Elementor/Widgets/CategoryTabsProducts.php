@@ -79,7 +79,7 @@ class CategoryTabsProducts extends Widget_Base
             array(
                 'label' => __('Choose First Tab', 'jankx_ecommerce'),
                 'type' => Controls_Manager::SELECT,
-                'default' => 'solid',
+                'default' => 'featured',
                 'options' => array(
                     'featured'  => __('Featured', 'jankx_ecommerce'),
                     'recents'  => __('Recents', 'jankx_ecommerce'),
