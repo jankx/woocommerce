@@ -65,6 +65,8 @@ class WooCommerce extends ShopPlugin
 
         add_action('jankx/layout/product/loop/start', 'woocommerce_product_loop_start');
         add_action('jankx/layout/product/loop/end', 'woocommerce_product_loop_end');
+
+        add_action('jankx/layout/product/loop/init', array($this, 'setContentWrapperTagForPostLayout'), 10, 2);
     }
 
     public function registerShopSidebars()
@@ -283,5 +285,10 @@ class WooCommerce extends ShopPlugin
                 'product'
             )
         );
+    }
+
+    public function setContentWrapperTagForPostLayout($layoutName, $postLayout) {
+        $postLayout->setContentGenerator($this->getContentGenerator());
+        $postLayout->setContentWrapperTag('ul.products');
     }
 }

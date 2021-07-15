@@ -138,7 +138,6 @@ class CategoryTabsProductsRenderer implements Renderer
         TemplateManager::createProductJsTemplate();
 
         $tabs       = $this->generateTabs('category');
-        $plugin = jankx_ecommerce()->getShopPlugin();
         $postLayoutManager = PostLayoutManager::getInstance(
             TemplateLoader::getTemplateEngine()
                 ->getId()
@@ -149,7 +148,6 @@ class CategoryTabsProductsRenderer implements Renderer
         $productLayout = $postLayoutManager->createLayout(Tabs::LAYOUT_NAME, $this->buildFirstTabQuery());
         $productLayout->addTabs($this->transformDataTabs2PostLayoutTabs($tabs));
         $productLayout->addChildLayout(array_get($this->args, 'sub_layout', Card::LAYOUT_NAME));
-        $productLayout->setContentGenerator($plugin->getContentGenerator());
 
         return $productLayout->render(false);
     }
