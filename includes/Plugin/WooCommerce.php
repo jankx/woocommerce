@@ -46,6 +46,11 @@ class WooCommerce extends ShopPlugin
         // Register WooCommerce widgets
         add_action('widgets_init', array($this, 'registerShopSidebars'));
 
+        add_action('wp', array($this, 'init'));
+    }
+
+    public function init()
+    {
         add_action('jankx_template_build_site_layout', array($this, 'customShopLayout'));
         add_action('jankx_template_page_single_product', array($this, 'renderProductContent'));
         add_action('jankx_template_default_site_layout', array($this, 'changeDefaultSiteLayout'));
@@ -67,6 +72,8 @@ class WooCommerce extends ShopPlugin
         add_action('jankx/layout/product/loop/end', 'woocommerce_product_loop_end');
 
         add_action('jankx/layout/product/loop/init', array($this, 'setContentWrapperTagForPostLayout'), 10, 2);
+
+        add_action('jankx_prepare_render_template', array($this, 'customizeArchiveProductPage'), 10, 3);
     }
 
     public function registerShopSidebars()
@@ -291,5 +298,30 @@ class WooCommerce extends ShopPlugin
     {
         $postLayout->setContentGenerator($this->getContentGenerator());
         $postLayout->setContentWrapperTag('ul.products');
+    }
+
+    public function customizeArchiveProductPage($page, $templateEngine, $templateLoader)
+    {
+        $templates = $page->getTemplates();
+        if (!in_array('archive-product', $templates)) {
+            return;
+        }
+        $product_page = get_page(wc_get_page_id( 'shop' ));
+        if (!$product_page) {
+            return;
+        }
+
+        global $wp_query;
+
+        $wp_query->is_post_type_archive = false;
+        $wp_query->is_archive = false;
+        $wp_query->is_page = true;
+        $wp_query->post = $product_page;
+        $wp_query->queried_object = $product_page;
+        $wp_query->posts = array($product_page);
+        $wp_query->post_count = 1;
+
+        $templateLoader->setTemplateFile(false);
+        $page->setTemplates($templateLoader->get_page_templates());
     }
 }
