@@ -118,7 +118,7 @@ class CategoryTabsProductsRenderer implements Renderer
         if (is_int($firstTab)) {
             $firstTabQuery->setCategories($firstTab);
         } else {
-            $firstTabQuery->setCategories(array_map(function($item){
+            $firstTabQuery->setCategories(array_map(function ($item) {
                 return $item['tab'];
             }, $tabs));
         }
