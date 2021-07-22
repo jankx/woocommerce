@@ -303,7 +303,7 @@ class WooCommerce extends ShopPlugin
     public function customizeArchiveProductPage($page, $templateEngine, $templateLoader)
     {
         $templates = $page->getTemplates();
-        if (!in_array('archive-product', $templates)) {
+        if (!in_array('archive-product', (array)$templates)) {
             return;
         }
         $product_page = get_page(wc_get_page_id( 'shop' ));
