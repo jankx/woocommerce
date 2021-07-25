@@ -47,6 +47,13 @@ class WooCommerce extends ShopPlugin
         add_action('widgets_init', array($this, 'registerShopSidebars'));
 
         add_action('wp', array($this, 'init'));
+
+        add_action("jankx/ecommerce/loop/before", array($this, 'customizeProductColumns'));
+
+        add_action('jankx/layout/product/loop/start', 'woocommerce_product_loop_start');
+        add_action('jankx/layout/product/loop/end', 'woocommerce_product_loop_end');
+
+        add_action('jankx/layout/product/loop/init', array($this, 'setContentWrapperTagForPostLayout'), 10, 2);
     }
 
     public function init()
@@ -65,13 +72,6 @@ class WooCommerce extends ShopPlugin
         add_action('template_redirect', array($this, 'customWooCommerceElements'));
         add_action('woocommerce_enqueue_styles', array($this, 'cleanWooCommerceStyleSheets'));
         add_filter('jankx_ecommerce_localize_object_data', array($this, 'registerGlobalVars'));
-
-        add_action("jankx/ecommerce/loop/before", array($this, 'customizeProductColumns'));
-
-        add_action('jankx/layout/product/loop/start', 'woocommerce_product_loop_start');
-        add_action('jankx/layout/product/loop/end', 'woocommerce_product_loop_end');
-
-        add_action('jankx/layout/product/loop/init', array($this, 'setContentWrapperTagForPostLayout'), 10, 2);
 
         add_action('jankx_prepare_render_template', array($this, 'customizeArchiveProductPage'), 10, 3);
     }
