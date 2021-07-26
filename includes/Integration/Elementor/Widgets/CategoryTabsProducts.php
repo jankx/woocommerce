@@ -199,9 +199,10 @@ class CategoryTabsProducts extends Widget_Base
 
         $categoryTabsProducts = new CategoryTabsProductsRenderer($this->makeRendererTabs($categories), $firstTag, array(
             'limit' => array_get($settings, 'limit', 10),
-            'items_per_row' => array_get($settings, 'posts_per_row', 4),
+            'columns' => array_get($settings, 'posts_per_row', 4),
             'widget_title' => array_get($settings, 'title', 10),
             'first_tab_title' => array_get($settings, 'first_tab_title'),
+            'sub_layout' => array_get($settings, 'sub_layout', Card::LAYOUT_NAME),
         ));
         if (($url = array_get($settings, 'readmore_url', ''))) {
             $categoryTabsProducts->setReadMore($url);

@@ -164,6 +164,8 @@ class CategoryTabsProductsRenderer implements Renderer
             Tabs::LAYOUT_NAME,
             $this->buildFirstTabQuery()
         );
+        $productLayout->setOptions($this->args);
+
         $productLayout->addTabs($this->transformDataTabs2PostLayoutTabs($tabs));
         $productLayout->addChildLayout(array_get($this->args, 'sub_layout', Card::LAYOUT_NAME));
 
