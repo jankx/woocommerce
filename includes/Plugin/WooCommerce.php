@@ -5,6 +5,7 @@ use Jankx\SiteLayout\SiteLayout;
 use Jankx\Ecommerce\Abstracts\ShopPlugin;
 use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Traits\WooCommerceData;
+use Jankx\PostLayout\Layout\Carousel;
 
 class WooCommerce extends ShopPlugin
 {
@@ -50,8 +51,18 @@ class WooCommerce extends ShopPlugin
 
         add_action("jankx/ecommerce/loop/before", array($this, 'customizeProductColumns'));
 
-        add_action('jankx/layout/product/loop/start', 'woocommerce_product_loop_start');
-        add_action('jankx/layout/product/loop/end', 'woocommerce_product_loop_end');
+        add_action('jankx/layout/product/loop/start', function ($layout) {
+            if (in_array($layout, array(Carousel::LAYOUT_NAME))) {
+                return;
+            }
+            woocommerce_product_loop_start();
+        });
+        add_action('jankx/layout/product/loop/end', function ($layout) {
+            if (in_array($layout, array(Carousel::LAYOUT_NAME))) {
+                return;
+            }
+            woocommerce_product_loop_end();
+        });
 
         add_action('jankx/layout/product/loop/init', array($this, 'setContentWrapperTagForPostLayout'), 10, 2);
     }
@@ -306,7 +317,7 @@ class WooCommerce extends ShopPlugin
         if (!in_array('archive-product', (array)$templates)) {
             return;
         }
-        $product_page = get_page(wc_get_page_id( 'shop' ));
+        $product_page = get_page(wc_get_page_id('shop'));
         if (!$product_page) {
             return;
         }
