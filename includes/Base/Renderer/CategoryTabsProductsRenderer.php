@@ -2,7 +2,6 @@
 namespace Jankx\Ecommerce\Base\Renderer;
 
 use Jankx\TemplateLoader;
-use Jankx\Ecommerce\Constracts\Renderer;
 use Jankx\Ecommerce\Ecommerce;
 use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Base\GetProductQuery;
@@ -10,8 +9,10 @@ use Jankx\Ecommerce\Base\TemplateManager;
 use Jankx\PostLayout\PostLayoutManager;
 use Jankx\PostLayout\Layout\Card;
 use Jankx\PostLayout\Layout\Tabs;
+use Jankx\PostLayout\Layout\Carousel;
+use Jankx\Widget\Renderers\Base as RendererBase;
 
-class CategoryTabsProductsRenderer implements Renderer
+class CategoryTabsProductsRenderer extends RendererBase
 {
     protected static $supportedFirstTabs;
     protected static $templateIsCreated;
@@ -20,13 +21,13 @@ class CategoryTabsProductsRenderer implements Renderer
     protected $readmore = array();
     protected $firstTab;
     protected $tabs;
-    protected $args;
+    protected $options = array();
+    protected $layoutOptions = array();
 
-    public function __construct($categories, $firstTab = null, $args = array())
+    public function __construct($categories, $firstTab = null)
     {
         $this->categories = $categories;
         $this->firstTab = $firstTab;
-        $this->args     = $args;
 
         if (is_null(static::$supportedFirstTabs)) {
             static::$supportedFirstTabs = apply_filters(
@@ -61,7 +62,7 @@ class CategoryTabsProductsRenderer implements Renderer
         $this->tabs = [];
         if ($this->firstTab && isset(static::$supportedFirstTabs[$this->firstTab])) {
             $firstTabTitle = array_get(
-                $this->args,
+                $this->options,
                 'first_tab_title'
             );
             if (empty($firstTabTitle)) {
@@ -112,7 +113,7 @@ class CategoryTabsProductsRenderer implements Renderer
             array(
                 'query_type' => $firstTab,
             ),
-            $this->args,
+            $this->options,
         ));
 
         if (is_int($firstTab)) {
@@ -153,21 +154,26 @@ class CategoryTabsProductsRenderer implements Renderer
         TemplateManager::createProductJsTemplate();
 
         $tabs = $this->generateTabs();
+        $layout = array_get($this->options, 'sub_layout', Card::LAYOUT_NAME);
         $postLayoutManager = PostLayoutManager::getInstance(
             TemplateLoader::getTemplateEngine()
                 ->getId()
         );
 
-        do_action("jankx/ecommerce/loop/before", $this->args);
+        do_action("jankx/ecommerce/loop/before", $this->options);
 
         $productLayout = $postLayoutManager->createLayout(
             Tabs::LAYOUT_NAME,
             $this->buildFirstTabQuery()
         );
-        $productLayout->setOptions($this->args);
+        $productLayout->setOptions($this->layoutOptions);
 
         $productLayout->addTabs($this->transformDataTabs2PostLayoutTabs($tabs));
-        $productLayout->addChildLayout(array_get($this->args, 'sub_layout', Card::LAYOUT_NAME));
+        $productLayout->addChildLayout($layout);
+
+        if ($layout === Carousel::LAYOUT_NAME) {
+            $productLayout->setItemAsSplide();
+        }
 
         return $productLayout->render(false);
     }

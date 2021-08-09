@@ -8,8 +8,9 @@ use Jankx\Ecommerce\Base\GetProductQuery;
 use Jankx\PostLayout\PostLayoutManager;
 use Jankx\PostLayout\Layout\Card;
 use Jankx\TemplateLoader;
+use Jankx\Widget\Renderers\Base as RendererBase;
 
-class ProductsRenderer implements Renderer
+class ProductsRenderer extends RendererBase
 {
     protected static $supportedFirstTabs;
 

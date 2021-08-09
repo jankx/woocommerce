@@ -159,11 +159,22 @@ class CategoryTabsProducts extends Widget_Base
         $this->add_control(
             'posts_per_row',
             array(
-                'label' => __('Row Items', 'jankx_ecommerce'),
+                'label' => __('Columns', 'jankx_ecommerce'),
+                'type' => Controls_Manager::NUMBER,
+                'max' => 6,
+                'step' => 1,
+                'default' => 4,
+            )
+        );
+
+        $this->add_control(
+            'rows',
+            array(
+                'label' => __('Rows', 'jankx_ecommerce'),
                 'type' => Controls_Manager::NUMBER,
                 'max' => 10,
                 'step' => 1,
-                'default' => 4,
+                'default' => 1,
             )
         );
 
@@ -197,13 +208,17 @@ class CategoryTabsProducts extends Widget_Base
             $firstTag = null;
         }
 
-        $categoryTabsProducts = new CategoryTabsProductsRenderer($this->makeRendererTabs($categories), $firstTag, array(
+        $categoryTabsProducts = new CategoryTabsProductsRenderer($this->makeRendererTabs($categories), $firstTag);
+        $categoryTabsProducts->setOptions(array(
             'limit' => array_get($settings, 'limit', 10),
-            'columns' => array_get($settings, 'posts_per_row', 4),
             'widget_title' => array_get($settings, 'title', 10),
             'first_tab_title' => array_get($settings, 'first_tab_title'),
             'sub_layout' => array_get($settings, 'sub_layout', Card::LAYOUT_NAME),
         ));
+        $categoryTabsProducts->setLayoutOptions([
+            'columns' => array_get($settings, 'posts_per_row', 4),
+        ]);
+
         if (($url = array_get($settings, 'readmore_url', ''))) {
             $categoryTabsProducts->setReadMore($url);
         }
