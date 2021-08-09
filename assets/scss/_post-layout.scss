@@ -5,10 +5,18 @@
 }
 
 .woocommerce, .woocommerce-page {
-    .jankx-posts {
-        &.post-type-product {
+    .jankx-post-layout-wrap {
+        .carousel-layout {
             ul.products {
-                margin: 0;
+                li.product {
+                    float: none;
+                    margin: 0;
+                    padding-left: 10px;
+                    padding-right: 10px;
+                    &.first {
+                        clear: none;
+                    }
+                }
             }
         }
     }

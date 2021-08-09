@@ -3,3 +3,4 @@
 node_modules
 /assets/main.js
 .DS_Store
+.sass-cache
