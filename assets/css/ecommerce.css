@@ -2,58 +2,76 @@
  * Module Name: Jankx Ecommerce
  * Author: Puleeno Nguyen
  * Author URI: https://puleeno.com
- * Version: 1.0.36
+ * Version: 1.0.39
  */
 .jxe-pitl .top-product-info-content,
 .jxe-pitl .product-info-and-actions {
   display: flex;
-  flex-wrap: wrap; }
+  flex-wrap: wrap;
+}
 .jxe-pitl .product-info-and-actions,
 .jxe-pitl .product-info-sidebar,
 .jxe-pitl .product-info-and-actions .left-block,
 .jxe-pitl .product-info-and-actions .right-block {
-  width: 100%; }
+  width: 100%;
+}
 .jxe-pitl .product-info-and-actions,
 .jxe-pitl .product-info-sidebar,
 .jxe-pitl .product-info-and-actions .left-block,
 .jxe-pitl .product-info-and-actions .right-block {
   padding-left: 10px;
-  padding-right: 10px; }
+  padding-right: 10px;
+}
 .jxe-pitl .top-product-info-content, .jxe-pitl .product-info-and-actions {
   margin-left: -10px;
-  margin-right: -10px; }
+  margin-right: -10px;
+}
 .jxe-pitl.woocommerce #content div.product div.summary, .jxe-pitl.woocommerce div.product div.summary, .jxe-pitl .woocommerce-page #content div.product div.summary, .jxe-pitl .woocommerce-page div.product div.summary {
   float: none;
   width: auto;
-  clear: none; }
+  clear: none;
+}
 
 @media (min-width: 767px) {
   .jxe-pitl .product-info-and-actions .left-block,
-  .jxe-pitl .product-info-and-actions .right-block {
-    width: 50%; } }
+.jxe-pitl .product-info-and-actions .right-block {
+    width: 50%;
+  }
+}
 @media (min-width: 998px) {
   .jxe-pitl .product-info-and-actions {
-    flex: 1; }
+    flex: 1;
+  }
   .jxe-pitl .product-info-sidebar {
-    width: 240px; }
+    width: 240px;
+  }
   .jxe-pitl .product-info-and-actions .left-block {
-    width: 45%; }
+    width: 45%;
+  }
   .jxe-pitl .product-info-and-actions .right-block {
-    width: 55%; }
+    width: 55%;
+  }
   .jxe-pitl.jankx-cs #jankx-main-content {
-    width: 60%; }
+    width: 60%;
+  }
   .jxe-pitl.jankx-cs #jankx-shop-sidebar {
-    width: 40%; } }
+    width: 40%;
+  }
+}
 @media (min-width: 1200px) {
   .jxe-pitl.jankx-cs #jankx-main-content {
-    width: 65%; }
+    width: 65%;
+  }
   .jxe-pitl.jankx-cs #jankx-shop-sidebar {
-    width: 35%; } }
+    width: 35%;
+  }
+}
 .lds-ellipsis {
   display: inline-block;
   position: relative;
   width: 80px;
-  height: 80px; }
+  height: 80px;
+}
 
 .lds-ellipsis div {
   position: absolute;
@@ -62,69 +80,92 @@
   height: 13px;
   border-radius: 50%;
   background: #fff;
-  animation-timing-function: cubic-bezier(0, 1, 1, 0); }
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
 
 .lds-ellipsis div:nth-child(1) {
   left: 8px;
-  animation: lds-ellipsis1 0.6s infinite; }
+  animation: lds-ellipsis1 0.6s infinite;
+}
 
 .lds-ellipsis div:nth-child(2) {
   left: 8px;
-  animation: lds-ellipsis2 0.6s infinite; }
+  animation: lds-ellipsis2 0.6s infinite;
+}
 
 .lds-ellipsis div:nth-child(3) {
   left: 32px;
-  animation: lds-ellipsis2 0.6s infinite; }
+  animation: lds-ellipsis2 0.6s infinite;
+}
 
 .lds-ellipsis div:nth-child(4) {
   left: 56px;
-  animation: lds-ellipsis3 0.6s infinite; }
+  animation: lds-ellipsis3 0.6s infinite;
+}
 
 @keyframes lds-ellipsis1 {
   0% {
-    transform: scale(0); }
+    transform: scale(0);
+  }
   100% {
-    transform: scale(1); } }
+    transform: scale(1);
+  }
+}
 @keyframes lds-ellipsis3 {
   0% {
-    transform: scale(1); }
+    transform: scale(1);
+  }
   100% {
-    transform: scale(0); } }
+    transform: scale(0);
+  }
+}
 @keyframes lds-ellipsis2 {
   0% {
-    transform: translate(0, 0); }
+    transform: translate(0, 0);
+  }
   100% {
-    transform: translate(24px, 0); } }
+    transform: translate(24px, 0);
+  }
+}
 .jankx-posts.post-type-product {
-  margin: 0; }
+  margin: 0;
+}
 
 .woocommerce .jankx-post-layout-wrap .carousel-layout ul.products li.product, .woocommerce-page .jankx-post-layout-wrap .carousel-layout ul.products li.product {
   float: none;
   margin: 0;
   padding-left: 10px;
-  padding-right: 10px; }
-  .woocommerce .jankx-post-layout-wrap .carousel-layout ul.products li.product.first, .woocommerce-page .jankx-post-layout-wrap .carousel-layout ul.products li.product.first {
-    clear: none; }
+  padding-right: 10px;
+}
+.woocommerce .jankx-post-layout-wrap .carousel-layout ul.products li.product.first, .woocommerce-page .jankx-post-layout-wrap .carousel-layout ul.products li.product.first {
+  clear: none;
+}
 
 .jankx-ecommerce.cart-icon a {
-  display: block; }
+  display: block;
+}
 
 .cart-icon {
   position: relative;
-  margin-right: 10px; }
-  .cart-icon .cart-badge {
-    display: flex;
-    height: 18px;
-    width: 18px;
-    border-radius: 50%;
-    color: #fff;
-    background-color: #ea1303;
-    position: absolute;
-    top: -10px;
-    right: -7px;
-    justify-content: center;
-    align-items: center;
-    font-size: 80%;
-    padding: 4px 0; }
+  margin-right: 10px;
+}
+.cart-icon .cart-badge {
+  display: flex;
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  color: #fff;
+  background-color: #ea1303;
+  position: absolute;
+  top: -10px;
+  right: -7px;
+  justify-content: center;
+  align-items: center;
+  font-size: 80%;
+  padding: 4px 0;
+}
 
-/*# sourceMappingURL=ecommerce.css.map */
+.product.has-post-thumbnail img.attachment-woocommerce_thumbnail {
+  height: 180px;
+  object-fit: cover;
+}

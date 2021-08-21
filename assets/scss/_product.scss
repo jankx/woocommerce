@@ -1,0 +1,8 @@
+.product {
+    &.has-post-thumbnail {
+        img.attachment-woocommerce_thumbnail {
+            height: 180px;
+            object-fit: cover;
+        }
+    }
+}
