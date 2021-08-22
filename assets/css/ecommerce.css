@@ -2,7 +2,7 @@
  * Module Name: Jankx Ecommerce
  * Author: Puleeno Nguyen
  * Author URI: https://puleeno.com
- * Version: 1.0.40
+ * Version: 1.0.41
  */
 .jxe-pitl .top-product-info-content,
 .jxe-pitl .product-info-and-actions {
@@ -127,6 +127,31 @@
     transform: translate(24px, 0);
   }
 }
+.onsale {
+  position: absolute;
+  left: 20px;
+  top: -5px;
+  background: #F43D3D;
+  color: #fff;
+  font-size: 11px;
+  line-height: 14px;
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 0px 0px 5px 5px;
+}
+.onsale:after {
+  content: "";
+  display: block;
+  height: 5px;
+  width: 20px;
+  position: absolute;
+  right: -5px;
+  top: 0;
+  background-color: #C8232C;
+  z-index: -1;
+  border-radius: 0px 5px 0px 0px;
+}
+
 .woocommerce .jankx-post-layout-wrap .carousel-layout ul.products li.product, .woocommerce-page .jankx-post-layout-wrap .carousel-layout ul.products li.product {
   float: none;
   margin: 0;
@@ -164,6 +189,9 @@
 .product.has-post-thumbnail img.attachment-woocommerce_thumbnail {
   height: 180px;
   object-fit: cover;
+}
+.product .woocommerce-loop-product__title {
+  font-size: inherit;
 }
 
 .woocommerce .jankx-post-layout-wrap ul.products li.product {
