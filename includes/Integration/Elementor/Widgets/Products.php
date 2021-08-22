@@ -36,7 +36,7 @@ class Products extends Widget_Base
         );
     }
 
-    protected function _register_controls()
+    protected function register_controls()
     {
 
         $taxQuery = array('taxonomy' => 'product_cat', 'fields' => 'id=>name', 'hide_empty' => false);
@@ -144,9 +144,5 @@ class Products extends Widget_Base
 
         // Render the content
         echo $productsModule;
-    }
-
-    protected function _content_template()
-    {
     }
 }
