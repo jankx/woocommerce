@@ -141,8 +141,16 @@ class Products extends Widget_Base
         if (($url = array_get($settings, 'readmore_url', ''))) {
             $productsModule->setReadMore($url);
         }
+        $productsModule->setLayoutOptions(array(
+            'columns' => array_get($settings, 'items_per_row', 4),
+        ));
 
         // Render the content
-        echo $productsModule;
+        $productsContent = $productsModule->render(false);
+        $widgetTitle = array_get($settings, 'title');
+        if ($widgetTitle && $productsContent) {
+            echo sprintf('<h3 class="products-widget-title"><span>%s</span></h3>', $widgetTitle);
+        }
+        echo $productsContent;
     }
 }

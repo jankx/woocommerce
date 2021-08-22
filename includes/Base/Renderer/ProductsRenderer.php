@@ -52,7 +52,11 @@ class ProductsRenderer extends RendererBase
 
     public function buildFirstTabQuery()
     {
-        $productQuery = GetProductQuery::buildQuery($this->args);
+        $productQuery = GetProductQuery::buildQuery(array(
+            'post_type' => 'product',
+            'categories' => array_get($this->args, 'categories'),
+            'limit' => array_get($this->args, 'limit'),
+        ));
 
         return $productQuery->getWordPressQuery();
     }
@@ -62,7 +66,7 @@ class ProductsRenderer extends RendererBase
     {
         $wp_query   = $this->buildFirstTabQuery();
         $plugin = jankx_ecommerce()->getShopPlugin();
-        $postLayout = PostLayoutManager::getInstance(
+        $postLayoutManager = PostLayoutManager::getInstance(
             TemplateLoader::getTemplateEngine()->getId()
         );
 
@@ -72,13 +76,13 @@ class ProductsRenderer extends RendererBase
 
         do_action("jankx/ecommerce/loop/before", $this->args);
 
-        // $layout = array_get($this->args, 'layout', Card::LAYOUT_NAME);
-        $layout = 'grid';
-        $postLayout = $postLayout->createLayout($layout, $wp_query);
+        $layout = array_get($this->args, 'layout', Card::LAYOUT_NAME);
+        $postLayout = $postLayoutManager->createLayout($layout, $wp_query);
+        $postLayout->setOptions($this->getLayoutOptions());
 
         $postLayout->setContentGenerator(
             $plugin->getContentGenerator()
         );
-        $postLayout->render();
+        return $postLayout->render(false);
     }
 }

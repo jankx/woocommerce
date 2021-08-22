@@ -2,7 +2,7 @@
  * Module Name: Jankx Ecommerce
  * Author: Puleeno Nguyen
  * Author URI: https://puleeno.com
- * Version: 1.0.39
+ * Version: 1.0.40
  */
 .jxe-pitl .top-product-info-content,
 .jxe-pitl .product-info-and-actions {
@@ -127,10 +127,6 @@
     transform: translate(24px, 0);
   }
 }
-.jankx-posts.post-type-product {
-  margin: 0;
-}
-
 .woocommerce .jankx-post-layout-wrap .carousel-layout ul.products li.product, .woocommerce-page .jankx-post-layout-wrap .carousel-layout ul.products li.product {
   float: none;
   margin: 0;
@@ -168,4 +164,32 @@
 .product.has-post-thumbnail img.attachment-woocommerce_thumbnail {
   height: 180px;
   object-fit: cover;
+}
+
+.woocommerce .jankx-post-layout-wrap ul.products li.product {
+  margin: 0 0 20px;
+  width: auto;
+  float: none;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+@media (min-width: 480px) {
+  .woocommerce .jankx-post-layout-wrap ul.products {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .woocommerce .jankx-post-layout-wrap ul.products li.product {
+    width: 50%;
+  }
+}
+@media (min-width: 768px) {
+  .woocommerce .jankx-post-layout-wrap ul.products.columns-4 li.product {
+    width: 33.3333333333%;
+  }
+}
+@media (min-width: 992px) {
+  .woocommerce .jankx-post-layout-wrap ul.products.columns-4 li.product {
+    width: 25%;
+  }
 }

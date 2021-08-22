@@ -1,8 +1,66 @@
+@use "sass:math";
+
 .product {
     &.has-post-thumbnail {
         img.attachment-woocommerce_thumbnail {
             height: 180px;
             object-fit: cover;
+        }
+    }
+}
+
+.woocommerce {
+    .jankx-post-layout-wrap {
+        ul.products {
+            li.product {
+                margin: 0 0 20px;
+                width: auto;
+                float: none;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+        }
+    }
+}
+
+@media(min-width: 480px) {
+    .woocommerce {
+        .jankx-post-layout-wrap {
+            ul.products {
+                display: flex;
+                flex-wrap: wrap;
+                li.product {
+                    width: 50%;
+                }
+            }
+        }
+    }
+}
+
+@media(min-width: 768px) {
+    .woocommerce {
+        .jankx-post-layout-wrap {
+            ul.products {
+                &.columns-4 {
+                    li.product {
+                        width: percentage(math.div(1,3));
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media(min-width: 992px) {
+    .woocommerce {
+        .jankx-post-layout-wrap {
+            ul.products {
+                &.columns-4 {
+                    li.product {
+                        width: 25%;
+                    }
+                }
+            }
         }
     }
 }

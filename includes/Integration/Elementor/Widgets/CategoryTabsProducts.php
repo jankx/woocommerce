@@ -224,10 +224,11 @@ class CategoryTabsProducts extends Widget_Base
         }
 
         // Render the content
-        echo $categoryTabsProducts;
-    }
-
-    protected function _content_template()
-    {
+        $tabproductsContent = $categoryTabsProducts->render(false);
+        $widgetTitle = array_get($settings, 'title');
+        if (!empty($widgetTitle) && $tabproductsContent) {
+            echo sprintf('<h3 class="product-tabs-title"><span>%s</span></h3>', $widgetTitle);
+        }
+        echo $tabproductsContent;
     }
 }
