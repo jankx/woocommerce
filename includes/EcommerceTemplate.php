@@ -39,14 +39,17 @@ class EcommerceTemplate
         return static::$engine;
     }
 
-    public static function render()
+    public static function render($templateName, $data = array(), $echo = true)
     {
-        return call_user_func_array(
-            array(
-                static::getEngine(),
-                'render'
-            ),
-            func_get_args()
+        $engine = static::getEngine();
+        if (!$engine) {
+            return;
+        }
+
+        return $engine->render(
+            $templateName,
+            $data,
+            $echo
         );
     }
 
