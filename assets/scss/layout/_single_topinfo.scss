@@ -1,0 +1,37 @@
+.jankx-ecom-prod-top-layout {
+    &.woocommerce {
+        div.product {
+            div.summary {
+                float: none;
+                clear: none;
+                width: auto;
+            }
+        }
+    }
+}
+
+@media(min-width: 480px) {
+    .jankx-ecom-prod-top-layout {
+        .product-top-info {
+            display: flex;
+
+            .product-image-wrap, .main-product-info {
+                width: 50%;
+            }
+        }
+    }
+}
+
+@media(min-width: 768px) {
+    .jankx-ecom-prod-top-layout {
+        .info-with-sidebar-wrap {
+            display: flex;
+            .product-top-info {
+                width: 75%;
+            }
+            .sidebar {
+                width: 25%;
+            }
+        }
+    }
+}

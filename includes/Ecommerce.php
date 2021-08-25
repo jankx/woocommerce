@@ -7,7 +7,6 @@ use Jankx\Ecommerce\Integration\Plugin;
 use Jankx\Ecommerce\Base\MenuItems;
 use Jankx\Ecommerce\Base\Rest\RestManager;
 use Jankx\Ecommerce\Base\Layouts\ProductInfoTopWithSidebar;
-use Jankx\Ecommerce\Widgets\Manager as WidgetManager;
 
 class Ecommerce
 {
@@ -52,10 +51,9 @@ class Ecommerce
         add_action('after_setup_theme', array($this, 'loadSupportLayouts'), 20);
         add_action('after_setup_theme', array($this, 'setupShopLayout'), 30);
 
-        add_filter('jankx_template_css_dependences', array($this, 'registerEcommerceStylesheet'));
-        add_action('wp_enqueue_scripts', array($this, 'registerScripts'));
+        add_action('wp_enqueue_scripts', array($this, 'registerScripts'), 40);
 
-        add_action('widgets_init', array(WidgetManager::class, 'register'));
+        add_filter('jankx_template_css_dependences', array($this, 'registerEcommerceStylesheet'));
     }
 
     private function bootstrap()
@@ -117,11 +115,16 @@ class Ecommerce
 
     public function registerScripts()
     {
+        $deps = array( 'popperjs' );
+        if (is_singular($this->shopPlugin->getPostType())) {
+            $deps[] = 'varousel';
+        }
+
         // Register script
         wp_register_script(
             static::NAME,
             jankx_ecommerce_asset_url('js/ecommerce.js'),
-            array( 'popperjs' ),
+            $deps,
             static::VERSION,
             true
         );
@@ -138,16 +141,21 @@ class Ecommerce
         // Call the scripts
         wp_enqueue_script(static::NAME);
 
+        $deps = array();
+        if (is_singular($this->shopPlugin->getPostType())) {
+            $deps[] = 'varousel';
+        }
         $styleMetadata = get_file_data(
             sprintf('%s/assets/css/ecommerce.css', dirname(JANKX_ECOMMERCE_FILE_LOADER)),
             array(
                 'version' => 'Version',
             )
         );
+
         wp_register_style(
             static::NAME,
             jankx_ecommerce_asset_url('css/ecommerce.css'),
-            array(),
+            $deps,
             empty($styleMetadata['version']) ? static::VERSION : $styleMetadata['version']
         );
         wp_enqueue_style(static::NAME);
