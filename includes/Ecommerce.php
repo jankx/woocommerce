@@ -51,7 +51,7 @@ class Ecommerce
         add_action('after_setup_theme', array($this, 'loadSupportLayouts'), 20);
         add_action('after_setup_theme', array($this, 'setupShopLayout'), 30);
 
-        add_action('wp_enqueue_scripts', array($this, 'registerScripts'), 40);
+        add_action('wp_enqueue_scripts', array($this, 'registerScripts'), 15);
 
         add_filter('jankx_template_css_dependences', array($this, 'registerEcommerceStylesheet'));
     }
@@ -117,33 +117,34 @@ class Ecommerce
     {
         $deps = array( 'popperjs' );
         if (is_singular($this->shopPlugin->getPostType())) {
-            $deps[] = 'varousel';
+            // $deps[] = 'varousel';
         }
 
         // Register script
-        wp_register_script(
+        js(
             static::NAME,
             jankx_ecommerce_asset_url('js/ecommerce.js'),
             $deps,
             static::VERSION,
             true
-        );
-        wp_localize_script(static::NAME, 'jankx_ecommerce', apply_filters(
-            'jankx_ecommerce_localize_object_data',
-            array(
-                'get_product_url' => rest_url('jankx/v1/ecommerce/get_products'),
-                'errors' => array(
-                    'get_data_error' => __('Get data has exception', 'jankx_ecommerce'),
-                    'parse_data_error' => __('Parse the data has exception', 'jankx_ecommerce'),
+        )->localize(
+            'jankx_ecommerce',
+            apply_filters(
+                'jankx_ecommerce_localize_object_data',
+                array(
+                    'get_product_url' => rest_url('jankx/v1/ecommerce/get_products'),
+                    'errors' => array(
+                        'get_data_error' => __('Get data has exception', 'jankx_ecommerce'),
+                        'parse_data_error' => __('Parse the data has exception', 'jankx_ecommerce'),
+                    )
                 )
             )
-        ));
-        // Call the scripts
-        wp_enqueue_script(static::NAME);
+        )
+        ->enqueue();
 
         $deps = array();
         if (is_singular($this->shopPlugin->getPostType())) {
-            $deps[] = 'varousel';
+            // $deps[] = 'varousel';
         }
         $styleMetadata = get_file_data(
             sprintf('%s/assets/css/ecommerce.css', dirname(JANKX_ECOMMERCE_FILE_LOADER)),
@@ -152,13 +153,12 @@ class Ecommerce
             )
         );
 
-        wp_register_style(
+        css(
             static::NAME,
             jankx_ecommerce_asset_url('css/ecommerce.css'),
             $deps,
             empty($styleMetadata['version']) ? static::VERSION : $styleMetadata['version']
-        );
-        wp_enqueue_style(static::NAME);
+        )->enqueue();
     }
 
 
