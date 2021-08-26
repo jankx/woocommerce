@@ -8,6 +8,9 @@
             }
         }
     }
+    .product-image-wrap, .main-product-info {
+        position: relative;
+    }
 }
 
 @media(min-width: 480px) {

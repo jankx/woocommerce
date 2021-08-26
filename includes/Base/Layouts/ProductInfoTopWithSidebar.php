@@ -47,7 +47,7 @@ class ProductInfoTopWithSidebar
 
     public function createTopProductInfo()
     {
-        EcommerceTemplate::render( 'top-product-info/top-info', array(
+        EcommerceTemplate::render('top-product-info/top-info', array(
             'has_sidebar' => $this->topLayoutSidebarActive,
         ));
     }
@@ -171,11 +171,12 @@ class ProductInfoTopWithSidebar
 
 
 
-        add_action( 'jankx_template_main_content_sidebar_end', 'woocommerce_upsell_display', 15 );
-        add_action( 'jankx_template_main_content_sidebar_end', 'woocommerce_output_related_products', 20 );
+        add_action('jankx_template_main_content_sidebar_end', 'woocommerce_upsell_display', 15);
+        add_action('jankx_template_main_content_sidebar_end', 'woocommerce_output_related_products', 20);
     }
 
-    public function removeTabsProductInfo($tabs) {
+    public function removeTabsProductInfo($tabs)
+    {
         unset($tabs['additional_information']);
 
         return $tabs;

@@ -117,7 +117,8 @@ class Ecommerce
     {
         $deps = array( 'popperjs' );
         if (is_singular($this->shopPlugin->getPostType())) {
-            // $deps[] = 'varousel';
+            js('slick', jankx_ecommerce_asset_url('libs/slick/slick/slick.js'), array('jquery'), '1.8.1', true);
+            $deps[] = 'slick';
         }
 
         // Register script
@@ -144,7 +145,8 @@ class Ecommerce
 
         $deps = array();
         if (is_singular($this->shopPlugin->getPostType())) {
-            // $deps[] = 'varousel';
+            css('slick', jankx_ecommerce_asset_url('libs/slick/slick/slick.css'), array(), '1.8.1');
+            $deps[] = 'slick';
         }
         $styleMetadata = get_file_data(
             sprintf('%s/assets/css/ecommerce.css', dirname(JANKX_ECOMMERCE_FILE_LOADER)),
