@@ -115,7 +115,7 @@ class Ecommerce
 
     public function registerScripts()
     {
-        $deps = array( 'popperjs' );
+        $deps = array( 'popperjs', 'fslightbox' );
         if (is_singular($this->shopPlugin->getPostType())) {
             js('slick', jankx_ecommerce_asset_url('libs/slick/slick/slick.js'), array('jquery'), '1.8.1', true);
             $deps[] = 'slick';
