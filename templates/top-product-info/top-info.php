@@ -3,7 +3,7 @@
 
     <?php do_action('jankx/ecommerce/single/product/layout/top_info/before'); ?>
 
-    <?php if ($has_sidebar): ?>
+    <?php if ($has_sidebar) : ?>
         <div class="info-with-sidebar-wrap">
             <div class="product-top-info">
                 <div class="product-image-wrap">
@@ -18,7 +18,7 @@
                 <?php dynamic_sidebar('product_info_sidebar'); ?>
             </div>
         </div>
-    <?php else: ?>
+    <?php else : ?>
         <div class="product-top-info">
             <div class="product-image-wrap">
                 <?php do_action('jankx/ecommerce/single/product/layout/top_info/image'); ?>
