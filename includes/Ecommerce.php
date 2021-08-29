@@ -7,6 +7,7 @@ use Jankx\Ecommerce\Integration\Plugin;
 use Jankx\Ecommerce\Base\MenuItems;
 use Jankx\Ecommerce\Base\Rest\RestManager;
 use Jankx\Ecommerce\Base\Layouts\ProductInfoTopWithSidebar;
+use Jankx\Ecommerce\Base\Layouts\ProductInfoTopWithSidebarBellowName;
 
 class Ecommerce
 {
@@ -172,6 +173,7 @@ class Ecommerce
 
         static::$singleProductLayouts = apply_filters('jankx_ecommerce_woocommerce_single_layouts', array(
             ProductInfoTopWithSidebar::LAYOUT_NAME => ProductInfoTopWithSidebar::class,
+            ProductInfoTopWithSidebarBellowName::LAYOUT_NAME => ProductInfoTopWithSidebarBellowName::class,
         ));
 
         return static::$singleProductLayouts;

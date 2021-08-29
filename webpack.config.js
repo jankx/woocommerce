@@ -24,7 +24,12 @@ module.exports = {
               name: (process.env.NODE_ENV === 'production' ? "[name].min.css" : "[name].css")
             },
           },
-          "sass-loader",
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: true,
+            },
+          },
         ],
       },
     ],

@@ -88,53 +88,6 @@ class ProductInfoTopWithSidebar
         remove_all_actions('woocommerce_after_single_product_summary');
     }
 
-    public function print_product_name()
-    {
-        ?>
-        <div class="product-name-on-top">
-            <?php jankx_open_container(); ?>
-                <?php woocommerce_template_single_title(); ?>
-
-                <?php
-                do_action(
-                    'jankx_ecommerce_product_info_top_after_product_name'
-                ); ?>
-            <?php jankx_close_container(); ?>
-        </div>
-        <?php
-    }
-
-    public function print_the_summary_structure()
-    {
-        EcommerceTemplate::render('top-product-info/layout/summary');
-    }
-
-    public function print_product_stock()
-    {
-        EcommerceTemplate::render('top-product-info/product-stock');
-    }
-
-    public function print_notes()
-    {
-        EcommerceTemplate::render('top-product-info/notes');
-    }
-
-    public function print_call_to_order()
-    {
-        EcommerceTemplate::render('top-product-info/call-to-order');
-    }
-
-    public function print_related_products()
-    {
-        ?>
-        <div id="related-products">
-            <?php jankx_open_container(); ?>
-                <?php woocommerce_output_related_products(); ?>
-            <?php jankx_close_container(); ?>
-        </div>
-        <?php
-    }
-
     public function change_related_product_columns($args)
     {
         $args = array_merge($args, array(
@@ -142,16 +95,6 @@ class ProductInfoTopWithSidebar
             'columns'        => 6,
         ));
         return $args;
-    }
-
-    public function print_similar_price_products()
-    {
-        $similarProducts = new SimilarPriceProductsRenderer();
-        echo $similarProducts;
-    }
-
-    public function print_viewed_products()
-    {
     }
 
     public function load_single_product_layout()

@@ -17,23 +17,114 @@
     .jankx-ecom-prod-top-layout {
         .product-top-info {
             display: flex;
+            margin-left: -5px;
+            margin-right: -5px;
+        }
 
-            .product-image-wrap, .main-product-info {
-                width: 50%;
-            }
+        .product-image-wrap, .main-product-info {
+            width: 50%;
+            padding-left: 5px;
+            padding-right: 5px;
         }
     }
 }
 
 @media(min-width: 768px) {
-    .jankx-ecom-prod-top-layout {
+    .jankx-ecom-prod-top-layout:not(.sidebar-bellow-name) {
         .info-with-sidebar-wrap {
             display: flex;
             .product-top-info {
-                width: 75%;
+                width: calc(100% - 240px);
+                padding-right: 5px;
             }
             .sidebar {
-                width: 25%;
+                width: 245px;
+                padding-left: 5px;
+            }
+        }
+    }
+
+    .jankx-ecom-prod-top-layout {
+        &.sidebar-bellow-name {
+            .info-with-sidebar-wrap {
+                display: flex;
+                margin-left: -5px;
+                margin-right: -5px;
+            }
+            .product-image-wrap {
+                width: 45%;
+            }
+            .main-product-info {
+                width: 55%;
+            }
+
+            .product-info-sidebar-wrap {
+                display: flex;
+                margin-left: -5px;
+                margin-right: -5px;
+            }
+
+            .product-info-above-sidebar, .top-info-sidebar {
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+            .product-info-above-sidebar {
+                width: calc(100% - 240px);
+            }
+            .top-info-sidebar {
+                width: 245px;
+            }
+        }
+    }
+}
+
+@media(min-width: 992px) {
+    .jankx-ecom-prod-top-layout:not(.sidebar-bellow-name) {
+        .info-with-sidebar-wrap {
+            .product-top-info {
+                padding-right: 10px;
+            }
+            .sidebar {
+                width: 250px;
+                padding-left: 10px;
+            }
+        }
+    }
+
+    .jankx-ecom-prod-top-layout {
+        .product-top-info {
+            margin-left: -10px;
+            margin-right: -10px;
+
+            .product-image-wrap, .main-product-info {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+        }
+
+        &.sidebar-bellow-name {
+            .info-with-sidebar-wrap {
+                margin-left: -10px;
+                margin-right: -10px;
+            }
+            .product-image-wrap, .main-product-info {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            .product-info-sidebar-wrap {
+                margin-left: -10px;
+                margin-right: -10px;
+                margin-top: 15px;
+            }
+
+            .product-info-above-sidebar, .top-info-sidebar {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            .top-info-sidebar {
+                width: 250px;
             }
         }
     }

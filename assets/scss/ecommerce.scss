@@ -2,16 +2,19 @@
  * Module Name: Jankx Ecommerce
  * Author: Puleeno Nguyen
  * Author URI: https://puleeno.com
- * Version: 1.0.47
+ * Version: 1.0.50
  */
 
 @import "layout";
 @import "alert";
 @import "loading";
 @import "sticker";
+@import "rating";
 @import "post-layout";
 @import "menu_item";
 @import "image";
 @import "product";
 
 @import "layout/single_topinfo";
+
+@import "thirdparty/slick";
