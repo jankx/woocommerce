@@ -9,11 +9,8 @@
     line-height: 1;
     font-size: 1em;
     width: 5.4em;
-    font-family: "atz-luxury";
 
     &::before {
-        content: "\6f\6f\6f\6f\6f";
-        color: #dfdfdf;
         float: left;
         top: 0;
         left: 0;
@@ -30,8 +27,6 @@
     }
 
     span::before {
-        content: "\6f\6f\6f\6f\6f";
-        color: #debe60;
         top: 0;
         position: absolute;
         left: 0;
@@ -97,41 +92,8 @@ p.stars {
             width: 1em;
             height: 1em;
             line-height: 1;
-            font-family: "atz-luxury";
-            content: "\6f";
-            color: #dfdfdf;
             text-indent: 0;
         }
-
-        &:hover ~ a::before {
-            content: "\6f";
-            color: #dfdfdf;
-        }
     }
 
-    &:hover a::before {
-        content: "\6f";
-        color: #debe60;
-    }
-
-    &.selected {
-
-        a.active {
-
-            &::before {
-                content: "\6f";
-                color: #debe60;
-            }
-
-            ~ a::before {
-                content: "\6f";
-                color: #dfdfdf;
-            }
-        }
-
-        a:not(.active)::before {
-            content: "\6f";
-            color: #debe60;
-        }
-    }
 }

@@ -101,11 +101,8 @@
   line-height: 1;
   font-size: 1em;
   width: 5.4em;
-  font-family: "atz-luxury";
 }
 .star-rating::before {
-  content: "ooooo";
-  color: #dfdfdf;
   float: left;
   top: 0;
   left: 0;
@@ -120,8 +117,6 @@
   padding-top: 1.5em;
 }
 .star-rating span::before {
-  content: "ooooo";
-  color: #debe60;
   top: 0;
   position: absolute;
   left: 0;
@@ -181,30 +176,7 @@ p.stars a::before {
   width: 1em;
   height: 1em;
   line-height: 1;
-  font-family: "atz-luxury";
-  content: "o";
-  color: #dfdfdf;
   text-indent: 0;
-}
-p.stars a:hover ~ a::before {
-  content: "o";
-  color: #dfdfdf;
-}
-p.stars:hover a::before {
-  content: "o";
-  color: #debe60;
-}
-p.stars.selected a.active::before {
-  content: "o";
-  color: #debe60;
-}
-p.stars.selected a.active ~ a::before {
-  content: "o";
-  color: #dfdfdf;
-}
-p.stars.selected a:not(.active)::before {
-  content: "o";
-  color: #debe60;
 }
 
 .woocommerce .jankx-post-layout-wrap .carousel-layout ul.products li.product, .woocommerce-page .jankx-post-layout-wrap .carousel-layout ul.products li.product {
