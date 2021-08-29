@@ -14,6 +14,11 @@ Integrate ecommerce plugins with Jankx theme framework
 
 Rating icons:
 ```
+.star-rating {
+  width: 82px;
+  font-size: 16px;
+}
+
 .star-rating,
 p.stars a::before {
   font-family: "font name";
