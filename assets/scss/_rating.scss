@@ -1,28 +1,6 @@
 /**
 * Star ratings
 */
-@font-face {
-	font-family: 'star';
-	src: url('../../../../../../../plugins/woocommerce/assets/fonts/star.eot');
-	src: url('../../../../../../../plugins/woocommerce/assets/fonts/star.eot?#iefix') format('embedded-opentype'),
-		url('../../../../../../../plugins/woocommerce/assets/fonts/star.woff') format('woff'),
-		url('../../../../../../../plugins/woocommerce/assets/fonts/star.ttf') format('truetype'),
-		url('../../../../../../../plugins/woocommerce/assets/fonts/star.svg#star') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-@font-face {
-	font-family: 'WooCommerce';
-	src: url('../../../../../../../plugins/woocommerce/assets/fonts/WooCommerce.eot');
-	src: url('../../../../../../../plugins/woocommerce/assets/fonts/WooCommerce.eot?#iefix') format('embedded-opentype'),
-		url('../../../../../../../plugins/woocommerce/assets/fonts/WooCommerce.woff') format('woff'),
-		url('../../../../../../../plugins/woocommerce/assets/fonts/WooCommerce.ttf') format('truetype'),
-		url('../../../../../../../plugins/woocommerce/assets/fonts/WooCommerce.svg#star') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-
-
 .star-rating {
     float: right;
     overflow: hidden;
@@ -31,10 +9,11 @@
     line-height: 1;
     font-size: 1em;
     width: 5.4em;
-    font-family: 'star';
+    font-family: "atz-luxury";
 
     &::before {
-        content: "\73\73\73\73\73";
+        content: "\6f\6f\6f\6f\6f";
+        color: #dfdfdf;
         float: left;
         top: 0;
         left: 0;
@@ -51,7 +30,8 @@
     }
 
     span::before {
-        content: "\53\53\53\53\53";
+        content: "\6f\6f\6f\6f\6f";
+        color: #debe60;
         top: 0;
         position: absolute;
         left: 0;
@@ -117,18 +97,21 @@ p.stars {
             width: 1em;
             height: 1em;
             line-height: 1;
-            font-family: "WooCommerce";
-            content: "\e021";
+            font-family: "atz-luxury";
+            content: "\6f";
+            color: #dfdfdf;
             text-indent: 0;
         }
 
         &:hover ~ a::before {
-            content: "\e021";
+            content: "\6f";
+            color: #dfdfdf;
         }
     }
 
     &:hover a::before {
-        content: "\e020";
+        content: "\6f";
+        color: #debe60;
     }
 
     &.selected {
@@ -136,16 +119,19 @@ p.stars {
         a.active {
 
             &::before {
-                content: "\e020";
+                content: "\6f";
+                color: #debe60;
             }
 
             ~ a::before {
-                content: "\e021";
+                content: "\6f";
+                color: #dfdfdf;
             }
         }
 
         a:not(.active)::before {
-            content: "\e020";
+            content: "\6f";
+            color: #debe60;
         }
     }
 }
