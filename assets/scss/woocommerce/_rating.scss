@@ -53,28 +53,6 @@
     margin: 10px 0 0;
 }
 
-#review_form #respond {
-    position: static;
-    margin: 0;
-    width: auto;
-    padding: 0;
-    background: transparent none;
-    border: 0;
-
-    p {
-        margin: 0 0 10px;
-    }
-
-    .form-submit input {
-        left: auto;
-    }
-
-    textarea {
-        box-sizing: border-box;
-        width: 100%;
-    }
-}
-
 p.stars {
     a {
         position: relative;

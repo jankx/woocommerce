@@ -2,14 +2,13 @@
  * Module Name: Jankx Ecommerce
  * Author: Puleeno Nguyen
  * Author URI: https://puleeno.com
- * Version: 1.0.54
+ * Version: 1.0.55
  */
 
 @import "layout";
 @import "alert";
 @import "loading";
 @import "sticker";
-@import "rating";
 @import "post-layout";
 @import "menu_item";
 @import "image";
@@ -21,3 +20,5 @@
 @import "thirdparty/slick";
 
 @import "woocommerce/messages";
+@import "woocommerce/reviews";
+@import "woocommerce/rating";
