@@ -8,7 +8,6 @@
 (function ($) {
     var woocommerceGalleryImages = document.querySelectorAll('.woocommerce-product-gallery__wrapper .woocommerce-product-gallery__image img');
     if (woocommerceGalleryImages.length > 0) {
-        console.log(woocommerceGalleryImages.length);
         var imageSources       = [];
         window.woocommerceGallery = new FsLightbox();
         for (i=0; i<woocommerceGalleryImages.length; i++) {

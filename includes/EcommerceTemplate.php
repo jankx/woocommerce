@@ -53,14 +53,10 @@ class EcommerceTemplate
         );
     }
 
-    public static function search()
+    public static function search($templateName)
     {
-        return call_user_func_array(
-            array(
-                static::getEngine(),
-                'searchTemplate'
-            ),
-            func_get_args()
-        );
+        $engine = static::getEngine();
+
+        return $engine->searchTemplate($templateName);
     }
 }

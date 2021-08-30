@@ -1,8 +1,9 @@
+@charset "UTF-8";
 /*!
  * Module Name: Jankx Ecommerce
  * Author: Puleeno Nguyen
  * Author URI: https://puleeno.com
- * Version: 1.0.50
+ * Version: 1.0.54
  */
 .lds-ellipsis {
   display: inline-block;
@@ -127,7 +128,7 @@
   display: block;
 }
 .woocommerce-product-rating .star-rating {
-  margin: 0.5em 4px 0 0;
+  margin-right: 10px;
   float: left;
 }
 
@@ -259,6 +260,13 @@ p.stars a::before {
     width: 25%;
   }
 }
+.widget .product-attributes-heading {
+  font-size: 120%;
+}
+.widget .shop_attributes {
+  margin-top: 10px;
+}
+
 .jankx-ecom-prod-top-layout.woocommerce div.product div.summary {
   float: none;
   clear: none;
@@ -368,4 +376,39 @@ p.stars a::before {
 .jankx-ecom-product-thumbnails .slick-slide {
   padding-left: 5px;
   padding-right: 5px;
+}
+
+.woocommerce-message,
+.woocommerce-error,
+.woocommerce-info {
+  padding: 1em 2em 1em 3.5em;
+  margin: 0 0 2em;
+  position: relative;
+  background-color: var(--bg-success-color);
+  color: var(--text-success-color);
+  list-style: none outside;
+  width: auto;
+  word-wrap: break-word;
+}
+.woocommerce-message::before,
+.woocommerce-error::before,
+.woocommerce-info::before {
+  font-family: "WooCommerce";
+  content: "";
+  display: inline-block;
+  position: absolute;
+  top: 1em;
+  left: 1.5em;
+}
+.woocommerce-message .button,
+.woocommerce-error .button,
+.woocommerce-info .button {
+  float: right;
+}
+.woocommerce-message li,
+.woocommerce-error li,
+.woocommerce-info li {
+  list-style: none outside !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
 }

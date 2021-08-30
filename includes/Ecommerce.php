@@ -8,6 +8,8 @@ use Jankx\Ecommerce\Base\MenuItems;
 use Jankx\Ecommerce\Base\Rest\RestManager;
 use Jankx\Ecommerce\Base\Layouts\ProductInfoTopWithSidebar;
 use Jankx\Ecommerce\Base\Layouts\ProductInfoTopWithSidebarBellowName;
+use Jankx\PostLayout\PostLayoutManager;
+use Jankx\Ecommerce\EcommerceTemplate;
 
 class Ecommerce
 {
@@ -187,5 +189,8 @@ class Ecommerce
                 new static::$singleProductLayouts[$singleProductLayout]();
             }
         }
+
+        $engine = EcommerceTemplate::getEngine();
+        PostLayoutManager::createInstance($engine);
     }
 }
