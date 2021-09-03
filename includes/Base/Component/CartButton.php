@@ -21,7 +21,7 @@ class CartButton extends Component
         return static::COMPONENT_NAME;
     }
 
-    protected function parseProps($props)
+    public function parseProps($props)
     {
         $eCommerce   = Ecommerce::instance();
         static::$shopPlugin = $eCommerce->getShopPlugin();

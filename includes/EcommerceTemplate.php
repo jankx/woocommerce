@@ -27,7 +27,7 @@ class EcommerceTemplate
 
             $engine = Template::createEngine(
                 static::ENGINE_ID,
-                apply_filters('jankx_theme_template_directory_name', 'templates/ecommerce'),
+                apply_filters('jankx/theme/template/directory', 'templates/ecommerce'),
                 $defaultTemplateDir,
                 $activeEngine
             );
