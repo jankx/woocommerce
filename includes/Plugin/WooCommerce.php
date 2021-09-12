@@ -51,12 +51,15 @@ class WooCommerce extends ShopPlugin
 
         add_action("jankx/ecommerce/loop/before", array($this, 'customizeProductColumns'));
 
-        add_action('jankx/layout/product/loop/start', function ($layout) {
-            if (in_array($layout, array(Carousel::LAYOUT_NAME))) {
+        add_action('jankx/layout/product/loop/start', function ($layout_name, $postLayoutInstance) {
+            if (in_array($layout_name, array(Carousel::LAYOUT_NAME))) {
                 return;
             }
+
+            wc_set_loop_prop('columns', $postLayoutInstance->getOption('columns'));
             woocommerce_product_loop_start();
-        });
+        }, 10, 2);
+
         add_action('jankx/layout/product/loop/end', function ($layout) {
             if (in_array($layout, array(Carousel::LAYOUT_NAME))) {
                 return;
