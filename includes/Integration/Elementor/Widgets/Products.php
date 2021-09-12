@@ -2,13 +2,13 @@
 namespace Jankx\Ecommerce\Integration\Elementor\Widgets;
 
 use Jankx;
-use Elementor\Widget_Base;
+use Jankx\Elementor\WidgetBase;
 use Elementor\Controls_Manager;
 use Jankx\Ecommerce\Base\Renderer\ProductsRenderer;
 use Jankx\PostLayout\PostLayoutManager;
 use Jankx\PostLayout\Layout\Card;
 
-class Products extends Widget_Base
+class Products extends WidgetBase
 {
     public function get_name()
     {
@@ -88,7 +88,7 @@ class Products extends Widget_Base
                 'default' => 'none',
             ]
         );
-        $this->add_control(
+        $this->add_responsive_control(
             'layout',
             [
                 'label' => __('Layout', 'jankx_ecommerce'),
@@ -102,7 +102,7 @@ class Products extends Widget_Base
         );
 
 
-        $this->add_control(
+        $this->add_responsive_control(
             'limit',
             [
                 'label' => __('Number of Products to show', 'jankx_ecommerce'),
@@ -113,14 +113,26 @@ class Products extends Widget_Base
             ]
         );
 
-        $this->add_control(
-            'items_per_row',
+        $this->add_responsive_control(
+            'columns',
             [
-                'label' => __('Number items per row', 'jankx_ecommerce'),
+                'label' => __('Columns', 'jankx_ecommerce'),
                 'type' => Controls_Manager::NUMBER,
                 'max' => 6,
                 'step' => 1,
                 'default' => 4,
+            ]
+        );
+
+
+        $this->add_responsive_control(
+            'rows',
+            [
+                'label' => __('Rows', 'jankx_ecommerce'),
+                'type' => Controls_Manager::NUMBER,
+                'max' => 6,
+                'step' => 1,
+                'default' => 1,
             ]
         );
 
@@ -131,19 +143,22 @@ class Products extends Widget_Base
     {
         $settings = $this->get_settings_for_display();
         $productsModule = new ProductsRenderer(array(
-            'limit' => array_get($settings, 'limit', 10),
-            'items_per_row' => array_get($settings, 'items_per_row', 4),
             'widget_title' => array_get($settings, 'title', 10),
             'categories' => array_get($settings, 'product_categories', array()),
             'tags' => array_get($settings, 'product_tags', array()),
-            'layout' => array_get($settings, 'layout'),
+            'layout' => $this->get_responsive_setting('layout', Card::LAYOUT_NAME),
+            'limit' => $this->get_responsive_setting('limit', 10),
         ));
         if (($url = array_get($settings, 'readmore_url', ''))) {
             $productsModule->setReadMore($url);
         }
         $productsModule->setLayoutOptions(array(
-            'columns' => array_get($settings, 'items_per_row', 4),
+            'columns' => $this->get_responsive_setting('columns', 4),
+            'rows' => $this->get_responsive_setting('rows', 1),
         ));
+
+        // Set Woocommerce loop columns
+        wc_get_loop_prop('columns', $this->get_responsive_setting('columns', 4));
 
         // Render the content
         $productsContent = $productsModule->render(false);

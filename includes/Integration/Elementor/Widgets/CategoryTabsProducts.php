@@ -2,13 +2,13 @@
 namespace Jankx\Ecommerce\Integration\Elementor\Widgets;
 
 use Jankx;
-use Elementor\Widget_Base;
+use Jankx\Elementor\WidgetBase;
 use Elementor\Controls_Manager;
 use Jankx\Ecommerce\Base\Renderer\CategoryTabsProductsRenderer;
 use Jankx\PostLayout\PostLayoutManager;
 use Jankx\PostLayout\Layout\Card;
 
-class CategoryTabsProducts extends Widget_Base
+class CategoryTabsProducts extends WidgetBase
 {
     public function get_name()
     {
@@ -33,7 +33,7 @@ class CategoryTabsProducts extends Widget_Base
         );
     }
 
-    protected function _register_controls()
+    protected function register_controls()
     {
         global $wp_version;
         $args = array(
@@ -132,7 +132,7 @@ class CategoryTabsProducts extends Widget_Base
             ]
         );
 
-        $this->add_control(
+        $this->add_responsive_control(
             'sub_layout',
             [
                 'label' => __('Layout', 'jankx_ecommerce'),
@@ -145,7 +145,7 @@ class CategoryTabsProducts extends Widget_Base
             ]
         );
 
-        $this->add_control(
+        $this->add_responsive_control(
             'limit',
             array(
                 'label' => __('Number of Products', 'jankx_ecommerce'),
@@ -156,8 +156,8 @@ class CategoryTabsProducts extends Widget_Base
             )
         );
 
-        $this->add_control(
-            'posts_per_row',
+        $this->add_responsive_control(
+            'items_per_row',
             array(
                 'label' => __('Columns', 'jankx_ecommerce'),
                 'type' => Controls_Manager::NUMBER,
@@ -167,7 +167,7 @@ class CategoryTabsProducts extends Widget_Base
             )
         );
 
-        $this->add_control(
+        $this->add_responsive_control(
             'rows',
             array(
                 'label' => __('Rows', 'jankx_ecommerce'),
@@ -210,13 +210,14 @@ class CategoryTabsProducts extends Widget_Base
 
         $categoryTabsProducts = new CategoryTabsProductsRenderer($this->makeRendererTabs($categories), $firstTag);
         $categoryTabsProducts->setOptions(array(
-            'limit' => array_get($settings, 'limit', 10),
             'widget_title' => array_get($settings, 'title', 10),
             'first_tab_title' => array_get($settings, 'first_tab_title'),
-            'sub_layout' => array_get($settings, 'sub_layout', Card::LAYOUT_NAME),
+            'sub_layout' => $this->get_responsive_setting('sub_layout', Card::LAYOUT_NAME),
+            'limit' => $this->get_responsive_setting('limit', 10),
         ));
         $categoryTabsProducts->setLayoutOptions([
-            'columns' => array_get($settings, 'posts_per_row', 4),
+            'columns' => $this->get_responsive_setting('items_per_row', 4),
+            'rows' => $this->get_responsive_setting('rows', 4),
         ]);
 
         if (($url = array_get($settings, 'readmore_url', ''))) {
