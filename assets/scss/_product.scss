@@ -15,12 +15,20 @@
 .woocommerce {
     .jankx-post-layout-wrap {
         ul.products {
+            display: flex;
+            width: 100%;
             li.product {
-                margin: 0 0 20px;
+                margin: 0 0 10px;
                 width: auto;
                 float: none;
-                padding-left: 10px;
-                padding-right: 10px;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+
+            &.columns-2 {
+                li.product {
+                    width: 50%;
+                }
             }
         }
     }
@@ -31,17 +39,6 @@
 }
 
 @media(min-width: 480px) {
-    .woocommerce {
-        .jankx-post-layout-wrap {
-            ul.products {
-                display: flex;
-                flex-wrap: wrap;
-                li.product {
-                    width: 50%;
-                }
-            }
-        }
-    }
 }
 
 @media(min-width: 768px) {
@@ -62,6 +59,11 @@
     .woocommerce {
         .jankx-post-layout-wrap {
             ul.products {
+                display: flex;
+                li.product {
+                    padding-left: 10px;
+                    padding-right: 10px;
+                }
                 &.columns-4 {
                     li.product {
                         width: 25%;

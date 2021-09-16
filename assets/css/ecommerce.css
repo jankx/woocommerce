@@ -3,7 +3,7 @@
  * Module Name: Jankx Ecommerce
  * Author: Puleeno Nguyen
  * Author URI: https://puleeno.com
- * Version: 1.0.55
+ * Version: 1.0.01
  */
 .lds-ellipsis {
   display: inline-block;
@@ -141,32 +141,37 @@
   font-size: inherit;
 }
 
+.woocommerce .jankx-post-layout-wrap ul.products {
+  display: flex;
+  width: 100%;
+}
 .woocommerce .jankx-post-layout-wrap ul.products li.product {
-  margin: 0 0 20px;
+  margin: 0 0 10px;
   width: auto;
   float: none;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.woocommerce .jankx-post-layout-wrap ul.products.columns-2 li.product {
+  width: 50%;
 }
 .woocommerce .cart {
   display: flex;
 }
 
-@media (min-width: 480px) {
-  .woocommerce .jankx-post-layout-wrap ul.products {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  .woocommerce .jankx-post-layout-wrap ul.products li.product {
-    width: 50%;
-  }
-}
 @media (min-width: 768px) {
   .woocommerce .jankx-post-layout-wrap ul.products.columns-4 li.product {
     width: 33.3333333333%;
   }
 }
 @media (min-width: 992px) {
+  .woocommerce .jankx-post-layout-wrap ul.products {
+    display: flex;
+  }
+  .woocommerce .jankx-post-layout-wrap ul.products li.product {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
   .woocommerce .jankx-post-layout-wrap ul.products.columns-4 li.product {
     width: 25%;
   }
