@@ -171,10 +171,6 @@ class CategoryTabsProductsRenderer extends RendererBase
         $productLayout->addTabs($this->transformDataTabs2PostLayoutTabs($tabs));
         $productLayout->addChildLayout($layout);
 
-        if ($layout === Carousel::LAYOUT_NAME) {
-            $productLayout->setItemAsSplide();
-        }
-
         return $productLayout->render(false);
     }
 }

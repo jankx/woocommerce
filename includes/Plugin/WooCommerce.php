@@ -312,6 +312,10 @@ class WooCommerce extends ShopPlugin
     {
         $postLayout->setContentGenerator($this->getContentGenerator());
         $postLayout->setContentWrapperTag('ul.products');
+
+        if (is_a($postLayout, Carousel::class)) {
+            $postLayout->setItemAsSplide();
+        }
     }
 
     public function customizeArchiveProductPage($page, $templateEngine, $templateLoader)
