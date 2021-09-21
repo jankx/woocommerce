@@ -153,6 +153,8 @@ class Products extends WidgetBase
             $productsModule->setReadMore($url);
         }
         $productsModule->setLayoutOptions(array(
+            'columns_tablet' => array_get($settings, 'columns_tablet', 2),
+            'columns_mobile' => array_get($settings, 'columns', 1),
             'columns' => $this->get_responsive_setting('columns', 4),
             'rows' => $this->get_responsive_setting('rows', 1),
         ));

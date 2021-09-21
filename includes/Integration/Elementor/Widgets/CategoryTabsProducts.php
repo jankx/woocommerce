@@ -216,6 +216,8 @@ class CategoryTabsProducts extends WidgetBase
             'limit' => $this->get_responsive_setting('limit', 10),
         ));
         $categoryTabsProducts->setLayoutOptions([
+            'columns_mobile' => array_get($settings, 'items_per_row_mobile', 1),
+            'columns_tablet' => array_get($settings, 'items_per_row_tablet', 2),
             'columns' => $this->get_responsive_setting('items_per_row', 4),
             'rows' => $this->get_responsive_setting('rows', 4),
         ]);

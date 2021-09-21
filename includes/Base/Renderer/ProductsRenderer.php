@@ -17,6 +17,7 @@ class ProductsRenderer extends RendererBase
     protected $categoryIds = array();
     protected $readmore = array();
     protected $args;
+    protected $layoutOptions = array();
 
     public function __construct($args = array())
     {
