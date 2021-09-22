@@ -17,6 +17,7 @@
         ul.products {
             display: flex;
             width: 100%;
+            flex-wrap: wrap;
             li.product {
                 margin: 0 0 10px;
                 width: auto;
@@ -59,7 +60,6 @@
     .woocommerce {
         .jankx-post-layout-wrap {
             ul.products {
-                display: flex;
                 li.product {
                     padding-left: 10px;
                     padding-right: 10px;

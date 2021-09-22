@@ -119,7 +119,7 @@ class Ecommerce
     public function registerScripts()
     {
         $deps = array( 'popperjs', 'fslightbox' );
-        if (is_singular($this->shopPlugin->getPostType())) {
+        if (is_singular(array($this->shopPlugin->getPostType(), 'page'))) {
             js('slick', jankx_ecommerce_asset_url('libs/slick/slick/slick.js'), array('jquery'), '1.8.1', true);
             $deps[] = 'slick';
         }
@@ -147,7 +147,7 @@ class Ecommerce
         ->enqueue();
 
         $deps = array();
-        if (is_singular($this->shopPlugin->getPostType())) {
+        if (is_singular(array($this->shopPlugin->getPostType(), 'page'))) {
             css('slick', jankx_ecommerce_asset_url('libs/slick/slick/slick.css'), array(), '1.8.1');
             $deps[] = 'slick';
         }

@@ -3,7 +3,7 @@
  * Module Name: Jankx Ecommerce
  * Author: Puleeno Nguyen
  * Author URI: https://puleeno.com
- * Version: 1.0.01
+ * Version: 1.0.03
  */
 .lds-ellipsis {
   display: inline-block;
@@ -144,6 +144,7 @@
 .woocommerce .jankx-post-layout-wrap ul.products {
   display: flex;
   width: 100%;
+  flex-wrap: wrap;
 }
 .woocommerce .jankx-post-layout-wrap ul.products li.product {
   margin: 0 0 10px;
@@ -165,9 +166,6 @@
   }
 }
 @media (min-width: 992px) {
-  .woocommerce .jankx-post-layout-wrap ul.products {
-    display: flex;
-  }
   .woocommerce .jankx-post-layout-wrap ul.products li.product {
     padding-left: 10px;
     padding-right: 10px;
