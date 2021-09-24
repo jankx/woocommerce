@@ -251,6 +251,9 @@ class WooCommerce extends ShopPlugin
         if (isset($stylesheets['woocommerce-general'])) {
             unset($stylesheets['woocommerce-general']);
         }
+        if (isset($stylesheets['woocommerce-smallscreen'])) {
+            unset($stylesheets['woocommerce-smallscreen']);
+        }
 
         return $stylesheets;
     }
@@ -324,7 +327,7 @@ class WooCommerce extends ShopPlugin
         if (!in_array('archive-product', (array)$templates)) {
             return;
         }
-        $product_page = get_page(wc_get_page_id('shop'));
+        $product_page = get_post(wc_get_page_id('shop'));
         if (!$product_page) {
             return;
         }
