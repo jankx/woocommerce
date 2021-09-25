@@ -119,16 +119,12 @@ class Ecommerce
     public function registerScripts()
     {
         $deps = array( 'popperjs', 'fslightbox' );
-        if (is_singular(array($this->shopPlugin->getPostType(), 'page'))) {
-            js('slick', jankx_ecommerce_asset_url('libs/slick/slick/slick.js'), array('jquery'), '1.8.1', true);
-            $deps[] = 'slick';
-        }
 
         // Register script
         js(
             static::NAME,
             jankx_ecommerce_asset_url('js/ecommerce.js'),
-            $deps,
+            apply_filters('jankx/ecommerce/js/dependences', $deps),
             static::VERSION,
             true
         )->localize(
@@ -147,10 +143,6 @@ class Ecommerce
         ->enqueue();
 
         $deps = array();
-        if (is_singular(array($this->shopPlugin->getPostType(), 'page'))) {
-            css('slick', jankx_ecommerce_asset_url('libs/slick/slick/slick.css'), array(), '1.8.1');
-            $deps[] = 'slick';
-        }
         $styleMetadata = get_file_data(
             sprintf('%s/assets/css/ecommerce.css', dirname(JANKX_ECOMMERCE_FILE_LOADER)),
             array(
@@ -161,7 +153,7 @@ class Ecommerce
         css(
             static::NAME,
             jankx_ecommerce_asset_url('css/ecommerce.css'),
-            $deps,
+            apply_filters('jankx/ecommerce/css/dependences', $deps),
             empty($styleMetadata['version']) ? static::VERSION : $styleMetadata['version']
         )->enqueue();
     }
