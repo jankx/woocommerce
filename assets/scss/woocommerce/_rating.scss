@@ -9,6 +9,7 @@
     line-height: 1;
     font-size: 1em;
     width: 5.4em;
+    letter-spacing: 5px;
 
     &::before {
         float: left;
@@ -73,5 +74,4 @@ p.stars {
             text-indent: 0;
         }
     }
-
 }

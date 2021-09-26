@@ -453,6 +453,7 @@
   line-height: 1;
   font-size: 1em;
   width: 5.4em;
+  letter-spacing: 5px;
 }
 .star-rating::before {
   float: left;
