@@ -15,6 +15,8 @@ class WooCommerce extends ShopPlugin
 
     protected static $disableShopSidebar;
 
+    protected $shopSidebarHook;
+
     public function __construct()
     {
         $this->initHooks();
@@ -132,7 +134,12 @@ class WooCommerce extends ShopPlugin
             remove_action('jankx_template_after_main_content', array($layoutLoader, 'loadSecondarySidebar'), 45);
 
             if ($this->checkSidebarIsActive()) {
-                add_action('jankx_template_after_main_content', array($this, 'createWooCommerceSidebar'), 35);
+                $this->shopSidebarHook = apply_filters(
+                    'jankx/ecommerce/woocommerce/sidebar/hook_loader',
+                    'jankx_template_after_main_content',
+                    $layoutLoader
+                );
+                add_action($this->shopSidebarHook, array($this, 'createWooCommerceSidebar'), 35);
                 add_action('jankx_sidebar_shop_content', array($this, 'renderShopSidebar'));
             }
         }
@@ -161,7 +168,9 @@ class WooCommerce extends ShopPlugin
 
     public function renderShopSidebar()
     {
-        return EcommerceTemplate::render('woocommerce/shop-sidebar');
+        if ($this->shopSidebarHook) {
+            return EcommerceTemplate::render('woocommerce/shop-sidebar');
+        }
     }
 
     public function renderProductContent()
