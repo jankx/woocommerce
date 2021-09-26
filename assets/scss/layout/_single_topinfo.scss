@@ -129,3 +129,14 @@
         }
     }
 }
+
+
+@media(max-width: 767px) {
+    .jankx-ecom-prod-top-layout {
+        &.sidebar-bellow-name {
+            .product-info-above-sidebar {
+                margin-top: 15px;
+            }
+        }
+    }
+}
