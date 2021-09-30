@@ -19,11 +19,11 @@ use Jankx\PostLayout\PostLayoutManager;
 use Jankx\PostLayout\Layout\Card;
 use Jankx\Ecommerce\EcommerceTemplate;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (! defined('ABSPATH')) {
+    exit;
 }
 
-if ( !empty($related_products) ) : ?>
+if (!empty($related_products)) : ?>
     <?php
         $wp_query = new WP_Query();
         $wp_query->set('post_type', 'product');
@@ -44,17 +44,17 @@ if ( !empty($related_products) ) : ?>
         );
         $postLayout->setOptions($args);
     ?>
-	<section class="related products">
+    <section class="related products">
 
-		<?php
-		$heading = apply_filters( 'woocommerce_product_related_products_heading', __( 'Related products', 'woocommerce' ) );
+        <?php
+        $heading = apply_filters('woocommerce_product_related_products_heading', __('Related products', 'woocommerce'));
 
-		if ( $heading ) :
-			?>
-			<h2><?php echo esc_html( $heading ); ?></h2>
-		<?php endif; ?>
+        if ($heading) :
+            ?>
+            <h2><?php echo esc_html($heading); ?></h2>
+        <?php endif; ?>
 
         <?php $postLayout->render(); ?>
-	</section>
-	<?php
+    </section>
+    <?php
 endif;
