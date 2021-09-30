@@ -14,6 +14,9 @@
  * @package WooCommerce\Templates
  * @version 3.4.0
  */
+use Jankx\PostLayout\PostLayoutManager;
+use Jankx\PostLayout\Layout\Card;
+use Jankx\Ecommerce\EcommerceTemplate;
 
 defined('ABSPATH') || exit;
 
@@ -46,24 +49,24 @@ if (woocommerce_product_loop()) {
      */
     do_action('woocommerce_before_shop_loop');
 
-    wc_set_loop_prop( 'columns', apply_filters('jankx_archive_products_columns', 4));
+    global $wp_query;
 
-    woocommerce_product_loop_start();
+    $args = apply_filters('jankx/ecommerce/product/related/layout_args', wp_parse_args($args, array(
+        'layout' => Card::LAYOUT_NAME,
+        'columns' => apply_filters('jankx_archive_products_columns', 4),
+    )));
+    $wp_query->set('post_type', 'product');
 
-    if (wc_get_loop_prop('total')) {
-        while (have_posts()) {
-            the_post();
+    // Get ecommerce template Engine
+    $engine = EcommerceTemplate::getEngine();
+    $wp_query->set('post_type', 'product');
+    $postLayoutManager = PostLayoutManager::getInstance($engine);
+    $postLayout = $postLayoutManager->createLayout(
+        array_get($args, 'layout', Card::LAYOUT_NAME)
+    );
 
-            /**
-             * Hook: woocommerce_shop_loop.
-             */
-            do_action('woocommerce_shop_loop');
-
-            wc_get_template_part('content', 'product');
-        }
-    }
-
-    woocommerce_product_loop_end();
+    $postLayout->setOptions($args);
+    $postLayout->render();
 
     /**
      * Hook: woocommerce_after_shop_loop.
