@@ -206,17 +206,25 @@ class WooCommerce extends ShopPlugin
     public function loadCustomWooCommerceTemplates($template)
     {
         if (strpos($template, sprintf(WP_CONTENT_DIR . '/plugins/woocommerce')) !== false) {
+            $t = null;
             if (is_singular('product')) {
-                return sprintf(
-                    '%s/customize/woocommerce/single-product.php',
-                    constant('JANKX_ECOMMERCE_ROOT_DIR')
-                );
+                $t = 'woocommerce/single-product.php';
             } elseif (is_product_taxonomy()) {
+                $t = 'woocommerce/archive-product.php';
+            }
+            $searchedTemplate = locate_template(array(
+                sprintf('templates/ecommerce/%s', $t),
+                $t
+            ), false);
+
+            if (!$searchedTemplate) {
                 return sprintf(
-                    '%s/customize/woocommerce/archive-product.php',
-                    constant('JANKX_ECOMMERCE_ROOT_DIR')
+                    '%s/customize/%s',
+                    constant('JANKX_ECOMMERCE_ROOT_DIR'),
+                    $t
                 );
             }
+            return $searchedTemplate;
         }
         return $template;
     }
