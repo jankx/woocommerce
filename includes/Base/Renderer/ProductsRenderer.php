@@ -7,7 +7,7 @@ use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Base\GetProductQuery;
 use Jankx\PostLayout\PostLayoutManager;
 use Jankx\PostLayout\Layout\Card;
-use Jankx\TemplateLoader;
+use Jankx\TemplateAndLayout;
 use Jankx\Widget\Renderers\Base as RendererBase;
 
 class ProductsRenderer extends RendererBase
@@ -68,7 +68,7 @@ class ProductsRenderer extends RendererBase
         $wp_query   = $this->buildFirstTabQuery();
         $plugin = jankx_ecommerce()->getShopPlugin();
         $postLayoutManager = PostLayoutManager::getInstance(
-            TemplateLoader::getTemplateEngine()->getId()
+            TemplateAndLayout::getTemplateEngine()->getId()
         );
 
         if (is_null($wp_query)) {

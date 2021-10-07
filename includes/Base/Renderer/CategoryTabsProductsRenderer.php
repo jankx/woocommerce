@@ -1,7 +1,7 @@
 <?php
 namespace Jankx\Ecommerce\Base\Renderer;
 
-use Jankx\TemplateLoader;
+use Jankx\TemplateAndLayout;
 use Jankx\Ecommerce\Ecommerce;
 use Jankx\Ecommerce\EcommerceTemplate;
 use Jankx\Ecommerce\Base\GetProductQuery;
@@ -156,7 +156,7 @@ class CategoryTabsProductsRenderer extends RendererBase
         $tabs = $this->generateTabs();
         $layout = array_get($this->options, 'sub_layout', Card::LAYOUT_NAME);
         $postLayoutManager = PostLayoutManager::getInstance(
-            TemplateLoader::getTemplateEngine()
+            TemplateAndLayout::getTemplateEngine()
                 ->getId()
         );
 
