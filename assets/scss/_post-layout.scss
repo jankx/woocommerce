@@ -27,7 +27,9 @@
     ul.products {
         display: flex;
         width: 100%;
-        flex-wrap: wrap;
+        &:not(.splide__list) {
+            flex-wrap: wrap;
+        }
         &:before, &:after {
             content: none;
             display: block;
