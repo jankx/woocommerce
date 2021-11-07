@@ -145,6 +145,8 @@ class CategoryTabsProducts extends WidgetBase
             ]
         );
 
+        $this->addThumbnailControls();
+
         $this->add_responsive_control(
             'limit',
             array(
@@ -215,11 +217,13 @@ class CategoryTabsProducts extends WidgetBase
             'sub_layout' => $this->get_responsive_setting('sub_layout', Card::LAYOUT_NAME),
             'limit' => $this->get_responsive_setting('limit', 10),
         ));
+
         $categoryTabsProducts->setLayoutOptions([
             'columns_mobile' => array_get($settings, 'items_per_row_mobile', 1),
             'columns_tablet' => array_get($settings, 'items_per_row_tablet', 2),
             'columns' => $this->get_responsive_setting('items_per_row', 4),
             'rows' => $this->get_responsive_setting('rows', 4),
+            'thumbnail_size'  => array_get($settings, 'thumbnail_size', 'medium'),
         ]);
 
         if (($url = array_get($settings, 'readmore_url', ''))) {

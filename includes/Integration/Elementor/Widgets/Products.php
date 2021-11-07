@@ -101,6 +101,8 @@ class Products extends WidgetBase
             ]
         );
 
+        $this->addThumbnailControls();
+
 
         $this->add_responsive_control(
             'limit',
@@ -152,11 +154,13 @@ class Products extends WidgetBase
         if (($url = array_get($settings, 'readmore_url', ''))) {
             $productsModule->setReadMore($url);
         }
+
         $productsModule->setLayoutOptions(array(
             'columns_tablet' => array_get($settings, 'columns_tablet', 2),
             'columns_mobile' => array_get($settings, 'columns', 1),
             'columns' => $this->get_responsive_setting('columns', 4),
             'rows' => $this->get_responsive_setting('rows', 1),
+            'thumbnail_size'  => array_get($settings, 'thumbnail_size', 'medium'),
         ));
 
         // Set Woocommerce loop columns
