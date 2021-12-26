@@ -37,15 +37,23 @@ class ProductAttributes extends WP_Widget
 
     public function widget($args, $instance)
     {
+        ob_start();
+        woocommerce_product_additional_information_tab();
+        $attributes_html = ob_get_clean();
+
+        if (empty($attributes_html)) {
+            return;
+        }
+
         echo $args['before_widget'];
         if (!empty($instance['title'])) {
             $this->customTabTitle = function () use ($instance) {
                 return $instance['title'];
             };
-                add_filter('woocommerce_product_additional_information_heading', $this->customTabTitle);
+            add_filter('woocommerce_product_additional_information_heading', $this->customTabTitle);
         }
 
-            woocommerce_product_additional_information_tab();
+        echo $attributes_html;
 
         if ($this->customTabTitle) {
             remove_filter('woocommerce_product_additional_information_heading', $this->customTabTitle);
