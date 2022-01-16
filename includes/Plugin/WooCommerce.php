@@ -89,7 +89,7 @@ class WooCommerce extends ShopPlugin
         add_action('woocommerce_enqueue_styles', array($this, 'cleanWooCommerceStyleSheets'));
         add_filter('jankx_ecommerce_localize_object_data', array($this, 'registerGlobalVars'));
 
-        add_action('jankx_prepare_render_template', array($this, 'customizeArchiveProductPage'), 10, 3);
+        add_action('jankx_prepare_render_template', array($this, 'customizeArchiveProductPage'), 10, 4);
     }
 
     public function registerShopSidebars()
@@ -338,7 +338,7 @@ class WooCommerce extends ShopPlugin
         }
     }
 
-    public function customizeArchiveProductPage($page, $templateEngine, $templateLoader)
+    public function customizeArchiveProductPage($page, $templateEngine, $templates, $templateLoader)
     {
         $templates = $page->getTemplates();
         if (!in_array('archive-product', (array)$templates)) {
