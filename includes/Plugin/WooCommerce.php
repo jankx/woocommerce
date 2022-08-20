@@ -89,7 +89,7 @@ class WooCommerce extends ShopPlugin
         add_action('woocommerce_enqueue_styles', array($this, 'cleanWooCommerceStyleSheets'));
         add_filter('jankx_ecommerce_localize_object_data', array($this, 'registerGlobalVars'));
 
-        add_action('jankx_prepare_render_template', array($this, 'customizeArchiveProductPage'), 10, 4);
+        add_action('jankx/template/renderer/pre', array($this, 'customizeArchiveProductPage'), 10, 4);
     }
 
     public function registerShopSidebars()
