@@ -7,7 +7,7 @@ class MenuItems
 
     public function register()
     {
-        add_filter('jankx_site_layout_menu_items', array($this, 'registerEcommerceItems'));
+        add_filter('jankx/layout/site/menu/itemtypes', array($this, 'registerEcommerceItems'));
         add_filter('jankx_site_layout_nav_item_callback', array($this, 'customMenuItemCallable'), 10, 2);
 
         add_filter('jankx_site_layout_cart_icon_menu_item', array($this, 'cartIconItem'), 10, 2);
