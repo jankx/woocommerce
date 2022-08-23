@@ -212,19 +212,22 @@ class WooCommerce extends ShopPlugin
             } elseif (is_product_taxonomy()) {
                 $t = 'woocommerce/archive-product.php';
             }
-            $searchedTemplate = locate_template(array(
-                sprintf('templates/ecommerce/%s', $t),
-                $t
-            ), false);
 
-            if (!$searchedTemplate) {
-                return sprintf(
-                    '%s/customize/%s',
-                    constant('JANKX_ECOMMERCE_ROOT_DIR'),
+            if (!is_null($t)) {
+                $searchedTemplate = locate_template(array(
+                    sprintf('templates/ecommerce/%s', $t),
                     $t
-                );
+                ), false);
+
+                if (!$searchedTemplate) {
+                    return sprintf(
+                        '%s/customize/%s',
+                        constant('JANKX_ECOMMERCE_ROOT_DIR'),
+                        $t
+                    );
+                }
+                return $searchedTemplate;
             }
-            return $searchedTemplate;
         }
         return $template;
     }
