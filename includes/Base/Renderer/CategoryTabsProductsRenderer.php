@@ -168,7 +168,7 @@ class CategoryTabsProductsRenderer extends RendererBase
         );
         $productLayout->setOptions($this->layoutOptions);
 
-        $productLayout->addTabs($this->transformDataTabs2PostLayoutTabs($tabs));
+        $productLayout->setTabs($this->transformDataTabs2PostLayoutTabs($tabs));
         $productLayout->addChildLayout($layout);
 
         return $productLayout->render(false);

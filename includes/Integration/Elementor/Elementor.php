@@ -9,7 +9,7 @@ class Elementor
     public function __construct()
     {
         add_action(
-            'elementor/widgets/widgets_registered',
+            'elementor/widgets/register',
             array($this, 'registerWidgets')
         );
         if (! empty($_REQUEST['action']) && 'elementor' === $_REQUEST['action'] && is_admin()) {
