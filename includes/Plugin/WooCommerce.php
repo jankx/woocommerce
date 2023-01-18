@@ -74,7 +74,7 @@ class WooCommerce extends ShopPlugin
 
     public function init()
     {
-        add_action('jankx_template_build_site_layout', array($this, 'customShopLayout'));
+        add_action('jankx/template/site/layout', array($this, 'customShopLayout'));
         add_action('jankx_template_page_single_product', array($this, 'renderProductContent'));
         add_action('jankx_template_default_site_layout', array($this, 'changeDefaultSiteLayout'));
 
@@ -363,6 +363,7 @@ class WooCommerce extends ShopPlugin
         $wp_query->post_count = 1;
 
         $templateLoader->setTemplateFile(false);
+
         $page->setTemplates($templateLoader->get_page_templates());
     }
 }
