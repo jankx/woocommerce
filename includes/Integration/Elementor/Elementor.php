@@ -3,6 +3,7 @@ namespace Jankx\Ecommerce\Integration\Elementor;
 
 use Jankx\Ecommerce\Integration\Elementor\Widgets\CategoryTabsProducts;
 use Jankx\Ecommerce\Integration\Elementor\Widgets\Products;
+use Jankx\Elementor\Compatibles\ElementorCompatible;
 
 class Elementor
 {
@@ -25,8 +26,8 @@ class Elementor
      */
     public function registerWidgets($widgets_manager)
     {
-        $widgets_manager->register_widget_type(new CategoryTabsProducts());
-        $widgets_manager->register_widget_type(new Products());
+        ElementorCompatible::registerWidget($widgets_manager, new CategoryTabsProducts());
+        ElementorCompatible::registerWidget($widgets_manager, new Products());
     }
 
     public function registerWooCommerceFrontend()
