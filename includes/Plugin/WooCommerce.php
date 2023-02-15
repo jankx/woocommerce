@@ -334,11 +334,7 @@ class WooCommerce extends ShopPlugin
     public function setContentWrapperTagForPostLayout($layoutName, $postLayout)
     {
         $postLayout->setContentGenerator($this->getContentGenerator());
-        $postLayout->setContentWrapperTag('ul.products');
-
-        if (is_a($postLayout, Carousel::class)) {
-            $postLayout->setItemAsSplide();
-        }
+        $postLayout->setContentWrapperTag('ul.product-list');
     }
 
     public function customizeArchiveProductPage($page, $templateFile, $templateEngine, $templates, $templateLoader)
