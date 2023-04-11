@@ -155,18 +155,33 @@ class CategoryTabsProductsRenderer extends RendererBase
 
         $tabs = $this->generateTabs();
         $layout = array_get($this->options, 'sub_layout', Card::LAYOUT_NAME);
+        /**
+         * @var \Jankx\PostLayout\PostLayoutManager
+         */
         $postLayoutManager = PostLayoutManager::getInstance(
             TemplateAndLayout::getTemplateEngine()
                 ->getId()
         );
 
+        if (is_null($postLayoutManager)) {
+            return;
+        }
+
         do_action("jankx/ecommerce/loop/before", $this->options);
 
+        /**
+         * @var \Jankx\PostLayout\Layout\Tabs
+         */
         $productLayout = $postLayoutManager->createLayout(
             Tabs::LAYOUT_NAME,
             $this->buildFirstTabQuery()
         );
-        $productLayout->setOptions($this->layoutOptions);
+        $productLayout->setOptions(array_merge(
+            [
+                'wrap_tag_name' => 'ul',
+            ],
+            $this->layoutOptions
+        ));
 
         $productLayout->setTabs($this->transformDataTabs2PostLayoutTabs($tabs));
         $productLayout->addChildLayout($layout);
