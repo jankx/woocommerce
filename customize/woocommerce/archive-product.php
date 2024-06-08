@@ -51,7 +51,7 @@ if (woocommerce_product_loop()) {
 
     global $wp_query;
 
-    $args = apply_filters('jankx/ecommerce/product/related/layout_args', wp_parse_args($args, array(
+    $args = wp_parse_args(apply_filters('jankx/ecommerce/product/related/layout_args', array(
         'layout' => Card::LAYOUT_NAME,
         'columns' => apply_filters('jankx_archive_products_columns', 4),
     )));
