@@ -31,7 +31,7 @@ class ProductInfoTopWithSidebar
         add_filter('body_class', array($this, 'createBodyClass'));
 
         // Render to frontend
-        add_action('jankx_template_after_header', array($this, 'createTopProductInfo'), 20);
+        add_action('jankx/template/header/after', array($this, 'createTopProductInfo'), 20);
 
         add_action('template_redirect', array($this, 'remove_woocommerce_template_single_contents'), 15);
         add_action('template_redirect', array($this, 'load_single_product_layout'), 20);
@@ -114,8 +114,8 @@ class ProductInfoTopWithSidebar
 
 
 
-        add_action('jankx_template_main_content_sidebar_end', 'woocommerce_upsell_display', 15);
-        add_action('jankx_template_main_content_sidebar_end', 'woocommerce_output_related_products', 20);
+        add_action('jankx/template/main_content_sidebar/end', 'woocommerce_upsell_display', 15);
+        add_action('jankx/template/main_content_sidebar/end', 'woocommerce_output_related_products', 20);
     }
 
     public function removeTabsProductInfo($tabs)

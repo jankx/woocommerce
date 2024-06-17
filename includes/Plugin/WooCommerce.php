@@ -76,7 +76,7 @@ class WooCommerce extends ShopPlugin
     {
         add_action('jankx/template/site/layout', array($this, 'customShopLayout'));
         add_action('jankx_template_page_single_product', array($this, 'renderProductContent'));
-        add_action('jankx_template_default_site_layout', array($this, 'changeDefaultSiteLayout'));
+        add_action('jankx/site/layout/default', array($this, 'changeDefaultSiteLayout'));
 
         // Custom WooCommercce templates
         add_filter('wc_get_template', array($this, 'changeWooCommerceTemplates'), 10, 5);
@@ -130,13 +130,13 @@ class WooCommerce extends ShopPlugin
             remove_action('woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10);
             remove_action('woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10);
 
-            remove_action('jankx_template_after_main_content', 'get_sidebar', 35);
-            remove_action('jankx_template_after_main_content', array($layoutLoader, 'loadSecondarySidebar'), 45);
+            remove_action('jankx/template/main_content/after', 'get_sidebar', 35);
+            remove_action('jankx/template/main_content/after', array($layoutLoader, 'loadSecondarySidebar'), 45);
 
             if ($this->checkSidebarIsActive()) {
                 $this->shopSidebarHook = apply_filters(
                     'jankx/ecommerce/woocommerce/sidebar/hook_loader',
-                    'jankx_template_after_main_content',
+                    'jankx/template/main_content/after',
                     $layoutLoader
                 );
                 add_action($this->shopSidebarHook, array($this, 'createWooCommerceSidebar'), 35);
@@ -239,8 +239,8 @@ class WooCommerce extends ShopPlugin
             remove_action('woocommerce_before_main_content', 'woocommerce_output_content_wrapper');
             remove_action('woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end');
 
-            add_action('jankx_template_after_header', array($this, 'before_main_content_sidebar'), 16);
-            add_action('jankx_template_after_main_content_sidebar', array($this, 'after_main_content_sidebar'));
+            add_action('jankx/template/header/after', array($this, 'before_main_content_sidebar'), 16);
+            add_action('jankx/template/main_content/after_sidebar', array($this, 'after_main_content_sidebar'));
 
             // Added WooCommerce before main content block
             add_action('woocommerce_before_main_content', 'jankx_open_container', 15);
