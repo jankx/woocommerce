@@ -24,6 +24,9 @@ class Ecommerce
     protected $detecter;
     protected $shopPlugin;
     protected $pluginName;
+
+    protected $ecommerceMenu;
+
     protected $menu;
 
     public static function instance()
