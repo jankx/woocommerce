@@ -127,7 +127,7 @@ class Ecommerce
         js(
             static::NAME,
             jankx_ecommerce_asset_url('js/ecommerce.js'),
-            apply_filters('jankx/ecommerce/js/dependences', $deps),
+            apply_filters('jankx/woocommerce/js/dependences', $deps),
             static::VERSION,
             true
         )->localize(
@@ -156,7 +156,7 @@ class Ecommerce
         css(
             static::NAME,
             jankx_ecommerce_asset_url('css/ecommerce.css'),
-            apply_filters('jankx/ecommerce/css/dependences', $deps),
+            apply_filters('jankx/woocommerce/css/dependences', $deps),
             empty($styleMetadata['version']) ? static::VERSION : $styleMetadata['version']
         )->enqueue();
     }

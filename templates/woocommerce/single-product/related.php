@@ -30,7 +30,7 @@ if (!empty($related_products)) : ?>
         $wp_query->posts = $related_products;
         $wp_query->post_count = count($related_products);
 
-        $args = apply_filters('jankx/ecommerce/product/related/layout_args', wp_parse_args($args, array(
+        $args = apply_filters('jankx/woocommerce/product/related/layout_args', wp_parse_args($args, array(
             'layout' => Card::LAYOUT_NAME,
             'columns' => 4,
         )));

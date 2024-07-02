@@ -1,17 +1,17 @@
 <div id="jankx-ecommerce-top-prod-info">
     <?php jankx_open_container(); ?>
 
-    <?php do_action('jankx/ecommerce/single/product/layout/top_info/before'); ?>
+    <?php do_action('jankx/woocommerce/single/product/layout/top_info/before'); ?>
 
     <?php if ($has_sidebar) : ?>
         <div class="info-with-sidebar-wrap">
             <div class="product-top-info">
                 <div class="product-image-wrap">
-                    <?php do_action('jankx/ecommerce/single/product/layout/top_info/image'); ?>
+                    <?php do_action('jankx/woocommerce/single/product/layout/top_info/image'); ?>
                 </div>
 
                 <div class="main-product-info">
-                    <?php do_action('jankx/ecommerce/single/product/layout/top_info/main'); ?>
+                    <?php do_action('jankx/woocommerce/single/product/layout/top_info/main'); ?>
                 </div>
             </div>
             <div class="sidebar top-info-sidebar">
@@ -21,11 +21,11 @@
     <?php else : ?>
         <div class="product-top-info">
             <div class="product-image-wrap">
-                <?php do_action('jankx/ecommerce/single/product/layout/top_info/image'); ?>
+                <?php do_action('jankx/woocommerce/single/product/layout/top_info/image'); ?>
             </div>
 
             <div class="main-product-info">
-                <?php do_action('jankx/ecommerce/single/product/layout/top_info/main'); ?>
+                <?php do_action('jankx/woocommerce/single/product/layout/top_info/main'); ?>
             </div>
         </div>
     <?php endif; ?>

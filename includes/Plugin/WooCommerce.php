@@ -51,7 +51,7 @@ class WooCommerce extends ShopPlugin
 
         add_action('wp', array($this, 'init'));
 
-        add_action("jankx/ecommerce/loop/before", array($this, 'customizeProductColumns'));
+        add_action("jankx/woocommerce/loop/before", array($this, 'customizeProductColumns'));
 
         add_action('jankx/layout/product/loop/start', function ($layout_name, $postLayoutInstance) {
             if (in_array($layout_name, array(Carousel::LAYOUT_NAME))) {
@@ -135,7 +135,7 @@ class WooCommerce extends ShopPlugin
 
             if ($this->checkSidebarIsActive()) {
                 $this->shopSidebarHook = apply_filters(
-                    'jankx/ecommerce/woocommerce/sidebar/hook_loader',
+                    'jankx/woocommerce/woocommerce/sidebar/hook_loader',
                     'jankx/template/main_content/after',
                     $layoutLoader
                 );

@@ -24,7 +24,7 @@ class ProductInfoTopWithSidebar
             return;
         }
         $this->topLayoutSidebarActive = apply_filters(
-            'jankx/ecommerce/single/product/layout/top_info/sidebar/enable',
+            'jankx/woocommerce/single/product/layout/top_info/sidebar/enable',
             $this->topLayoutSidebarActive
         );
 
@@ -37,12 +37,12 @@ class ProductInfoTopWithSidebar
         add_action('template_redirect', array($this, 'load_single_product_layout'), 20);
 
         remove_action('woocommerce_before_single_product', 'woocommerce_output_all_notices', 10);
-        add_action('jankx/ecommerce/single/product/layout/top_info/before', 'woocommerce_output_all_notices');
+        add_action('jankx/woocommerce/single/product/layout/top_info/before', 'woocommerce_output_all_notices');
 
         add_filter('woocommerce_output_related_products_args', array($this, 'change_related_product_columns'));
 
         // Layout is loaded
-        do_action('jankx/ecommerce/single/product/layout/top_info/loaded', $this);
+        do_action('jankx/woocommerce/single/product/layout/top_info/loaded', $this);
     }
 
     public function createTopProductInfo()
@@ -103,14 +103,14 @@ class ProductInfoTopWithSidebar
         add_action('woocommerce_single_product_summary', 'woocommerce_output_product_data_tabs', 10);
         add_action('woocommerce_after_single_product', 'woocommerce_template_single_sharing', 20);
 
-        add_action('jankx/ecommerce/single/product/layout/top_info/image', 'woocommerce_show_product_sale_flash', 10);
-        add_action('jankx/ecommerce/single/product/layout/top_info/image', 'woocommerce_show_product_images', 5);
+        add_action('jankx/woocommerce/single/product/layout/top_info/image', 'woocommerce_show_product_sale_flash', 10);
+        add_action('jankx/woocommerce/single/product/layout/top_info/image', 'woocommerce_show_product_images', 5);
 
-        add_action('jankx/ecommerce/single/product/layout/top_info/main', 'woocommerce_template_single_title', 10);
-        add_action('jankx/ecommerce/single/product/layout/top_info/main', 'woocommerce_template_single_meta', 20);
-        add_action('jankx/ecommerce/single/product/layout/top_info/main', 'woocommerce_template_single_rating', 30);
-        add_action('jankx/ecommerce/single/product/layout/top_info/main', 'woocommerce_template_single_price', 40);
-        add_action('jankx/ecommerce/single/product/layout/top_info/main', 'woocommerce_template_single_add_to_cart', 50);
+        add_action('jankx/woocommerce/single/product/layout/top_info/main', 'woocommerce_template_single_title', 10);
+        add_action('jankx/woocommerce/single/product/layout/top_info/main', 'woocommerce_template_single_meta', 20);
+        add_action('jankx/woocommerce/single/product/layout/top_info/main', 'woocommerce_template_single_rating', 30);
+        add_action('jankx/woocommerce/single/product/layout/top_info/main', 'woocommerce_template_single_price', 40);
+        add_action('jankx/woocommerce/single/product/layout/top_info/main', 'woocommerce_template_single_add_to_cart', 50);
 
 
 

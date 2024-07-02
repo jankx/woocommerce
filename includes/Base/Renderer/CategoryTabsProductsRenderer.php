@@ -167,7 +167,7 @@ class CategoryTabsProductsRenderer extends RendererBase
             return;
         }
 
-        do_action("jankx/ecommerce/loop/before", $this->options);
+        do_action("jankx/woocommerce/loop/before", $this->options);
 
         /**
          * @var \Jankx\PostLayout\Layout\Tabs

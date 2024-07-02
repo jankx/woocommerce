@@ -75,7 +75,7 @@ class ProductsRenderer extends RendererBase
             return __('The products not found', 'jankx');
         }
 
-        do_action("jankx/ecommerce/loop/before", $this->args);
+        do_action("jankx/woocommerce/loop/before", $this->args);
 
         $layout = array_get($this->args, 'layout', Card::LAYOUT_NAME);
         $postLayout = $postLayoutManager->createLayout($layout, $wp_query);
@@ -84,6 +84,10 @@ class ProductsRenderer extends RendererBase
         $postLayout->setContentGenerator(
             $plugin->getContentGenerator()
         );
-        return $postLayout->render(false);
+        $content = $postLayout->render(false);
+
+        do_action("jankx/woocommerce/loop/end", $content, $this->args);
+
+        return $content;
     }
 }

@@ -26,9 +26,9 @@ class ProductInfoTopWithSidebarBellowName extends ProductInfoTopWithSidebar
     {
         parent::load_single_product_layout();
 
-        add_action('jankx/ecommerce/single/product/layout/top_info/main', array($this, 'createBlockSidebarWrap'), 32);
-        add_action('jankx/ecommerce/single/product/layout/top_info/before_sidebar', array($this, 'endTagProductInfoAboveSidebar'));
-        add_action('jankx/ecommerce/single/product/layout/top_info/after_sidebar', array($this, 'endTagProductInfoSidebarWrap'));
+        add_action('jankx/woocommerce/single/product/layout/top_info/main', array($this, 'createBlockSidebarWrap'), 32);
+        add_action('jankx/woocommerce/single/product/layout/top_info/before_sidebar', array($this, 'endTagProductInfoAboveSidebar'));
+        add_action('jankx/woocommerce/single/product/layout/top_info/after_sidebar', array($this, 'endTagProductInfoSidebarWrap'));
     }
 
     public function createBlockSidebarWrap()
