@@ -30,6 +30,7 @@ class CartButton extends Component
             'text' => null,
             'cart_url' => static::$shopPlugin->getCartUrl(),
             'preview' => false,
+            'icon' => '<span class="dashicons-cart"></span>',
             'preview_content' => 'components/cart/cart_preview',
         ));
     }
