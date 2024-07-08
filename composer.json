@@ -1,5 +1,5 @@
 {
-    "name": "jankx/ecommerce",
+    "name": "jankx/woocommerce",
     "description": "Integrate ecommerce plugins with Jankx theme framework",
     "type": "library",
     "license": "MIT",
