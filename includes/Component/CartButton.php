@@ -1,5 +1,5 @@
 <?php
-namespace Jankx\WooCommerce\Base\Component;
+namespace Jankx\WooCommerce\Component;
 
 use WC_Cart;
 use WC_Session_Handler;

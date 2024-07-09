@@ -1,11 +1,11 @@
 <?php
-namespace Jankx\WooCommerce\Base\Renderer;
+namespace Jankx\WooCommerce\Renderer;
 
 use Jankx\TemplateAndLayout;
 use Jankx\WooCommerce\WooCommerce;
 use Jankx\WooCommerce\WooCommerceTemplate;
-use Jankx\WooCommerce\Base\GetProductQuery;
-use Jankx\WooCommerce\Base\TemplateManager;
+use Jankx\WooCommerce\GetProductQuery;
+use Jankx\WooCommerce\TemplateManager;
 use Jankx\PostLayout\PostLayoutManager;
 use Jankx\PostLayout\Layout\Card;
 use Jankx\PostLayout\Layout\Tabs;

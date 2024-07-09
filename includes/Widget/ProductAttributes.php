@@ -1,5 +1,5 @@
 <?php
-namespace Jankx\WooCommerce\Base\Widget;
+namespace Jankx\WooCommerce\Widget;
 
 use WP_Widget;
 use Jankx;

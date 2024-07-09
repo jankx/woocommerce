@@ -2,12 +2,12 @@
 namespace Jankx\WooCommerce;
 
 use Jankx\WooCommerce\Customize as WooCommercePlugin;
-use Jankx\WooCommerce\Base\Component\CartButton;
+use Jankx\WooCommerce\Component\CartButton;
 use Jankx\WooCommerce\Integration\Plugin;
-use Jankx\WooCommerce\Base\MenuItems;
-use Jankx\WooCommerce\Base\Rest\RestManager;
-use Jankx\WooCommerce\Base\Layouts\ProductInfoTopWithSidebar;
-use Jankx\WooCommerce\Base\Layouts\ProductInfoTopWithSidebarBellowName;
+use Jankx\WooCommerce\MenuItems;
+use Jankx\WooCommerce\Rest\RestManager;
+use Jankx\WooCommerce\Layouts\ProductInfoTopWithSidebar;
+use Jankx\WooCommerce\Layouts\ProductInfoTopWithSidebarBellowName;
 use Jankx\PostLayout\PostLayoutManager;
 use Jankx\WooCommerce\WooCommerceTemplate;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Jankx\WooCommerce\Base\Renderer;
+namespace Jankx\WooCommerce\Renderer;
 
 use WP_Query;
 use Jankx\WooCommerce\Constracts\Renderer;

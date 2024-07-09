@@ -1,5 +1,5 @@
 <?php
-namespace Jankx\WooCommerce\Base;
+namespace Jankx\WooCommerce;
 
 use WC_Product_Simple;
 use Jankx\WooCommerce\WooCommerceTemplate;

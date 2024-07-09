@@ -2,7 +2,7 @@
 namespace Jankx\ECommerce\Base\Rest;
 
 use WP_Rest_Request;
-use Jankx\WooCommerce\Base\GetProductQuery;
+use Jankx\WooCommerce\GetProductQuery;
 use Jankx\WooCommerce\WooCommerce;
 
 class Products extends WP_Rest_Request

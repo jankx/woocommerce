@@ -1,11 +1,11 @@
 <?php
-namespace Jankx\WooCommerce\Base\Layouts;
+namespace Jankx\WooCommerce\Layouts;
 
 use Jankx\WooCommerce\WooCommerceTemplate;
 use Jankx\WooCommerce\WooCommerce;
-use Jankx\WooCommerce\Base\Renderer\ViewedProductsRenderer;
-use Jankx\WooCommerce\Base\Renderer\SimilarPriceProductsRenderer;
-use Jankx\WooCommerce\Base\Widget\ProductAttributes;
+use Jankx\WooCommerce\Renderer\ViewedProductsRenderer;
+use Jankx\WooCommerce\Renderer\SimilarPriceProductsRenderer;
+use Jankx\WooCommerce\Widget\ProductAttributes;
 
 class ProductInfoTopWithSidebar
 {

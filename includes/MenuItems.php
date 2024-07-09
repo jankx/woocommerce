@@ -1,5 +1,5 @@
 <?php
-namespace Jankx\WooCommerce\Base;
+namespace Jankx\WooCommerce;
 
 class MenuItems
 {

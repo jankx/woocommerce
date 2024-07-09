@@ -4,7 +4,7 @@ namespace Jankx\WooCommerce\Integration\Elementor\Widgets;
 use Jankx;
 use Jankx\Elementor\WidgetBase;
 use Elementor\Controls_Manager;
-use Jankx\WooCommerce\Base\Renderer\ProductsRenderer;
+use Jankx\WooCommerce\Renderer\ProductsRenderer;
 use Jankx\PostLayout\PostLayoutManager;
 use Jankx\PostLayout\Layout\Card;
 

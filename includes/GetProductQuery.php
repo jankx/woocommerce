@@ -1,5 +1,5 @@
 <?php
-namespace Jankx\WooCommerce\Base;
+namespace Jankx\WooCommerce;
 
 use WP_Query;
 use WooCommerce;
@@ -16,7 +16,7 @@ class GetProductQuery extends QueryBuilder
      * Set query type
      *
      * @param string $type the type of Query
-     * @return \Jankx\WooCommerce\Base\GetProductQuery
+     * @return \Jankx\WooCommerce\GetProductQuery
      */
     public function setQueryType($type = 'recents')
     {
