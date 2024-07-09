@@ -1,5 +1,5 @@
 <?php
-namespace Jankx\ECommerce\Base\Rest;
+namespace Jankx\Woocommerce\Rest;
 
 use WP_Rest_Request;
 use Jankx\WooCommerce\GetProductQuery;

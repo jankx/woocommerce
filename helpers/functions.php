@@ -1,4 +1,6 @@
 <?php
+
+use Jankx\GlobalConfigs;
 use Jankx\WooCommerce\WooCommerceTemplate;
 
 function jankx_woocommerce_template()
@@ -14,7 +16,10 @@ function jankx_woocommerce_template()
 
 function jankx_woocommerce_single_product_layout()
 {
-    $layout = apply_filters('jankx_woocommerce_single_product_layout', null);
+    $layout = apply_filters(
+        'jankx/woocommerce/product/detail/layout',
+        GlobalConfigs::get('store.detail.layout', 'top-product-info-with-summary-sidebar')
+    );
     if ($layout) {
         return $layout;
     }
