@@ -1,13 +1,13 @@
 <?php
-namespace Jankx\WooCommerce\Plugin;
+namespace Jankx\WooCommerce;
 
 use Jankx\SiteLayout\SiteLayout;
-use Jankx\WooCommerce\Abstracts\ShopPlugin;
+use Jankx\WooCommerce\Abstracts\BaseCustomize;
 use Jankx\WooCommerce\WooCommerceTemplate;
 use Jankx\WooCommerce\Traits\WooCommerceData;
 use Jankx\PostLayout\Layout\Carousel;
 
-class WooCommerce extends ShopPlugin
+class Customize extends BaseCustomize
 {
     use WooCommerceData;
 

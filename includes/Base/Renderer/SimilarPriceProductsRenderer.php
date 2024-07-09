@@ -6,7 +6,7 @@ use WP_Query;
 use Jankx\WooCommerce\Constracts\Renderer;
 use Jankx\WooCommerce\WooCommerce;
 use Jankx\WooCommerce\WooCommerceTemplate;
-use Jankx\WooCommerce\Plugin\WooCommerce;
+use Jankx\WooCommerce\Customize;
 use Jankx\Widget\Renderers\Base as RendererBase;
 
 class SimilarPriceProductsRenderer extends RendererBase
@@ -14,7 +14,7 @@ class SimilarPriceProductsRenderer extends RendererBase
     public function render()
     {
         $pluginName = WooCommerce::instance()->getShopPlugin()->getName();
-        if ($pluginName === WooCommerce::PLUGIN_NAME) {
+        if ($pluginName === Customize::PLUGIN_NAME) {
             return $this->getWooCommerceViewedProducts();
         }
     }

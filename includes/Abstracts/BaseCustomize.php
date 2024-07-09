@@ -1,9 +1,9 @@
 <?php
 namespace Jankx\WooCommerce\Abstracts;
 
-use Jankx\WooCommerce\Constracts\ShopPlugin as ShopPluginConstract;
+use Jankx\WooCommerce\Constracts\CustomizeInterface;
 
-abstract class ShopPlugin implements ShopPluginConstract
+abstract class BaseCustomize implements CustomizeInterface
 {
     public function getContentGenerator()
     {

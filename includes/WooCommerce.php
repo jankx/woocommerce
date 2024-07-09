@@ -1,7 +1,7 @@
 <?php
 namespace Jankx\WooCommerce;
 
-use Jankx\WooCommerce\Plugin\WooCommerce as WooCommercePlugin;
+use Jankx\WooCommerce\Customize as WooCommercePlugin;
 use Jankx\WooCommerce\Base\Component\CartButton;
 use Jankx\WooCommerce\Integration\Plugin;
 use Jankx\WooCommerce\Base\MenuItems;

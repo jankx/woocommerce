@@ -1,7 +1,7 @@
 <?php
 namespace Jankx\WooCommerce\Constracts;
 
-interface ShopPlugin
+interface CustomizeInterface
 {
     public function getName();
 

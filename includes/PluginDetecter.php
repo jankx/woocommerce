@@ -1,7 +1,7 @@
 <?php
 namespace Jankx\WooCommerce;
 
-use Jankx\WooCommerce\Plugin\WooCommerce;
+use Jankx\WooCommerce\Customize;
 
 class PluginDetecter
 {
@@ -11,7 +11,7 @@ class PluginDetecter
     public function __construct()
     {
         $defaultRules = array(
-            WooCommerce::PLUGIN_NAME => array(
+            Customize::PLUGIN_NAME => array(
                 'classes' => array(
                     'WooCommerce',
                     'WC_Product',
