@@ -1,7 +1,7 @@
 <?php
 namespace Jankx\WooCommerce;
 
-use Jankx\WooCommerce\Plugin\WooCommerce;
+use Jankx\WooCommerce\Plugin\WooCommerce as WooCommercePlugin;
 use Jankx\WooCommerce\Base\Component\CartButton;
 use Jankx\WooCommerce\Integration\Plugin;
 use Jankx\WooCommerce\Base\MenuItems;
@@ -40,7 +40,7 @@ class WooCommerce
     private function __construct()
     {
         static::$supportPlugins = array(
-            WooCommerce::PLUGIN_NAME => WooCommerce::class,
+            WooCommercePlugin::PLUGIN_NAME => WooCommercePlugin::class,
         );
         $this->bootstrap();
         $this->loadHelpers();
