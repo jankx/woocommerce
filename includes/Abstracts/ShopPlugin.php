@@ -1,7 +1,7 @@
 <?php
-namespace Jankx\Ecommerce\Abstracts;
+namespace Jankx\WooCommerce\Abstracts;
 
-use Jankx\Ecommerce\Constracts\ShopPlugin as ShopPluginConstract;
+use Jankx\WooCommerce\Constracts\ShopPlugin as ShopPluginConstract;
 
 abstract class ShopPlugin implements ShopPluginConstract
 {

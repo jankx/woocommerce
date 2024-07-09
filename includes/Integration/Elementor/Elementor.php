@@ -1,8 +1,8 @@
 <?php
-namespace Jankx\Ecommerce\Integration\Elementor;
+namespace Jankx\WooCommerce\Integration\Elementor;
 
-use Jankx\Ecommerce\Integration\Elementor\Widgets\CategoryTabsProducts;
-use Jankx\Ecommerce\Integration\Elementor\Widgets\Products;
+use Jankx\WooCommerce\Integration\Elementor\Widgets\CategoryTabsProducts;
+use Jankx\WooCommerce\Integration\Elementor\Widgets\Products;
 use Jankx\Elementor\Compatibles\ElementorCompatible;
 
 class Elementor

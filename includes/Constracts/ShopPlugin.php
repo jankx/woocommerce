@@ -1,5 +1,5 @@
 <?php
-namespace Jankx\Ecommerce\Constracts;
+namespace Jankx\WooCommerce\Constracts;
 
 interface ShopPlugin
 {

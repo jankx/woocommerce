@@ -1,7 +1,7 @@
 <?php
-namespace Jankx\Ecommerce;
+namespace Jankx\WooCommerce;
 
-use Jankx\Ecommerce\Plugin\WooCommerce;
+use Jankx\WooCommerce\Plugin\WooCommerce;
 
 class PluginDetecter
 {
@@ -22,7 +22,7 @@ class PluginDetecter
                 ),
             )
         );
-        $this->detectPluginRules = apply_filters('jankx_ecommerce_detect_plugin_rules', $defaultRules);
+        $this->detectPluginRules = apply_filters('jankx_woocommerce_detect_plugin_rules', $defaultRules);
     }
 
     public function getECommercePlugin()

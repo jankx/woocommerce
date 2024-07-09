@@ -1,7 +1,7 @@
 <?php
-namespace Jankx\Ecommerce\Integration;
+namespace Jankx\WooCommerce\Integration;
 
-use Jankx\Ecommerce\Integration\Elementor\Elementor;
+use Jankx\WooCommerce\Integration\Elementor\Elementor;
 
 class Plugin
 {
@@ -35,7 +35,7 @@ class Plugin
     public function getIntegratedPlugins()
     {
         return apply_filters(
-            'jankx_ecommerce_plugin_integrations',
+            'jankx_woocommerce_plugin_integrations',
             $this->integratedPlugins
         );
     }

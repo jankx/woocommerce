@@ -1,11 +1,11 @@
 <?php
-namespace Jankx\Ecommerce\Base\Renderer;
+namespace Jankx\WooCommerce\Base\Renderer;
 
 use Jankx\TemplateAndLayout;
-use Jankx\Ecommerce\Ecommerce;
-use Jankx\Ecommerce\EcommerceTemplate;
-use Jankx\Ecommerce\Base\GetProductQuery;
-use Jankx\Ecommerce\Base\TemplateManager;
+use Jankx\WooCommerce\WooCommerce;
+use Jankx\WooCommerce\WooCommerceTemplate;
+use Jankx\WooCommerce\Base\GetProductQuery;
+use Jankx\WooCommerce\Base\TemplateManager;
 use Jankx\PostLayout\PostLayoutManager;
 use Jankx\PostLayout\Layout\Card;
 use Jankx\PostLayout\Layout\Tabs;
@@ -31,7 +31,7 @@ class CategoryTabsProductsRenderer extends RendererBase
 
         if (is_null(static::$supportedFirstTabs)) {
             static::$supportedFirstTabs = apply_filters(
-                'jankx_ecommerce_category_tabs_products_first_tabs',
+                'jankx_woocommerce_category_tabs_products_first_tabs',
                 array(
                     'featured' => __('Featured', 'jankx'),
                     'recents' => __('Recents', 'jankx'),
@@ -75,7 +75,7 @@ class CategoryTabsProductsRenderer extends RendererBase
                 'type' => 'special'
             );
         }
-        $taxonomy = jankx_ecommerce()->getShopPlugin()->getProductCategoryTaxonomy();
+        $taxonomy = jankx_woocommerce()->getShopPlugin()->getProductCategoryTaxonomy();
 
         foreach ($this->categories as $categoryId => $tabTitle) {
             $term = get_term($categoryId, $taxonomy);
@@ -93,7 +93,7 @@ class CategoryTabsProductsRenderer extends RendererBase
         }
 
         return $this->tabs = apply_filters(
-            'jankx_ecommerce_category_tabs_products_tabs',
+            'jankx_woocommerce_category_tabs_products_tabs',
             $this->tabs
         );
     }
@@ -128,7 +128,7 @@ class CategoryTabsProductsRenderer extends RendererBase
 
     public function transformDataTabs2PostLayoutTabs($tabs)
     {
-        $shopPlugin = Ecommerce::instance()->getShopPlugin();
+        $shopPlugin = WooCommerce::instance()->getShopPlugin();
         $postLayoutTabs = array();
 
         foreach ($tabs as $tab_title => $tab) {

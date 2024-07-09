@@ -1,10 +1,10 @@
 <?php
-namespace Jankx\Ecommerce\Plugin;
+namespace Jankx\WooCommerce\Plugin;
 
 use Jankx\SiteLayout\SiteLayout;
-use Jankx\Ecommerce\Abstracts\ShopPlugin;
-use Jankx\Ecommerce\EcommerceTemplate;
-use Jankx\Ecommerce\Traits\WooCommerceData;
+use Jankx\WooCommerce\Abstracts\ShopPlugin;
+use Jankx\WooCommerce\WooCommerceTemplate;
+use Jankx\WooCommerce\Traits\WooCommerceData;
 use Jankx\PostLayout\Layout\Carousel;
 
 class WooCommerce extends ShopPlugin
@@ -87,7 +87,7 @@ class WooCommerce extends ShopPlugin
         add_filter('template_include', array($this, 'loadCustomWooCommerceTemplates'), 15);
         add_action('template_redirect', array($this, 'customWooCommerceElements'));
         add_action('woocommerce_enqueue_styles', array($this, 'cleanWooCommerceStyleSheets'));
-        add_filter('jankx_ecommerce_localize_object_data', array($this, 'registerGlobalVars'));
+        add_filter('jankx_woocommerce_localize_object_data', array($this, 'registerGlobalVars'));
 
         add_action('jankx/template/renderer/pre', array($this, 'customizeArchiveProductPage'), 10, 5);
     }
@@ -106,7 +106,7 @@ class WooCommerce extends ShopPlugin
 
         // Register shop sidebar
         register_sidebar(apply_filters(
-            'jankx_ecommerce_woocommerce_sidebar_args',
+            'jankx_woocommerce_woocommerce_sidebar_args',
             $shopSidebarArgs
         ));
     }
@@ -116,7 +116,7 @@ class WooCommerce extends ShopPlugin
         if (is_null(static::$disableShopSidebar)) {
             $siteLayout = SiteLayout::getInstance();
             static::$disableShopSidebar = apply_filters(
-                'jankx_ecommerce_disable_shop_sidebar',
+                'jankx_woocommerce_disable_shop_sidebar',
                 $siteLayout->getLayout() === SiteLayout::LAYOUT_FULL_WIDTH
             );
         }
@@ -169,13 +169,13 @@ class WooCommerce extends ShopPlugin
     public function renderShopSidebar()
     {
         if ($this->shopSidebarHook) {
-            return EcommerceTemplate::render('woocommerce/shop-sidebar');
+            return WooCommerceTemplate::render('woocommerce/shop-sidebar');
         }
     }
 
     public function renderProductContent()
     {
-        return EcommerceTemplate::render(
+        return WooCommerceTemplate::render(
             $this->getName() . '/single-product'
         );
     }
@@ -183,14 +183,14 @@ class WooCommerce extends ShopPlugin
     public function changeWooCommerceTemplates($template, $template_name, $args, $template_path, $default_path)
     {
         $jankxTemplate    = sprintf('woocommerce/%s', rtrim($template_name, '.php'));
-        $searchedTemplate = EcommerceTemplate::search($jankxTemplate);
+        $searchedTemplate = WooCommerceTemplate::search($jankxTemplate);
 
-        // Return Jankx Ecommerce template when the template is existing
+        // Return Jankx WooCommerce template when the template is existing
         if ($searchedTemplate) {
             return $searchedTemplate;
         }
 
-        // Return default WooCommerce template when Jankx Ecommerce template is not found`
+        // Return default WooCommerce template when Jankx WooCommerce template is not found`
         return $template;
     }
 
@@ -222,7 +222,7 @@ class WooCommerce extends ShopPlugin
                 if (!$searchedTemplate) {
                     return sprintf(
                         '%s/customize/%s',
-                        constant('JANKX_ECOMMERCE_ROOT_DIR'),
+                        constant('JANKX_WOOCOMMERCE_ROOT_DIR'),
                         $t
                     );
                 }
@@ -247,7 +247,7 @@ class WooCommerce extends ShopPlugin
             add_action('woocommerce_before_main_content', 'jankx_close_container', 30);
         }
 
-        if (apply_filters('jankx_ecommerce_woocommerce_dislabe_loop_add_to_cart', false)) {
+        if (apply_filters('jankx_woocommerce_woocommerce_dislabe_loop_add_to_cart', false)) {
             remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart');
         }
     }
@@ -264,7 +264,7 @@ class WooCommerce extends ShopPlugin
 
     public function cleanWooCommerceStyleSheets($stylesheets)
     {
-        if (!apply_filters('jankx_ecommerce_woocommerce_remove_general_stylesheet', true)) {
+        if (!apply_filters('jankx_woocommerce_woocommerce_remove_general_stylesheet', true)) {
             return $stylesheets;
         }
 
@@ -294,7 +294,7 @@ class WooCommerce extends ShopPlugin
     {
         global $woocommerce;
         if (function_exists('woocommerce_mini_cart')) {
-            return EcommerceTemplate::render('tpl/cart', array(), null, false);
+            return WooCommerceTemplate::render('tpl/cart', array(), null, false);
         }
     }
 

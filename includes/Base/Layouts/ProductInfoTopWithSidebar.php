@@ -1,11 +1,11 @@
 <?php
-namespace Jankx\Ecommerce\Base\Layouts;
+namespace Jankx\WooCommerce\Base\Layouts;
 
-use Jankx\Ecommerce\EcommerceTemplate;
-use Jankx\Ecommerce\Ecommerce;
-use Jankx\Ecommerce\Base\Renderer\ViewedProductsRenderer;
-use Jankx\Ecommerce\Base\Renderer\SimilarPriceProductsRenderer;
-use Jankx\Ecommerce\Base\Widget\ProductAttributes;
+use Jankx\WooCommerce\WooCommerceTemplate;
+use Jankx\WooCommerce\WooCommerce;
+use Jankx\WooCommerce\Base\Renderer\ViewedProductsRenderer;
+use Jankx\WooCommerce\Base\Renderer\SimilarPriceProductsRenderer;
+use Jankx\WooCommerce\Base\Widget\ProductAttributes;
 
 class ProductInfoTopWithSidebar
 {
@@ -47,7 +47,7 @@ class ProductInfoTopWithSidebar
 
     public function createTopProductInfo()
     {
-        EcommerceTemplate::render('top-product-info/top-info', array(
+        WooCommerceTemplate::render('top-product-info/top-info', array(
             'has_sidebar' => $this->topLayoutSidebarActive,
         ));
     }
@@ -74,7 +74,7 @@ class ProductInfoTopWithSidebar
 
         // Register shop sidebar
         register_sidebar(apply_filters(
-            'jankx_ecommerce_woocommerce_product_summary_sidebar_args',
+            'jankx_woocommerce_woocommerce_product_summary_sidebar_args',
             $shopSidebarArgs
         ));
 

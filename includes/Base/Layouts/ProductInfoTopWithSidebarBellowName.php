@@ -1,7 +1,7 @@
 <?php
-namespace Jankx\Ecommerce\Base\Layouts;
+namespace Jankx\WooCommerce\Base\Layouts;
 
-use Jankx\Ecommerce\EcommerceTemplate;
+use Jankx\WooCommerce\WooCommerceTemplate;
 
 class ProductInfoTopWithSidebarBellowName extends ProductInfoTopWithSidebar
 {
@@ -9,7 +9,7 @@ class ProductInfoTopWithSidebarBellowName extends ProductInfoTopWithSidebar
 
     public function createTopProductInfo()
     {
-        EcommerceTemplate::render(
+        WooCommerceTemplate::render(
             'top-product-info/top-info-sidebar-bellow-name'
         );
     }

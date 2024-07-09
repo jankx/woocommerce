@@ -1,12 +1,12 @@
 <?php
-namespace Jankx\Ecommerce\Base\Component;
+namespace Jankx\WooCommerce\Base\Component;
 
 use WC_Cart;
 use WC_Session_Handler;
 use Jankx\Component\Abstracts\Component;
 use Jankx\Component\Components\Icon;
-use Jankx\Ecommerce\EcommerceTemplate;
-use Jankx\Ecommerce\Ecommerce;
+use Jankx\WooCommerce\WooCommerceTemplate;
+use Jankx\WooCommerce\WooCommerce;
 use Jankx\Component\Template as TemplateComponent;
 
 class CartButton extends Component
@@ -23,7 +23,7 @@ class CartButton extends Component
 
     public function parseProps($props)
     {
-        $eCommerce   = Ecommerce::instance();
+        $eCommerce   = WooCommerce::instance();
         static::$shopPlugin = $eCommerce->getShopPlugin();
         $this->props = wp_parse_args($props, array(
             'show_badge' => true,
@@ -49,7 +49,7 @@ class CartButton extends Component
         }
 
         $output  = sprintf('<div class="jankx-ecommerce cart-icon">');
-        $output .= EcommerceTemplate::render(
+        $output .= WooCommerceTemplate::render(
             'components/cart/cart_button_link',
             array_merge($this->props, array(
                 'badge' => $woocommerce->cart->get_cart_contents_count(),
@@ -60,7 +60,7 @@ class CartButton extends Component
             if (is_string($this->props['preview_content'])) {
                 $this->props['preview_content'] = new TemplateComponent(array(
                     'template' => $this->props['preview_content'],
-                    'data'     => apply_filters('jankx_ecommerce_cart_preview_data', array(
+                    'data'     => apply_filters('jankx_woocommerce_cart_preview_data', array(
                         'cart_url' => $this->props['cart_url'],
                     ))
                 ));

@@ -1,5 +1,5 @@
 <?php
-namespace Jankx\Ecommerce\Base;
+namespace Jankx\WooCommerce\Base;
 
 class MenuItems
 {
@@ -7,13 +7,13 @@ class MenuItems
 
     public function register()
     {
-        add_filter('jankx/layout/site/menu/itemtypes', array($this, 'registerEcommerceItems'));
+        add_filter('jankx/layout/site/menu/itemtypes', array($this, 'registerWooCommerceItems'));
         add_filter('jankx_site_layout_nav_item_callback', array($this, 'customMenuItemCallable'), 10, 2);
 
         add_filter('jankx_site_layout_cart_icon_menu_item', array($this, 'cartIconItem'), 10, 2);
     }
 
-    public static function getEcommerceMenuItems()
+    public static function getWooCommerceMenuItems()
     {
         if (!is_null(static::$ecommerceMenuItems)) {
             return static::$ecommerceMenuItems;
@@ -23,11 +23,11 @@ class MenuItems
         );
     }
 
-    public function registerEcommerceItems($items)
+    public function registerWooCommerceItems($items)
     {
         $items = array_merge(
             $items,
-            static::getEcommerceMenuItems()
+            static::getWooCommerceMenuItems()
         );
 
         return $items;
@@ -35,7 +35,7 @@ class MenuItems
 
     public function customMenuItemCallable($callable, $item)
     {
-        $ecommerceItems = static::getEcommerceMenuItems();
+        $ecommerceItems = static::getWooCommerceMenuItems();
 
         if (isset($ecommerceItems[$item->type])) {
             if ($item->type === 'cart_icon') {
@@ -47,7 +47,7 @@ class MenuItems
 
     public function cartIconItem($item, $key)
     {
-        $item['title'] = __("Cart Icon", 'jankx_ecommerce');
+        $item['title'] = __("Cart Icon", 'jankx_woocommerce');
         return $item;
     }
 

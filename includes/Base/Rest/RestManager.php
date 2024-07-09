@@ -1,5 +1,5 @@
 <?php
-namespace Jankx\Ecommerce\Base\Rest;
+namespace Jankx\WooCommerce\Base\Rest;
 
 class RestManager
 {

@@ -1,8 +1,8 @@
 <?php
-namespace Jankx\Ecommerce\Base;
+namespace Jankx\WooCommerce\Base;
 
 use WC_Product_Simple;
-use Jankx\Ecommerce\EcommerceTemplate;
+use Jankx\WooCommerce\WooCommerceTemplate;
 
 class TemplateManager
 {
@@ -17,7 +17,7 @@ class TemplateManager
         static::$productTplCreated = true;
         init_script(sprintf(
             '<script type="text/x-tmpl" id="jankx-ecommerce-product-tpl">%s</script>',
-            EcommerceTemplate::render('tpl/product', array(), null, false)
+            WooCommerceTemplate::render('tpl/product', array(), null, false)
         ), false);
     }
 }

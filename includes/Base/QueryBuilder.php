@@ -1,5 +1,5 @@
 <?php
-namespace Jankx\Ecommerce\Base;
+namespace Jankx\WooCommerce\Base;
 
 abstract class QueryBuilder
 {

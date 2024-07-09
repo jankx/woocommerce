@@ -1,10 +1,10 @@
 <?php
-namespace Jankx\Ecommerce\Integration\Elementor\Widgets;
+namespace Jankx\WooCommerce\Integration\Elementor\Widgets;
 
 use Jankx;
 use Jankx\Elementor\WidgetBase;
 use Elementor\Controls_Manager;
-use Jankx\Ecommerce\Base\Renderer\ProductsRenderer;
+use Jankx\WooCommerce\Base\Renderer\ProductsRenderer;
 use Jankx\PostLayout\PostLayoutManager;
 use Jankx\PostLayout\Layout\Card;
 
@@ -12,7 +12,7 @@ class Products extends WidgetBase
 {
     public function get_name()
     {
-        return 'jankx_ecommerce_products';
+        return 'jankx_woocommerce_products';
     }
 
     public function get_title()
@@ -53,7 +53,7 @@ class Products extends WidgetBase
         $this->start_controls_section(
             'content_section',
             [
-                'label' => __('Content', 'jankx_ecommerce'),
+                'label' => __('Content', 'jankx_woocommerce'),
                 'tab' => Controls_Manager::TAB_CONTENT,
             ]
         );
@@ -61,7 +61,7 @@ class Products extends WidgetBase
         $this->add_control(
             'title',
             [
-                'label' => __('Widget Title', 'jankx_ecommerce'),
+                'label' => __('Widget Title', 'jankx_woocommerce'),
                 'type' => Controls_Manager::TEXT,
             ]
         );
@@ -69,7 +69,7 @@ class Products extends WidgetBase
         $this->add_control(
             'product_categories',
             [
-                'label' => __('Product Categories', 'jankx_ecommerce'),
+                'label' => __('Product Categories', 'jankx_woocommerce'),
                 'type' => Controls_Manager::SELECT2,
                 'multiple' => true,
                 'options' => $productCats,
@@ -81,7 +81,7 @@ class Products extends WidgetBase
         $this->add_control(
             'product_tags',
             [
-                'label' => __('Product Tags', 'jankx_ecommerce'),
+                'label' => __('Product Tags', 'jankx_woocommerce'),
                 'type' => Controls_Manager::SELECT2,
                 'multiple' => true,
                 'options' => $productTags,
@@ -91,7 +91,7 @@ class Products extends WidgetBase
         $this->add_responsive_control(
             'layout',
             [
-                'label' => __('Layout', 'jankx_ecommerce'),
+                'label' => __('Layout', 'jankx_woocommerce'),
                 'type' => Controls_Manager::SELECT,
                 'multiple' => true,
                 'options' => PostLayoutManager::getLayouts(array(
@@ -107,7 +107,7 @@ class Products extends WidgetBase
         $this->add_responsive_control(
             'limit',
             [
-                'label' => __('Number of Products to show', 'jankx_ecommerce'),
+                'label' => __('Number of Products to show', 'jankx_woocommerce'),
                 'type' => Controls_Manager::NUMBER,
                 'max' => 100,
                 'step' => 1,
@@ -118,7 +118,7 @@ class Products extends WidgetBase
         $this->add_responsive_control(
             'columns',
             [
-                'label' => __('Columns', 'jankx_ecommerce'),
+                'label' => __('Columns', 'jankx_woocommerce'),
                 'type' => Controls_Manager::NUMBER,
                 'max' => 6,
                 'step' => 1,
@@ -130,7 +130,7 @@ class Products extends WidgetBase
         $this->add_responsive_control(
             'rows',
             [
-                'label' => __('Rows', 'jankx_ecommerce'),
+                'label' => __('Rows', 'jankx_woocommerce'),
                 'type' => Controls_Manager::NUMBER,
                 'max' => 6,
                 'step' => 1,

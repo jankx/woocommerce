@@ -1,4 +1,4 @@
-Jankx Ecommerce
+Jankx WooCommerce
 =
 
 Integrate ecommerce plugins with Jankx theme framework
@@ -6,7 +6,7 @@ Integrate ecommerce plugins with Jankx theme framework
 # Supported Plugins:
 
 - [x] WooCommerce
-- [ ] Ecwid Ecommerce Shopping Cart
+- [ ] Ecwid WooCommerce Shopping Cart
 - [ ] WP EasyCart
 - [ ] Studiocart
 

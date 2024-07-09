@@ -16,7 +16,7 @@
  */
 use Jankx\PostLayout\PostLayoutManager;
 use Jankx\PostLayout\Layout\Card;
-use Jankx\Ecommerce\EcommerceTemplate;
+use Jankx\WooCommerce\WooCommerceTemplate;
 
 defined('ABSPATH') || exit;
 
@@ -58,7 +58,7 @@ if (woocommerce_product_loop()) {
     $wp_query->set('post_type', 'product');
 
     // Get ecommerce template Engine
-    $engine = EcommerceTemplate::getEngine();
+    $engine = WooCommerceTemplate::getEngine();
     $wp_query->set('post_type', 'product');
     $postLayoutManager = PostLayoutManager::getInstance($engine);
     $postLayout = $postLayoutManager->createLayout(

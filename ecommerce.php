@@ -1,16 +1,16 @@
 <?php
 
-use Jankx\Ecommerce\Ecommerce;
+use Jankx\WooCommerce\WooCommerce;
 
-if (!defined('JANKX_ECOMMERCE_FILE_LOADER')) {
-    define('JANKX_ECOMMERCE_FILE_LOADER', __FILE__ );
+if (!defined('JANKX_WOOCOMMERCE_FILE_LOADER')) {
+    define('JANKX_WOOCOMMERCE_FILE_LOADER', __FILE__ );
 }
 
-if (!function_exists('jankx_ecommerce')) {
-    function jankx_ecommerce()
+if (!function_exists('jankx_woocommerce')) {
+    function jankx_woocommerce()
     {
-        return Ecommerce::instance();
+        return WooCommerce::instance();
     }
 }
 
-$GLOBALS['ecommerce'] = jankx_ecommerce();
+$GLOBALS['ecommerce'] = jankx_woocommerce();

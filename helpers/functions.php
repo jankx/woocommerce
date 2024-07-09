@@ -1,20 +1,20 @@
 <?php
-use Jankx\Ecommerce\EcommerceTemplate;
+use Jankx\WooCommerce\WooCommerceTemplate;
 
-function jankx_ecommerce_template()
+function jankx_woocommerce_template()
 {
     return call_user_func_array(
         array(
-            EcommerceTemplate::getEngine(),
+            WooCommerceTemplate::getEngine(),
             'render'
         ),
         func_get_args()
     );
 }
 
-function jankx_ecommerce_single_product_layout()
+function jankx_woocommerce_single_product_layout()
 {
-    $layout = apply_filters('jankx_ecommerce_single_product_layout', null);
+    $layout = apply_filters('jankx_woocommerce_single_product_layout', null);
     if ($layout) {
         return $layout;
     }
@@ -22,10 +22,10 @@ function jankx_ecommerce_single_product_layout()
     return 'default';
 }
 
-function jankx_ecommerce_asset_url($path = '')
+function jankx_woocommerce_asset_url($path = '')
 {
     $abspath = constant('ABSPATH');
-    $ecommercePath = dirname(JANKX_ECOMMERCE_FILE_LOADER);
+    $ecommercePath = dirname(JANKX_WOOCOMMERCE_FILE_LOADER);
 
     if (PHP_OS === 'WINNT') {
         $abspath = str_replace('\\', '/', $abspath);
@@ -40,9 +40,9 @@ function jankx_ecommerce_asset_url($path = '')
     return sprintf('%s/assets/%s', $ecommerceDirUrl, $path);
 }
 
-function jankx_ecommerce_get_recently_view_products() {
+function jankx_woocommerce_get_recently_view_products() {
     $viewed_products = ! empty( $_COOKIE['woocommerce_recently_viewed'] ) ? (array) explode( '|', wp_unslash( $_COOKIE['woocommerce_recently_viewed'] ) ) : array(); // @codingStandardsIgnoreLine
     $viewed_products = array_reverse( array_filter( array_map( 'absint', $viewed_products ) ) );
 
-    return apply_filters('jankx_ecommerce_recently_viewed_products', $viewed_products);
+    return apply_filters('jankx_woocommerce_recently_viewed_products', $viewed_products);
 }

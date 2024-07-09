@@ -4,7 +4,7 @@
  *
  * This trait copy from WooCommerce v4.5.2
  */
-namespace Jankx\Ecommerce\Traits;
+namespace Jankx\WooCommerce\Traits;
 
 trait WooCommerceData
 {
@@ -46,6 +46,6 @@ trait WooCommerceData
             'parent_id'         => $product->get_parent_id($context),
         );
 
-        return apply_filters('jankx_ecommerce_woocommere_get_product_data', $data, $product);
+        return apply_filters('jankx_woocommerce_woocommere_get_product_data', $data, $product);
     }
 }

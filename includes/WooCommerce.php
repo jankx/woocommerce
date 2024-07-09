@@ -1,17 +1,17 @@
 <?php
-namespace Jankx\Ecommerce;
+namespace Jankx\WooCommerce;
 
-use Jankx\Ecommerce\Plugin\WooCommerce;
-use Jankx\Ecommerce\Base\Component\CartButton;
-use Jankx\Ecommerce\Integration\Plugin;
-use Jankx\Ecommerce\Base\MenuItems;
-use Jankx\Ecommerce\Base\Rest\RestManager;
-use Jankx\Ecommerce\Base\Layouts\ProductInfoTopWithSidebar;
-use Jankx\Ecommerce\Base\Layouts\ProductInfoTopWithSidebarBellowName;
+use Jankx\WooCommerce\Plugin\WooCommerce;
+use Jankx\WooCommerce\Base\Component\CartButton;
+use Jankx\WooCommerce\Integration\Plugin;
+use Jankx\WooCommerce\Base\MenuItems;
+use Jankx\WooCommerce\Base\Rest\RestManager;
+use Jankx\WooCommerce\Base\Layouts\ProductInfoTopWithSidebar;
+use Jankx\WooCommerce\Base\Layouts\ProductInfoTopWithSidebarBellowName;
 use Jankx\PostLayout\PostLayoutManager;
-use Jankx\Ecommerce\EcommerceTemplate;
+use Jankx\WooCommerce\WooCommerceTemplate;
 
-class Ecommerce
+class WooCommerce
 {
     const NAME = 'jankx-ecommerce';
     const VERSION = '1.0.0.1';
@@ -59,12 +59,12 @@ class Ecommerce
 
         add_action('wp_enqueue_scripts', array($this, 'registerScripts'), 15);
 
-        add_filter('jankx_template_css_dependences', array($this, 'registerEcommerceStylesheet'));
+        add_filter('jankx_template_css_dependences', array($this, 'registerWooCommerceStylesheet'));
     }
 
     private function bootstrap()
     {
-        define('JANKX_ECOMMERCE_ROOT_DIR', dirname(__DIR__));
+        define('JANKX_WOOCOMMERCE_ROOT_DIR', dirname(__DIR__));
     }
 
     public function loadFeatures()
@@ -85,7 +85,7 @@ class Ecommerce
         add_theme_support('render_js_template');
         add_theme_support('woocommerce');
 
-        add_filter('jankx_components', array($this, 'registerEcommerceComponents'));
+        add_filter('jankx_components', array($this, 'registerWooCommerceComponents'));
         add_action('wp', array($this->shopPlugin, 'viewProduct'));
     }
 
@@ -94,7 +94,7 @@ class Ecommerce
         return $this->shopPlugin;
     }
 
-    public function registerEcommerceComponents($components)
+    public function registerWooCommerceComponents($components)
     {
         if (!isset($components[CartButton::COMPONENT_NAME])) {
             $components[CartButton::COMPONENT_NAME] = CartButton::class;
@@ -107,12 +107,12 @@ class Ecommerce
 
     public function loadHelpers()
     {
-        require_once dirname(JANKX_ECOMMERCE_FILE_LOADER) . '/helpers/functions.php';
+        require_once dirname(JANKX_WOOCOMMERCE_FILE_LOADER) . '/helpers/functions.php';
     }
 
-    public function registerEcommerceStylesheet($handles)
+    public function registerWooCommerceStylesheet($handles)
     {
-        css(static::NAME, jankx_ecommerce_asset_url('css/ecommerce.css'), array(), static::VERSION);
+        css(static::NAME, jankx_woocommerce_asset_url('css/ecommerce.css'), array(), static::VERSION);
 
         array_push($handles, static::NAME);
 
@@ -126,19 +126,19 @@ class Ecommerce
         // Register script
         js(
             static::NAME,
-            jankx_ecommerce_asset_url('js/ecommerce.js'),
+            jankx_woocommerce_asset_url('js/ecommerce.js'),
             apply_filters('jankx/woocommerce/js/dependences', $deps),
             static::VERSION,
             true
         )->localize(
-            'jankx_ecommerce',
+            'jankx_woocommerce',
             apply_filters(
-                'jankx_ecommerce_localize_object_data',
+                'jankx_woocommerce_localize_object_data',
                 array(
                     'get_product_url' => rest_url('jankx/v1/ecommerce/get_products'),
                     'errors' => array(
-                        'get_data_error' => __('Get data has exception', 'jankx_ecommerce'),
-                        'parse_data_error' => __('Parse the data has exception', 'jankx_ecommerce'),
+                        'get_data_error' => __('Get data has exception', 'jankx_woocommerce'),
+                        'parse_data_error' => __('Parse the data has exception', 'jankx_woocommerce'),
                     )
                 )
             )
@@ -147,7 +147,7 @@ class Ecommerce
 
         $deps = array();
         $styleMetadata = get_file_data(
-            sprintf('%s/assets/css/ecommerce.css', dirname(JANKX_ECOMMERCE_FILE_LOADER)),
+            sprintf('%s/assets/css/ecommerce.css', dirname(JANKX_WOOCOMMERCE_FILE_LOADER)),
             array(
                 'version' => 'Version',
             )
@@ -155,7 +155,7 @@ class Ecommerce
 
         css(
             static::NAME,
-            jankx_ecommerce_asset_url('css/ecommerce.css'),
+            jankx_woocommerce_asset_url('css/ecommerce.css'),
             apply_filters('jankx/woocommerce/css/dependences', $deps),
             empty($styleMetadata['version']) ? static::VERSION : $styleMetadata['version']
         )->enqueue();
@@ -168,7 +168,7 @@ class Ecommerce
             return static::$singleProductLayouts;
         }
 
-        static::$singleProductLayouts = apply_filters('jankx_ecommerce_woocommerce_single_layouts', array(
+        static::$singleProductLayouts = apply_filters('jankx_woocommerce_woocommerce_single_layouts', array(
             ProductInfoTopWithSidebar::LAYOUT_NAME => ProductInfoTopWithSidebar::class,
             ProductInfoTopWithSidebarBellowName::LAYOUT_NAME => ProductInfoTopWithSidebarBellowName::class,
         ));
@@ -178,14 +178,14 @@ class Ecommerce
 
     public function setupShopLayout()
     {
-        $singleProductLayout = jankx_ecommerce_single_product_layout();
+        $singleProductLayout = jankx_woocommerce_single_product_layout();
         if ($singleProductLayout && $singleProductLayout !== 'default') {
             if (isset(static::$singleProductLayouts[$singleProductLayout]) && class_exists(static::$singleProductLayouts[$singleProductLayout])) {
                 new static::$singleProductLayouts[$singleProductLayout]();
             }
         }
 
-        $engine = EcommerceTemplate::getEngine();
+        $engine = WooCommerceTemplate::getEngine();
         PostLayoutManager::createInstance($engine);
     }
 }

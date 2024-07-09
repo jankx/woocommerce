@@ -1,10 +1,10 @@
 <?php
-namespace Jankx\Ecommerce\Base\Renderer;
+namespace Jankx\WooCommerce\Base\Renderer;
 
-use Jankx\Ecommerce\Constracts\Renderer;
-use Jankx\Ecommerce\Ecommerce;
-use Jankx\Ecommerce\EcommerceTemplate;
-use Jankx\Ecommerce\Base\GetProductQuery;
+use Jankx\WooCommerce\Constracts\Renderer;
+use Jankx\WooCommerce\WooCommerce;
+use Jankx\WooCommerce\WooCommerceTemplate;
+use Jankx\WooCommerce\Base\GetProductQuery;
 use Jankx\PostLayout\PostLayoutManager;
 use Jankx\PostLayout\Layout\Card;
 use Jankx\TemplateAndLayout;
@@ -25,7 +25,7 @@ class ProductsRenderer extends RendererBase
 
         if (is_null(static::$supportedFirstTabs)) {
             static::$supportedFirstTabs = apply_filters(
-                'jankx_ecommerce_category_tabs_products_first_tabs',
+                'jankx_woocommerce_category_tabs_products_first_tabs',
                 array(
                     'featured' => __('Featured', 'jankx'),
                     'recents' => __('Recents', 'jankx'),
@@ -66,7 +66,7 @@ class ProductsRenderer extends RendererBase
     public function render()
     {
         $wp_query   = $this->buildFirstTabQuery();
-        $plugin = jankx_ecommerce()->getShopPlugin();
+        $plugin = jankx_woocommerce()->getShopPlugin();
         $postLayoutManager = PostLayoutManager::getInstance(
             TemplateAndLayout::getTemplateEngine()->getId()
         );

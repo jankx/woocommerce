@@ -31,7 +31,7 @@ if ($wp_query) : ?>
 
         <?php
             wc_set_loop_prop('name', 'viewed-products');
-            wc_set_loop_prop('columns', apply_filters('jankx_ecommerce_viewed_products_columns', 4));
+            wc_set_loop_prop('columns', apply_filters('jankx_woocommerce_viewed_products_columns', 4));
         ?>
         <?php woocommerce_product_loop_start(); ?>
 

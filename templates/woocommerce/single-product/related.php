@@ -17,7 +17,7 @@
 
 use Jankx\PostLayout\PostLayoutManager;
 use Jankx\PostLayout\Layout\Card;
-use Jankx\Ecommerce\EcommerceTemplate;
+use Jankx\WooCommerce\WooCommerceTemplate;
 
 if (! defined('ABSPATH')) {
     exit;
@@ -36,7 +36,7 @@ if (!empty($related_products)) : ?>
         )));
 
         // Get ecommerce template Engine
-        $engine = EcommerceTemplate::getEngine();
+        $engine = WooCommerceTemplate::getEngine();
         $postLayoutManager = PostLayoutManager::getInstance($engine);
         $postLayout = $postLayoutManager->createLayout(
             array_get($args, 'layout', Card::LAYOUT_NAME),

@@ -18,17 +18,17 @@ if (! defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 get_header('shop');
-do_action('jankx_ecommerce_after_shop_header');
+do_action('jankx_woocommerce_after_shop_header');
 ?>
 
     <?php while (have_posts()) : ?>
         <?php the_post(); ?>
 
         <?php
-        if (has_action('jankx_ecommerce_woocommerce_content_single_product')) {
-            do_action('jankx_ecommerce_woocommerce_content_single_product');
+        if (has_action('jankx_woocommerce_woocommerce_content_single_product')) {
+            do_action('jankx_woocommerce_woocommerce_content_single_product');
         } else {
-            jankx_ecommerce_template( 'woocommerce/content-single-product', array(
+            jankx_woocommerce_template( 'woocommerce/content-single-product', array(
                 'product' => &$GLOBALS['product'],
             ) );
         }

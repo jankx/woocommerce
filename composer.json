@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Jankx\\Ecommerce\\": "includes/"
+            "Jankx\\WooCommerce\\": "includes/"
         },
         "files": [
             "ecommerce.php"

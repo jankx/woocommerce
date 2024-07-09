@@ -1,5 +1,5 @@
 <?php
-namespace Jankx\Ecommerce\Base;
+namespace Jankx\WooCommerce\Base;
 
 use WP_Query;
 use WooCommerce;
@@ -16,7 +16,7 @@ class GetProductQuery extends QueryBuilder
      * Set query type
      *
      * @param string $type the type of Query
-     * @return \Jankx\Ecommerce\Base\GetProductQuery
+     * @return \Jankx\WooCommerce\Base\GetProductQuery
      */
     public function setQueryType($type = 'recents')
     {
@@ -48,14 +48,14 @@ class GetProductQuery extends QueryBuilder
 
     public function buildWordPressQuery()
     {
-        $integrator = jankx_ecommerce()->getShopPlugin();
+        $integrator = jankx_woocommerce()->getShopPlugin();
         $postType   = $integrator->getPostType();
         $taxQuery   = array();
         $queryArgs  = array(
             'post_type' => $postType,
             'fields' => $this->fields,
             'posts_per_page' => apply_filters(
-                "jankx_ecommerce_query_{$this->type}_limit",
+                "jankx_woocommerce_query_{$this->type}_limit",
                 $this->limit
             ),
         );
@@ -87,7 +87,7 @@ class GetProductQuery extends QueryBuilder
         $queryArgs['tax_query'] = $taxQuery;
 
         return new WP_Query(apply_filters(
-            'jankx_ecommerce_build_product_query',
+            'jankx_woocommerce_build_product_query',
             $queryArgs
         ));
     }

@@ -1,19 +1,19 @@
 <?php
 
-namespace Jankx\Ecommerce\Base\Renderer;
+namespace Jankx\WooCommerce\Base\Renderer;
 
 use WP_Query;
-use Jankx\Ecommerce\Constracts\Renderer;
-use Jankx\Ecommerce\Ecommerce;
-use Jankx\Ecommerce\EcommerceTemplate;
-use Jankx\Ecommerce\Plugin\WooCommerce;
+use Jankx\WooCommerce\Constracts\Renderer;
+use Jankx\WooCommerce\WooCommerce;
+use Jankx\WooCommerce\WooCommerceTemplate;
+use Jankx\WooCommerce\Plugin\WooCommerce;
 use Jankx\Widget\Renderers\Base as RendererBase;
 
 class SimilarPriceProductsRenderer extends RendererBase
 {
     public function render()
     {
-        $pluginName = Ecommerce::instance()->getShopPlugin()->getName();
+        $pluginName = WooCommerce::instance()->getShopPlugin()->getName();
         if ($pluginName === WooCommerce::PLUGIN_NAME) {
             return $this->getWooCommerceViewedProducts();
         }
@@ -26,7 +26,7 @@ class SimilarPriceProductsRenderer extends RendererBase
 
     public function getWooCommerceViewedProducts()
     {
-        $viewed_products = jankx_ecommerce_get_recently_view_products();
+        $viewed_products = jankx_woocommerce_get_recently_view_products();
         if (empty($viewed_products)) {
             return;
         }
@@ -56,7 +56,7 @@ class SimilarPriceProductsRenderer extends RendererBase
             $query_args
         ));
 
-        return EcommerceTemplate::render('base/products/similar-price-products', array(
+        return WooCommerceTemplate::render('base/products/similar-price-products', array(
             'wp_query' => $recently_views
         ), null, false);
     }

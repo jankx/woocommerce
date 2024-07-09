@@ -1,10 +1,10 @@
 <?php
-namespace Jankx\Ecommerce\Integration\Elementor\Widgets;
+namespace Jankx\WooCommerce\Integration\Elementor\Widgets;
 
 use Jankx;
 use Jankx\Elementor\WidgetBase;
 use Elementor\Controls_Manager;
-use Jankx\Ecommerce\Base\Renderer\CategoryTabsProductsRenderer;
+use Jankx\WooCommerce\Base\Renderer\CategoryTabsProductsRenderer;
 use Jankx\PostLayout\PostLayoutManager;
 use Jankx\PostLayout\Layout\Card;
 
@@ -12,12 +12,12 @@ class CategoryTabsProducts extends WidgetBase
 {
     public function get_name()
     {
-        return 'jankx_ecommerce_category_tab_products';
+        return 'jankx_woocommerce_category_tab_products';
     }
 
     public function get_title()
     {
-        return __('Category Tabs Products', 'jankx_ecommerce');
+        return __('Category Tabs Products', 'jankx_woocommerce');
     }
 
     public function get_icon()
@@ -49,7 +49,7 @@ class CategoryTabsProducts extends WidgetBase
         $this->start_controls_section(
             'content_section',
             array(
-                'label' => __('Content', 'jankx_ecommerce'),
+                'label' => __('Content', 'jankx_woocommerce'),
                 'tab' => Controls_Manager::TAB_CONTENT,
             )
         );
@@ -57,7 +57,7 @@ class CategoryTabsProducts extends WidgetBase
         $this->add_control(
             'title',
             array(
-                'label' => __('Widget Title', 'jankx_ecommerce'),
+                'label' => __('Widget Title', 'jankx_woocommerce'),
                 'type' => Controls_Manager::TEXT,
             )
         );
@@ -65,10 +65,10 @@ class CategoryTabsProducts extends WidgetBase
         $this->add_control(
             'show_first_tab',
             array(
-                'label' => __('Show First Tab', 'jankx_ecommerce'),
+                'label' => __('Show First Tab', 'jankx_woocommerce'),
                 'type' => Controls_Manager::SWITCHER,
-                'label_on' => __('Show', 'jankx_ecommerce'),
-                'label_off' => __('Hide', 'jankx_ecommerce'),
+                'label_on' => __('Show', 'jankx_woocommerce'),
+                'label_off' => __('Hide', 'jankx_woocommerce'),
                 'return_value' => 'yes',
                 'default' => 'no',
             )
@@ -77,12 +77,12 @@ class CategoryTabsProducts extends WidgetBase
         $this->add_control(
             'first_tab',
             array(
-                'label' => __('Choose First Tab', 'jankx_ecommerce'),
+                'label' => __('Choose First Tab', 'jankx_woocommerce'),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'recents',
                 'options' => array(
-                    'featured'  => __('Featured', 'jankx_ecommerce'),
-                    'recents'  => __('Recents', 'jankx_ecommerce'),
+                    'featured'  => __('Featured', 'jankx_woocommerce'),
+                    'recents'  => __('Recents', 'jankx_woocommerce'),
                 ),
                 'of_type' => 'show_first_tab',
                 'condition' => array(
@@ -93,7 +93,7 @@ class CategoryTabsProducts extends WidgetBase
         $this->add_control(
             'first_tab_title',
             [
-                'label' => __('First Tab Title', 'jankx_ecommerce'),
+                'label' => __('First Tab Title', 'jankx_woocommerce'),
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => '',
                 'label_block' => true,
@@ -105,7 +105,7 @@ class CategoryTabsProducts extends WidgetBase
         $repeater->add_control(
             'list_title',
             [
-                'label' => __('Title', 'jankx_ecommerce'),
+                'label' => __('Title', 'jankx_woocommerce'),
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'label_block' => true,
             ]
@@ -114,7 +114,7 @@ class CategoryTabsProducts extends WidgetBase
         $repeater->add_control(
             'category',
             [
-                'label' => __('Category', 'jankx_ecommerce'),
+                'label' => __('Category', 'jankx_woocommerce'),
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'default' => 'solid',
                 'options' => $product_categories,
@@ -124,7 +124,7 @@ class CategoryTabsProducts extends WidgetBase
         $this->add_control(
             'categories',
             [
-                'label' => __('Categories', 'jankx_ecommerce'),
+                'label' => __('Categories', 'jankx_woocommerce'),
                 'type' => \Elementor\Controls_Manager::REPEATER,
                 'fields' => $repeater->get_controls(),
                 'default' => [],
@@ -135,7 +135,7 @@ class CategoryTabsProducts extends WidgetBase
         $this->add_responsive_control(
             'sub_layout',
             [
-                'label' => __('Layout', 'jankx_ecommerce'),
+                'label' => __('Layout', 'jankx_woocommerce'),
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'default' => Card::LAYOUT_NAME,
                 'options' => PostLayoutManager::getLayouts(array(
@@ -150,7 +150,7 @@ class CategoryTabsProducts extends WidgetBase
         $this->add_responsive_control(
             'limit',
             array(
-                'label' => __('Number of Products', 'jankx_ecommerce'),
+                'label' => __('Number of Products', 'jankx_woocommerce'),
                 'type' => Controls_Manager::NUMBER,
                 'max' => 100,
                 'step' => 1,
@@ -161,7 +161,7 @@ class CategoryTabsProducts extends WidgetBase
         $this->add_responsive_control(
             'items_per_row',
             array(
-                'label' => __('Columns', 'jankx_ecommerce'),
+                'label' => __('Columns', 'jankx_woocommerce'),
                 'type' => Controls_Manager::NUMBER,
                 'max' => 6,
                 'step' => 1,
@@ -172,7 +172,7 @@ class CategoryTabsProducts extends WidgetBase
         $this->add_responsive_control(
             'rows',
             array(
-                'label' => __('Rows', 'jankx_ecommerce'),
+                'label' => __('Rows', 'jankx_woocommerce'),
                 'type' => Controls_Manager::NUMBER,
                 'max' => 10,
                 'step' => 1,

@@ -2,14 +2,14 @@
 namespace Jankx\ECommerce\Base\Rest;
 
 use WP_Rest_Request;
-use Jankx\Ecommerce\Base\GetProductQuery;
-use Jankx\Ecommerce\Ecommerce;
+use Jankx\WooCommerce\Base\GetProductQuery;
+use Jankx\WooCommerce\WooCommerce;
 
 class Products extends WP_Rest_Request
 {
     public function __construct()
     {
-        $this->shopPlugin = Ecommerce::instance()->getShopPlugin();
+        $this->shopPlugin = WooCommerce::instance()->getShopPlugin();
     }
 
     public function register()

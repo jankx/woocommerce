@@ -1,14 +1,14 @@
 <?php
-namespace Jankx\Ecommerce;
+namespace Jankx\WooCommerce;
 
 use Jankx;
 use Jankx\Template\Template;
 use Jankx\TemplateEngine\Engines\WordPress;
 use Jankx\TemplateEngine\Engines\Plates;
 
-class EcommerceTemplate
+class WooCommerceTemplate
 {
-    const ENGINE_ID = 'jankx_ecommerce';
+    const ENGINE_ID = 'jankx_woocommerce';
 
     protected static $engine;
 
@@ -18,7 +18,7 @@ class EcommerceTemplate
             $activeEngine = Jankx::getActiveTemplateEngine();
             $defaultTemplateDir = sprintf(
                 '%s/%s',
-                dirname(JANKX_ECOMMERCE_FILE_LOADER),
+                dirname(JANKX_WOOCOMMERCE_FILE_LOADER),
                 in_array($activeEngine, array(
                     Plates::ENGINE_NAME,
                     WordPress::ENGINE_NAME,
