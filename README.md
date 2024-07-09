@@ -52,3 +52,17 @@ p.stars.selected a:not(.active)::before {
   color: #debe60;
 }
 ```
+
+
+# Theme.json settings
+
+```
+{
+    ...
+    "store": {
+        "detail": {
+            "layout": "default";
+        }
+    }
+}
+```
