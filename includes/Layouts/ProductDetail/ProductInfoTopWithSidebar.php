@@ -1,10 +1,7 @@
 <?php
-namespace Jankx\WooCommerce\Layouts;
+namespace Jankx\WooCommerce\Layouts\ProductDetail;
 
 use Jankx\WooCommerce\WooCommerceTemplate;
-use Jankx\WooCommerce\WooCommerce;
-use Jankx\WooCommerce\Renderer\ViewedProductsRenderer;
-use Jankx\WooCommerce\Renderer\SimilarPriceProductsRenderer;
 use Jankx\WooCommerce\Widget\ProductAttributes;
 
 class ProductInfoTopWithSidebar

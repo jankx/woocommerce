@@ -6,8 +6,8 @@ use Jankx\WooCommerce\Component\CartButton;
 use Jankx\WooCommerce\Integration\Plugin;
 use Jankx\WooCommerce\MenuItems;
 use Jankx\WooCommerce\Rest\RestManager;
-use Jankx\WooCommerce\Layouts\ProductInfoTopWithSidebar;
-use Jankx\WooCommerce\Layouts\ProductInfoTopWithSidebarBellowName;
+use Jankx\WooCommerce\Layouts\ProductDetail\ProductInfoTopWithSidebar;
+use Jankx\WooCommerce\Layouts\ProductDetail\ProductInfoTopWithSidebarBellowName;
 use Jankx\PostLayout\PostLayoutManager;
 use Jankx\WooCommerce\WooCommerceTemplate;
 

@@ -1,5 +1,5 @@
 <?php
-namespace Jankx\WooCommerce\Layouts;
+namespace Jankx\WooCommerce\Layouts\ProductDetail;
 
 use Jankx\WooCommerce\WooCommerceTemplate;
 
