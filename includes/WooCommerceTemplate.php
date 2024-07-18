@@ -1,4 +1,5 @@
 <?php
+
 namespace Jankx\WooCommerce;
 
 use Jankx;
@@ -27,7 +28,7 @@ class WooCommerceTemplate
 
             $engine = Template::createEngine(
                 static::ENGINE_ID,
-                apply_filters('jankx/theme/template/directory', 'templates/ecommerce'),
+                apply_filters('jankx/theme/template/directory', 'templates/woocommerce'),
                 $defaultTemplateDir,
                 $activeEngine
             );

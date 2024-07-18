@@ -1,6 +1,8 @@
 <?php
+
 namespace Jankx\WooCommerce\Renderer;
 
+use Jankx\MobileLayout\LayoutManager;
 use Jankx\WooCommerce\Constracts\Renderer;
 use Jankx\WooCommerce\WooCommerce;
 use Jankx\WooCommerce\WooCommerceTemplate;
@@ -77,10 +79,18 @@ class ProductsRenderer extends RendererBase
 
         do_action("jankx/woocommerce/loop/before", $this->args);
 
-        $layout = array_get($this->args, 'layout', Card::LAYOUT_NAME);
-        $postLayout = $postLayoutManager->createLayout($layout, $wp_query);
-        $postLayout->setOptions($this->getLayoutOptions());
+        $layout             = array_get($this->args, 'layout', Card::LAYOUT_NAME);
+        $loopItemLayoutType = array_get($this->args, 'item_layout', WooCommerce::instance()->getDefaultLoopItemLayout());
+        $loopItemLayout     = $postLayoutManager->getLoopItemContentByType($loopItemLayoutType);
 
+        // Create post layout
+        $postLayout = $postLayoutManager->createLayout(
+            $layout,
+            $wp_query,
+            $loopItemLayout
+        );
+
+        $postLayout->setOptions($this->getLayoutOptions());
         $postLayout->setContentGenerator(
             $plugin->getContentGenerator()
         );

@@ -1,4 +1,5 @@
 <?php
+
 namespace Jankx\WooCommerce;
 
 use Jankx\WooCommerce\Customize as WooCommercePlugin;
@@ -9,6 +10,7 @@ use Jankx\WooCommerce\Rest\RestManager;
 use Jankx\WooCommerce\Layouts\ProductDetail\ProductInfoTopWithSidebar;
 use Jankx\WooCommerce\Layouts\ProductDetail\ProductInfoTopWithSidebarBellowName;
 use Jankx\PostLayout\PostLayoutManager;
+use Jankx\WooCommerce\Layouts\Loop\DetailAndBuyNowButton;
 use Jankx\WooCommerce\WooCommerceTemplate;
 
 class WooCommerce
@@ -176,6 +178,11 @@ class WooCommerce
         return static::$singleProductLayouts;
     }
 
+    public function getDefaultLoopItemLayout()
+    {
+        return apply_filters('jankx/woocommerce/loop_item/layout', null);
+    }
+
     public function setupShopLayout()
     {
         $singleProductLayout = jankx_woocommerce_single_product_layout();
@@ -187,5 +194,11 @@ class WooCommerce
 
         $engine = WooCommerceTemplate::getEngine();
         PostLayoutManager::createInstance($engine);
+
+        add_filter('jankx/posts/loop/layouts', function ($loopItemLayouts) {
+            $loopItemLayouts[DetailAndBuyNowButton::getType()] = DetailAndBuyNowButton::class;
+
+            return $loopItemLayouts;
+        });
     }
 }
