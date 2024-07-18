@@ -1,4 +1,5 @@
 <?php
+
 namespace Jankx\WooCommerce\Component;
 
 use WC_Cart;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The template for displaying product content in the single-product.php template
  *
@@ -14,6 +15,7 @@
  * @package WooCommerce\Templates
  * @version 3.6.0
  */
+
 defined('ABSPATH') || exit;
 
 global $product;

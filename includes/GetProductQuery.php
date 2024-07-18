@@ -1,4 +1,5 @@
 <?php
+
 namespace Jankx\WooCommerce;
 
 use WP_Query;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Recently Viewed Products
  *

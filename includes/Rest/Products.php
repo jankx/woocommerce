@@ -1,4 +1,5 @@
 <?php
+
 namespace Jankx\Woocommerce\Rest;
 
 use WP_Rest_Request;
@@ -27,7 +28,7 @@ class Products extends WP_Rest_Request
 
     protected function parseTabTypeArgs($tab_type, $tab, &$args)
     {
-        if ($tab_type=== 'category') {
+        if ($tab_type === 'category') {
             if ($tab > 0) {
                 $args['categories'] = array((int)$tab);
             }

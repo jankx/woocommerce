@@ -1,4 +1,5 @@
 <?php
+
 namespace Jankx\WooCommerce\Abstracts;
 
 use Jankx\WooCommerce\Constracts\CustomizeInterface;

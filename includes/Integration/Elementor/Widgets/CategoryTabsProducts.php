@@ -1,4 +1,5 @@
 <?php
+
 namespace Jankx\WooCommerce\Integration\Elementor\Widgets;
 
 use Jankx;

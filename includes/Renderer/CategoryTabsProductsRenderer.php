@@ -1,4 +1,5 @@
 <?php
+
 namespace Jankx\WooCommerce\Renderer;
 
 use Jankx\TemplateAndLayout;

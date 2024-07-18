@@ -1,14 +1,15 @@
 <?php
+
 /**
  * WooCommerceData trait
  *
  * This trait copy from WooCommerce v4.5.2
  */
+
 namespace Jankx\WooCommerce\Traits;
 
 trait WooCommerceData
 {
-
     /**
      * Copy method from WC_REST_Products_V2_Controller::get_product_data method
      *

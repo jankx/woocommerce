@@ -1,4 +1,5 @@
 <?php
+
 namespace Jankx\WooCommerce\Integration;
 
 use Jankx\WooCommerce\Integration\Elementor\Elementor;

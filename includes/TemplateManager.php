@@ -1,4 +1,5 @@
 <?php
+
 namespace Jankx\WooCommerce;
 
 use WC_Product_Simple;
