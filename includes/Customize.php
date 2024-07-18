@@ -77,7 +77,6 @@ class Customize extends BaseCustomize
     {
         add_action('jankx/template/site/layout', array($this, 'customShopLayout'));
         add_action('jankx_template_page_single_product', array($this, 'renderProductContent'));
-        add_action('jankx/site/layout/default', array($this, 'changeDefaultSiteLayout'));
 
         // Custom WooCommercce templates
         add_filter('wc_get_template', array($this, 'changeWooCommerceTemplates'), 10, 5);
@@ -151,16 +150,17 @@ class Customize extends BaseCustomize
         do_action('woocommerce_sidebar');
     }
 
-    public function changeDefaultSiteLayout($layout)
+    public function changeDefaultSiteLayoutSingleProduct($layout)
     {
         if (is_woocommerce()) {
             if (!is_single()) {
-                return SiteLayout::LAYOUT_FULL_WIDTH;
+                return $layout;
             }
-            $sidebarPosition = apply_filters('jankx_template_site_layout_shop_sidebar_position', 'right');
+            $sidebarPosition = apply_filters('jankx/woocommerce/product/detail/sidebar', 'right');
             if ($sidebarPosition === 'right') {
                 return SiteLayout::LAYOUT_CONTENT_SIDEBAR;
-            } else {
+            }
+            if ($sidebarPosition === 'left') {
                 return SiteLayout::LAYOUT_SIDEBAR_CONTENT;
             }
         }
