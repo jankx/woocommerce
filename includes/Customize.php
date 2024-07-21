@@ -276,6 +276,10 @@ class Customize extends BaseCustomize
             unset($stylesheets['woocommerce-smallscreen']);
         }
 
+        if (isset($stylesheets['woocommerce-layout'])) {
+            unset($stylesheets['woocommerce-layout']);
+        }
+
         return $stylesheets;
     }
 

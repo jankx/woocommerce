@@ -3,7 +3,6 @@
 namespace Jankx\WooCommerce\Layouts\Loop;
 
 use WC_Product;
-
 use Jankx\PostLayout\Abstracts\LoopItemContent;
 use Jankx\WooCommerce\WooCommerceTemplate;
 
@@ -45,6 +44,11 @@ class DetailAndBuyNowButton extends LoopItemContent
             [
             ]
         );
+    }
+
+    public function getPostClassHook(): ?string
+    {
+        return 'woocommerce_post_class';
     }
 
     public function openButtonsWrap()

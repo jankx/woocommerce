@@ -1,9 +1,8 @@
-@charset "UTF-8";
 /*!
  * Module Name: Jankx WooCommerce
  * Author: Puleeno Nguyen
  * Author URI: https://puleeno.com
- * Version: 1.0.15
+ * Version: 1.0.16
  */
 .lds-ellipsis {
   display: inline-block;
@@ -104,9 +103,6 @@
   padding-left: 10px;
   padding-right: 10px;
 }
-.jankx-post-layout-wrap .carousel-layout ul.products li.product.first {
-  clear: none;
-}
 .jankx-post-layout-wrap ul.products {
   display: flex;
   width: 100%;
@@ -128,16 +124,10 @@
 .jankx-post-layout-wrap ul.products li.product.first {
   clear: none;
 }
-.jankx-post-layout-wrap ul.products.columns-4 li.product {
-  width: 25%;
-}
-.jankx-post-layout-wrap ul.products.columns-2 li.product {
-  width: 50%;
-}
 
 @media (min-width: 768px) {
-  .jankx-post-layout-wrap ul.products.columns-4 li.product {
-    width: 33.3333333333%;
+  .jankx-post-layout-wrap ul.products li.product {
+    width: 50%;
   }
 }
 @media (min-width: 992px) {
@@ -145,8 +135,53 @@
     padding-left: 10px;
     padding-right: 10px;
   }
+  .jankx-post-layout-wrap ul.products.columns-1 li.product {
+    width: 100%;
+  }
+  .jankx-post-layout-wrap ul.products.columns-2 li.product {
+    width: 50%;
+  }
+  .jankx-post-layout-wrap ul.products.columns-3 li.product {
+    width: 33.3333333333%;
+  }
   .jankx-post-layout-wrap ul.products.columns-4 li.product {
     width: 25%;
+  }
+  .jankx-post-layout-wrap ul.products.columns-5 li.product {
+    width: 20%;
+  }
+  .jankx-post-layout-wrap ul.products.columns-6 li.product {
+    width: 16.6666666667%;
+  }
+  .jankx-post-layout-wrap ul.products.columns-7 li.product {
+    width: 14.2857142857%;
+  }
+  .jankx-post-layout-wrap ul.products.columns-8 li.product {
+    width: 12.5%;
+  }
+  .jankx-post-layout-wrap ul.products.columns-9 li.product {
+    width: 11.1111111111%;
+  }
+  .jankx-post-layout-wrap ul.products.columns-10 li.product {
+    width: 10%;
+  }
+  .jankx-post-layout-wrap ul.products.columns-11 li.product {
+    width: 9.0909090909%;
+  }
+  .jankx-post-layout-wrap ul.products.columns-12 li.product {
+    width: 8.3333333333%;
+  }
+  .jankx-post-layout-wrap ul.products.columns-13 li.product {
+    width: 7.6923076923%;
+  }
+  .jankx-post-layout-wrap ul.products.columns-14 li.product {
+    width: 7.1428571429%;
+  }
+  .jankx-post-layout-wrap ul.products.columns-15 li.product {
+    width: 6.6666666667%;
+  }
+  .jankx-post-layout-wrap ul.products.columns-16 li.product {
+    width: 6.25%;
   }
 }
 @media (max-width: 767px) {
@@ -234,7 +269,6 @@
     width: 245px;
     padding-left: 5px;
   }
-
   .jankx-ecom-prod-top-layout.sidebar-bellow-name .info-with-sidebar-wrap {
     display: flex;
     margin-left: -5px;
@@ -270,7 +304,6 @@
     width: 250px;
     padding-left: 10px;
   }
-
   .jankx-ecom-prod-top-layout .product-top-info {
     margin-left: -10px;
     margin-right: -10px;
@@ -333,7 +366,7 @@
 .woocommerce-error::before,
 .woocommerce-info::before {
   font-family: "WooCommerce";
-  content: "";
+  content: "\e028";
   display: inline-block;
   position: absolute;
   top: 1em;

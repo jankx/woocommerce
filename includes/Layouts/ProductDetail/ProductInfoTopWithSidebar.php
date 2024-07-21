@@ -90,7 +90,7 @@ class ProductInfoTopWithSidebar
     {
         $args = array_merge($args, array(
             'posts_per_page' => 6,
-            'columns'        => 6,
+            'columns'        => 3,
         ));
         return $args;
     }
