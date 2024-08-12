@@ -4,7 +4,7 @@
     <?php do_action('jankx/woocommerce/single/product/layout/top_info/before'); ?>
 
     <?php if ($has_sidebar) : ?>
-        <div class="info-with-sidebar-wrap">
+        <div class="info-with-sidebar-wrap product">
             <div class="product-top-info">
                 <div class="product-image-wrap">
                     <?php do_action('jankx/woocommerce/single/product/layout/top_info/image'); ?>

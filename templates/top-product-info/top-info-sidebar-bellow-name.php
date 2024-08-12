@@ -3,7 +3,7 @@
 
     <?php do_action('jankx/woocommerce/single/product/layout/top_info/before'); ?>
 
-    <div class="info-with-sidebar-wrap">
+    <div class="info-with-sidebar-wrap product">
         <div class="product-image-wrap">
             <?php do_action('jankx/woocommerce/single/product/layout/top_info/image'); ?>
         </div>
