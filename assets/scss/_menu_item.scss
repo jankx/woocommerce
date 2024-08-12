@@ -9,6 +9,11 @@
 .cart-icon {
     position: relative;
     margin-right: 10px;
+    .dashicons-cart {
+        font-family: 'dashicons';
+        font-size: 20px;
+        line-height: 20px;
+    }
 
     .cart-badge {
         display: flex;
