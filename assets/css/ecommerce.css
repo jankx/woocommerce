@@ -2,7 +2,7 @@
  * Module Name: Jankx WooCommerce
  * Author: Puleeno Nguyen
  * Author URI: https://puleeno.com
- * Version: 1.0.17
+ * Version: 1.0.18
  */
 .lds-ellipsis {
   display: inline-block;
@@ -345,6 +345,10 @@
 }
 .jankx-ecom-product-thumbnails {
   overflow: hidden;
+  display: flex;
+}
+.jankx-ecom-product-thumbnails .woocommerce-product-gallery__image {
+  flex: 1;
 }
 .jankx-ecom-product-thumbnails .slick-list {
   margin-left: -5px;

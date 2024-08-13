@@ -1,5 +1,9 @@
 .jankx-ecom-product-thumbnails {
     overflow: hidden;
+    display: flex;
+    .woocommerce-product-gallery__image {
+        flex: 1;
+    }
     .slick-list {
         margin-left: -5px;
         margin-right: -5px;
