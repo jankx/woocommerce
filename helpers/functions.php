@@ -51,3 +51,11 @@ function jankx_woocommerce_get_recently_view_products() {
 
     return apply_filters('jankx_woocommerce_recently_viewed_products', $viewed_products);
 }
+
+
+function jankx_woocommerce_get_search_product_page_url() {
+    return apply_filters(
+        'jankx/woocommerce/search_product_page_url',
+        GlobalConfigs::get('store.search.path', '/search')
+    );
+}

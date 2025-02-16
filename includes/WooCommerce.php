@@ -48,13 +48,8 @@ class WooCommerce
         $this->bootstrap();
         $this->loadHelpers();
 
-        $this->detecter = new PluginDetecter();
         $this->ecommerceMenu = new MenuItems();
 
-        add_action('after_setup_theme', array(
-            $this->detecter,
-            'getECommercePlugin'
-        ));
         add_action('after_setup_theme', array(Plugin::class, 'getInstance'));
         add_action('after_setup_theme', array($this, 'loadFeatures'));
         add_action('after_setup_theme', array($this, 'loadSupportLayouts'), 20);
@@ -72,7 +67,7 @@ class WooCommerce
 
     public function loadFeatures()
     {
-        $this->pluginName = $this->detecter->getPlugin();
+        $this->pluginName = WooCommercePlugin::PLUGIN_NAME;
 
         $this->ecommerceMenu->register();
 
