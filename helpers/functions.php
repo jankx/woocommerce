@@ -18,7 +18,7 @@ function jankx_woocommerce_single_product_layout()
 {
     $layout = apply_filters(
         'jankx/woocommerce/product/detail/layout',
-        GlobalConfigs::get('store.detail.layout', 'top-product-info-with-summary-sidebar')
+        GlobalConfigs::get('store.detail.layout', 'default')
     );
     if ($layout) {
         return $layout;

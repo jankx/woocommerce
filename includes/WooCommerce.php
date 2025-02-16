@@ -11,6 +11,7 @@ use Jankx\WooCommerce\Layouts\ProductDetail\ProductInfoTopWithSidebar;
 use Jankx\WooCommerce\Layouts\ProductDetail\ProductInfoTopWithSidebarBellowName;
 use Jankx\PostLayout\PostLayoutManager;
 use Jankx\WooCommerce\Layouts\Loop\DetailAndBuyNowButton;
+use Jankx\WooCommerce\Layouts\ProductDetail\DefaultLayout;
 use Jankx\WooCommerce\WooCommerceTemplate;
 
 class WooCommerce
@@ -171,6 +172,7 @@ class WooCommerce
         }
 
         static::$singleProductLayouts = apply_filters('jankx_woocommerce_woocommerce_single_layouts', array(
+            'default' => DefaultLayout::class,
             ProductInfoTopWithSidebar::LAYOUT_NAME => ProductInfoTopWithSidebar::class,
             ProductInfoTopWithSidebarBellowName::LAYOUT_NAME => ProductInfoTopWithSidebarBellowName::class,
         ));
