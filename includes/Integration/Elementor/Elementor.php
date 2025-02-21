@@ -10,12 +10,14 @@ class Elementor
 {
     public function __construct()
     {
-        add_action(
-            'elementor/widgets/register',
-            array($this, 'registerWidgets')
-        );
-        if (! empty($_REQUEST['action']) && 'elementor' === $_REQUEST['action'] && is_admin()) {
-            add_action('init', [ $this, 'registerWooCommerceFrontend' ], 5);
+        if (class_exists(ElementorCompatible::class)) {
+            add_action(
+                'elementor/widgets/register',
+                array($this, 'registerWidgets')
+            );
+            if (! empty($_REQUEST['action']) && 'elementor' === $_REQUEST['action'] && is_admin()) {
+                add_action('init', [ $this, 'registerWooCommerceFrontend' ], 5);
+            }
         }
     }
 
