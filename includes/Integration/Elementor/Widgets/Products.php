@@ -78,6 +78,22 @@ class Products extends WidgetBase
             ]
         );
 
+        $this->add_control(
+            'data_type',
+            [
+                'label' => __('Data Type', 'jankx_woocommerce'),
+                'type' => Controls_Manager::SELECT2,
+                'multiple' => false,
+                'options' => [
+                    '' => __('Default'),
+                    'featured' => __('Featured', 'woocommerce'),
+                    'sales' => __('On sales', 'woocommerce')
+                ],
+                'default' => '',
+            ]
+        );
+
+
 
         $this->add_control(
             'product_tags',
@@ -151,6 +167,7 @@ class Products extends WidgetBase
             'tags' => array_get($settings, 'product_tags', array()),
             'layout' => $this->get_responsive_setting('layout', Card::LAYOUT_NAME),
             'limit' => $this->get_responsive_setting('limit', 10),
+            'type' => array_get($settings, 'data_type', '')
         ));
         if (($url = array_get($settings, 'readmore_url', ''))) {
             $productsModule->setReadMore($url);

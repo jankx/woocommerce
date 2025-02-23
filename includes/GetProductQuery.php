@@ -38,6 +38,10 @@ class GetProductQuery extends QueryBuilder
         $this->fields = $fields;
     }
 
+    public function setType($type) {
+        $this->type = $type;
+    }
+
     public function setCategories($categoryIds)
     {
         if (is_int($categoryIds)) {
@@ -61,7 +65,7 @@ class GetProductQuery extends QueryBuilder
             ),
         );
 
-        if ($this->categories) {
+        if (!empty($this->categories)) {
             $taxQuery[] = array(
                 'taxonomy' => $integrator->getProductCategoryTaxonomy(),
                 'field'    => 'ids',
