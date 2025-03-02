@@ -205,20 +205,16 @@ class Customize extends BaseCustomize
 
     public function loadCustomWooCommerceTemplates($template)
     {
-        if (strpos($template, sprintf(WP_CONTENT_DIR . '/plugins/woocommerce')) !== false) {
+        if (strpos($template, sprintf(implode(DIRECTORY_SEPARATOR, ['', 'plugins', 'woocommerce']))) !== false) {
             $t = null;
             if (is_singular('product')) {
-                $t = 'woocommerce/single-product.php';
+                $t = 'woocommerce/single-product';
             } elseif (is_product_taxonomy()) {
-                $t = 'woocommerce/archive-product.php';
+                $t = 'woocommerce/archive-product';
             }
 
             if (!is_null($t)) {
-                $searchedTemplate = locate_template(array(
-                    sprintf('templates/%s', $t),
-                    $t
-                ), false);
-
+                $searchedTemplate = WooCommerceTemplate::search($t);
                 if ($searchedTemplate) {
                     return $searchedTemplate;
                 }
