@@ -185,7 +185,6 @@ class Customize extends BaseCustomize
     {
         $jankxTemplate    = sprintf('woocommerce/%s', rtrim($template_name, '.php'));
         $searchedTemplate = WooCommerceTemplate::search($jankxTemplate);
-
         // Return Jankx WooCommerce template when the template is existing
         if ($searchedTemplate) {
             return $searchedTemplate;
@@ -216,18 +215,13 @@ class Customize extends BaseCustomize
 
             if (!is_null($t)) {
                 $searchedTemplate = locate_template(array(
-                    sprintf('templates/ecommerce/%s', $t),
+                    sprintf('templates/%s', $t),
                     $t
                 ), false);
 
-                if (!$searchedTemplate) {
-                    return sprintf(
-                        '%s/customize/%s',
-                        constant('JANKX_WOOCOMMERCE_ROOT_DIR'),
-                        $t
-                    );
+                if ($searchedTemplate) {
+                    return $searchedTemplate;
                 }
-                return $searchedTemplate;
             }
         }
         return $template;

@@ -10,7 +10,7 @@
     if (woocommerceGalleryImages.length > 0) {
         var imageSources       = [];
         window.woocommerceGallery = new FsLightbox();
-        for (i=0; i<woocommerceGalleryImages.length; i++) {
+        for (i = 0; i < woocommerceGalleryImages.length; i++) {
             var image = woocommerceGalleryImages[i];
             var galleryItem = (image.parentElement && image.parentElement.tagName === 'A') ? image.parentElement : image;
             var src = galleryItem.getAttribute('href')
