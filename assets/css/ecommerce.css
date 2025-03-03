@@ -2,7 +2,7 @@
  * Module Name: Jankx WooCommerce
  * Author: Puleeno Nguyen
  * Author URI: https://puleeno.com
- * Version: 1.0.18
+ * Version: 1.0.19
  */
 .lds-ellipsis {
   display: inline-block;
@@ -232,6 +232,23 @@
 }
 .product .woocommerce-loop-product__title {
   font-size: inherit;
+}
+
+.added_to_cart.wc-forward {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  left: 0;
+  top: 0;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+}
+
+ul.product-list .product, ul.products .product {
+  position: relative;
 }
 
 .widget .product-attributes-heading {

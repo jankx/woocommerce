@@ -326,7 +326,7 @@ class Customize extends BaseCustomize
     public function setContentWrapperTagForPostLayout($layoutName, $postLayout)
     {
         $postLayout->setContentGenerator($this->getContentGenerator());
-        $postLayout->setContentWrapperTag('ul.product-list');
+        $postLayout->setContentWrapperTag('ul.product-list,ul.products');
     }
 
     public function customizeArchiveProductPage($page, $templateFile, $templateEngine, $templates, $templateLoader)
