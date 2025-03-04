@@ -1,0 +1,11 @@
+.woocommerce {
+    ul.products {
+        li.product {
+            &.item-cart-btn-in-thumb {
+                .add_to_cart_button {
+                    background: none;
+                }
+            }
+        }
+    }
+}

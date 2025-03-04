@@ -1,6 +1,7 @@
 <?php
+
 namespace Jankx\WooCommerce\Layouts\ProductDetail;
 
-
-class DefaultLayout {
+class DefaultLayout
+{
 }

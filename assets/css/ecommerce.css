@@ -360,6 +360,29 @@ ul.product-list .product, ul.products .product {
     margin-top: 15px;
   }
 }
+.woocommerce ul.products li.product.item-loop-dabnb .jankx-ecommerce-buttons {
+  display: flex;
+  flex-basis: auto;
+  align-items: center;
+}
+.woocommerce ul.products li.product.item-loop-dabnb .jankx-ecommerce-buttons a {
+  flex: 1;
+}
+.woocommerce ul.products li.product.item-loop-dabnb .jankx-ecommerce-buttons a.button {
+  margin-top: 0;
+}
+.woocommerce ul.products li.product.item-loop-dabnb .jankx-ecommerce-buttons a:nth-child(even) {
+  display: flex;
+  justify-content: flex-end;
+}
+.woocommerce:where(body:not(.woocommerce-block-theme-has-button-styles)) .item-loop-dabnb a.button {
+  background: none;
+}
+
+.woocommerce ul.products li.product.item-cart-btn-in-thumb .add_to_cart_button {
+  background: none;
+}
+
 .jankx-ecom-product-thumbnails {
   overflow: hidden;
   display: flex;

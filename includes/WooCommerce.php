@@ -10,6 +10,7 @@ use Jankx\WooCommerce\Rest\RestManager;
 use Jankx\WooCommerce\Layouts\ProductDetail\ProductInfoTopWithSidebar;
 use Jankx\WooCommerce\Layouts\ProductDetail\ProductInfoTopWithSidebarBellowName;
 use Jankx\PostLayout\PostLayoutManager;
+use Jankx\WooCommerce\Layouts\Loop\AddCartButtonInThumbnailWrap;
 use Jankx\WooCommerce\Layouts\Loop\DetailAndBuyNowButton;
 use Jankx\WooCommerce\Layouts\ProductDetail\DefaultLayout;
 use Jankx\WooCommerce\WooCommerceTemplate;
@@ -17,7 +18,7 @@ use Jankx\WooCommerce\WooCommerceTemplate;
 class WooCommerce
 {
     const NAME = 'jankx-ecommerce';
-    const VERSION = '1.0.0.3';
+    const VERSION = '1.0.0.5';
 
     protected static $instance;
     protected static $supportPlugins;
@@ -193,9 +194,13 @@ class WooCommerce
         PostLayoutManager::createInstance($engine);
 
         add_filter('jankx/posts/loop/layouts', function ($loopItemLayouts) {
-            $loopItemLayouts[DetailAndBuyNowButton::getType()] = DetailAndBuyNowButton::class;
-
-            return $loopItemLayouts;
+            return array_merge(
+                $loopItemLayouts,
+                [
+                    DetailAndBuyNowButton::getType() => DetailAndBuyNowButton::class,
+                    AddCartButtonInThumbnailWrap::LOOP_LAYOUT_NAME => AddCartButtonInThumbnailWrap::class
+                ]
+            );
         });
     }
 }

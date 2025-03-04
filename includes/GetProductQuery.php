@@ -38,7 +38,8 @@ class GetProductQuery extends QueryBuilder
         $this->fields = $fields;
     }
 
-    public function setType($type) {
+    public function setType($type)
+    {
         $this->type = $type;
     }
 

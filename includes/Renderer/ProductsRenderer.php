@@ -99,7 +99,7 @@ class ProductsRenderer extends RendererBase
             $plugin->getContentGenerator()
         );
         $content = $postLayout->render(false);
-        
+
 
         do_action("jankx/woocommerce/loop/end", $content, $this->args);
 
@@ -109,7 +109,8 @@ class ProductsRenderer extends RendererBase
         return $content;
     }
 
-    public function changeThumbnailSize($size) {
+    public function changeThumbnailSize($size)
+    {
         if (($optionSize = $this->getLayoutOption('thumbnail_size')) !== 'woocommerce_thumbnail') {
             if ($optionSize !== 'custom') {
                 return $optionSize;
@@ -119,7 +120,8 @@ class ProductsRenderer extends RendererBase
         return $size;
     }
 
-    public function createImageWrapper($image, $wc_product, $size, $attr) {
+    public function createImageWrapper($image, $wc_product, $size, $attr)
+    {
         return jankx_template('post-layout/thumbnail', [
             'post' => $wc_product,
             'data_index' => 0,
