@@ -91,14 +91,30 @@ class ProductsRenderer extends RendererBase
             $loopItemLayout
         );
 
+        add_filter('single_product_archive_thumbnail_size', [$this, 'changeThumbnailSize']);
+
         $postLayout->setOptions($this->getLayoutOptions());
         $postLayout->setContentGenerator(
             $plugin->getContentGenerator()
         );
         $content = $postLayout->render(false);
+        
 
         do_action("jankx/woocommerce/loop/end", $content, $this->args);
 
+        remove_filter('single_product_archive_thumbnail_size', [$this, 'changeThumbnailSize']);
+
+
         return $content;
+    }
+
+    public function changeThumbnailSize($size) {
+        if (($optionSize = $this->getLayoutOption('thumbnail_size')) !== 'woocommerce_thumbnail') {
+            if ($optionSize !== 'custom') {
+                return $optionSize;
+            }
+            return sprintf('%sx%s', $this->getLayoutOption('image_width', 300), $this->getLayoutOption('image_height', 300));
+        }
+        return $size;
     }
 }

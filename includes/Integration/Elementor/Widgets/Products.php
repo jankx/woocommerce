@@ -179,8 +179,9 @@ class Products extends WidgetBase
             'columns' => $this->get_responsive_setting('columns', 4),
             'rows' => $this->get_responsive_setting('rows', 1),
             'thumbnail_size'  => array_get($settings, 'thumbnail_size', 'medium'),
+            'image_width'  => array_get($settings, 'image_width', '300'),
+            'image_height'  => array_get($settings, 'image_height', '300'),
         ));
-
         // Set Woocommerce loop columns
         wc_get_loop_prop('columns', $this->get_responsive_setting('columns', 4));
 

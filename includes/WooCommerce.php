@@ -177,7 +177,7 @@ class WooCommerce
 
     public function getDefaultLoopItemLayout()
     {
-        return apply_filters('jankx/woocommerce/loop_item/layout', null);
+        return apply_filters('jankx/woocommerce/loop_item/layout', DetailAndBuyNowButton::getType());
     }
 
     public function setupShopLayout()
