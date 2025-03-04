@@ -92,6 +92,7 @@ class ProductsRenderer extends RendererBase
         );
 
         add_filter('single_product_archive_thumbnail_size', [$this, 'changeThumbnailSize']);
+        add_filter('woocommerce_product_get_image', [$this, 'createImageWrapper'], 10, 4);
 
         $postLayout->setOptions($this->getLayoutOptions());
         $postLayout->setContentGenerator(
@@ -102,8 +103,8 @@ class ProductsRenderer extends RendererBase
 
         do_action("jankx/woocommerce/loop/end", $content, $this->args);
 
+        remove_filter('woocommerce_product_get_image', [$this, 'createImageWrapper'], 10, 4);
         remove_filter('single_product_archive_thumbnail_size', [$this, 'changeThumbnailSize']);
-
 
         return $content;
     }
@@ -116,5 +117,14 @@ class ProductsRenderer extends RendererBase
             return sprintf('%sx%s', $this->getLayoutOption('image_width', 300), $this->getLayoutOption('image_height', 300));
         }
         return $size;
+    }
+
+    public function createImageWrapper($image, $wc_product, $size, $attr) {
+        return jankx_template('post-layout/thumbnail', [
+            'post' => $wc_product,
+            'data_index' => 0,
+            'thumbnail_size' => $size,
+            'content' => $image
+        ], false);
     }
 }
