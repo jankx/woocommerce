@@ -15,7 +15,7 @@ class CartButton extends Component
     const COMPONENT_NAME = 'cart_button';
 
     protected static $cartContentRendered = false;
-    protected static $shopPlugin;
+    protected static $wooCommerceCustomizer;
 
     public function getName()
     {
@@ -25,11 +25,11 @@ class CartButton extends Component
     public function parseProps($props)
     {
         $eCommerce   = WooCommerce::instance();
-        static::$shopPlugin = $eCommerce->getShopPlugin();
+        static::$wooCommerceCustomizer = $eCommerce->getShopPlugin();
         $this->props = wp_parse_args($props, array(
             'show_badge' => true,
             'text' => null,
-            'cart_url' => static::$shopPlugin->getCartUrl(),
+            'cart_url' => static::$wooCommerceCustomizer->getCartUrl(),
             'preview' => false,
             'icon' => '<span class="dashicons-cart"></span>',
             'preview_content' => 'components/cart/cart_preview',
@@ -81,7 +81,7 @@ class CartButton extends Component
     {
         ?>
         <script type="text/x-tmpl" id="jankx-ecommerce-cart-content">
-            <?php echo static::$shopPlugin->getCartContent(); ?>
+            <?php echo static::$wooCommerceCustomizer->getCartContent(); ?>
         </script>
         <?php
     }

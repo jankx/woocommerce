@@ -129,7 +129,7 @@ class CategoryTabsProductsRenderer extends RendererBase
 
     public function transformDataTabs2PostLayoutTabs($tabs)
     {
-        $shopPlugin = WooCommerce::instance()->getShopPlugin();
+        $wooCommerceCustomizer = WooCommerce::instance()->getShopPlugin();
         $postLayoutTabs = array();
 
         foreach ($tabs as $tab_title => $tab) {
@@ -141,7 +141,7 @@ class CategoryTabsProductsRenderer extends RendererBase
                 'title' => $tab_title,
                 'object' => array(
                     'type' => 'taxonomy',
-                    'type_name' => $shopPlugin->getProductCategoryTaxonomy(),
+                    'type_name' => $wooCommerceCustomizer->getProductCategoryTaxonomy(),
                     'id' => array_get($tab, 'tab'),
                 ),
                 'url' => array_get($tab, 'url'),

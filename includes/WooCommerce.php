@@ -7,12 +7,10 @@ use Jankx\WooCommerce\Component\CartButton;
 use Jankx\WooCommerce\Integration\Plugin;
 use Jankx\WooCommerce\MenuItems;
 use Jankx\WooCommerce\Rest\RestManager;
-use Jankx\WooCommerce\Layouts\ProductDetail\ProductInfoTopWithSidebar;
-use Jankx\WooCommerce\Layouts\ProductDetail\ProductInfoTopWithSidebarBellowName;
 use Jankx\PostLayout\PostLayoutManager;
 use Jankx\WooCommerce\Layouts\Loop\AddCartButtonInThumbnailWrap;
 use Jankx\WooCommerce\Layouts\Loop\DetailAndBuyNowButton;
-use Jankx\WooCommerce\Layouts\ProductDetail\DefaultLayout;
+use Jankx\WooCommerce\Layouts\ProductDetail\NoSidebar\ImageAndProductInfosOnTopDescriptionBellow;
 use Jankx\WooCommerce\WooCommerceTemplate;
 
 class WooCommerce
@@ -21,12 +19,10 @@ class WooCommerce
     const VERSION = '1.0.0.6';
 
     protected static $instance;
-    protected static $supportPlugins;
     protected static $singleProductLayouts;
 
-
     protected $detecter;
-    protected $shopPlugin;
+    protected $wooCommerceCustomizer;
     protected $pluginName;
 
     protected $ecommerceMenu;
@@ -43,18 +39,19 @@ class WooCommerce
 
     private function __construct()
     {
-        static::$supportPlugins = array(
-            WooCommercePlugin::PLUGIN_NAME => WooCommercePlugin::class,
-        );
         $this->bootstrap();
         $this->loadHelpers();
 
         $this->ecommerceMenu = new MenuItems();
+        $this->wooCommerceCustomizer = new WooCommercePlugin();
 
         add_action('after_setup_theme', array(Plugin::class, 'getInstance'));
         add_action('after_setup_theme', array($this, 'loadFeatures'));
-        add_action('after_setup_theme', array($this, 'loadSupportLayouts'), 20);
-        add_action('after_setup_theme', array($this, 'setupShopLayout'), 30);
+
+
+        // Single products
+        add_action('wp', array($this, 'loadSupportLayouts'), 20);
+        add_action('wp', array($this, 'setupShopLayout'), 30);
 
         add_action('wp_enqueue_scripts', array($this, 'registerScripts'), 15);
 
@@ -72,11 +69,6 @@ class WooCommerce
 
         $this->ecommerceMenu->register();
 
-        if (empty($this->pluginName) || !isset(static::$supportPlugins[$this->pluginName])) {
-            return;
-        }
-        $className = static::$supportPlugins[$this->pluginName];
-        $this->shopPlugin = new $className();
 
         // Register rest endpoints
         RestManager::getInstance();
@@ -85,12 +77,12 @@ class WooCommerce
         add_theme_support('woocommerce');
 
         add_filter('jankx_components', array($this, 'registerWooCommerceComponents'));
-        add_action('wp', array($this->shopPlugin, 'viewProduct'));
+        add_action('wp', array($this->wooCommerceCustomizer, 'viewProduct'));
     }
 
     public function getShopPlugin()
     {
-        return $this->shopPlugin;
+        return $this->wooCommerceCustomizer;
     }
 
     public function registerWooCommerceComponents($components)
@@ -167,11 +159,11 @@ class WooCommerce
             return static::$singleProductLayouts;
         }
 
-        static::$singleProductLayouts = apply_filters('jankx_woocommerce_woocommerce_single_layouts', array(
-            'default' => DefaultLayout::class,
-            ProductInfoTopWithSidebar::LAYOUT_NAME => ProductInfoTopWithSidebar::class,
-            ProductInfoTopWithSidebarBellowName::LAYOUT_NAME => ProductInfoTopWithSidebarBellowName::class,
-        ));
+        if (is_singular('product')) {
+            static::$singleProductLayouts = apply_filters('jankx_woocommerce_woocommerce_single_layouts', array(
+            'default' => ImageAndProductInfosOnTopDescriptionBellow::class,
+            ));
+        }
 
         return static::$singleProductLayouts;
     }

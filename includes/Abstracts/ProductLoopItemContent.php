@@ -19,4 +19,9 @@ abstract class ProductLoopItemContent extends LoopItemContent
             GlobalConfigs::get('customs.woocommerce.discount_price', true)
         );
     }
+
+
+    public function showPercentDiscount()
+    {
+    }
 }

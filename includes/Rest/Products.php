@@ -10,7 +10,7 @@ class Products extends WP_Rest_Request
 {
     public function __construct()
     {
-        $this->shopPlugin = WooCommerce::instance()->getShopPlugin();
+        $this->wooCommerceCustomizer = WooCommerce::instance()->getShopPlugin();
     }
 
     public function register()
@@ -47,7 +47,7 @@ class Products extends WP_Rest_Request
 
         $wp_query = $productQuery->getWordPressQuery();
         $products = array();
-        $callback = $this->shopPlugin->getProductMethod();
+        $callback = $this->wooCommerceCustomizer->getProductMethod();
         global $product;
 
         foreach ($wp_query->posts as $post) {
@@ -55,7 +55,7 @@ class Products extends WP_Rest_Request
             if (!$product) {
                 continue;
             }
-            $product_data = $this->shopPlugin->getProductData($product);
+            $product_data = $this->wooCommerceCustomizer->getProductData($product);
 
             $product_data['thumbnail_image'] = woocommerce_get_product_thumbnail();
 
