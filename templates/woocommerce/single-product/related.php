@@ -18,12 +18,12 @@
 
 use Jankx\PostLayout\PostLayoutManager;
 use Jankx\PostLayout\Layout\Card;
+use Jankx\WooCommerce\Renderer\ProductsRenderer;
 use Jankx\WooCommerce\WooCommerceTemplate;
 
 if (! defined('ABSPATH')) {
     exit;
 }
-
 if (!empty($related_products)) : ?>
     <?php
         $wp_query = new WP_Query();
@@ -55,7 +55,30 @@ if (!empty($related_products)) : ?>
             <h2><?php echo esc_html($heading); ?></h2>
         <?php endif; ?>
 
-        <?php $postLayout->render(); ?>
+        <?php
+        $settings = [];
+        $productsModule = new ProductsRenderer(array(
+            'layout' => array_get($args, 'layout'),
+        ));
+        $productsModule->setMainQuery($wp_query);
+
+        if (($url = array_get($settings, 'readmore_url', ''))) {
+            $productsModule->setReadMore($url);
+        }
+
+        $productsModule->setLayoutOptions(array(
+            'columns_tablet' => 2,
+            'columns_mobile' => 1,
+            'columns' => 4,
+            'rows' => 1,
+            'thumbnail_size'  => 'medium',
+        ));
+        // Set Woocommerce loop columns
+        wc_get_loop_prop('columns', array_get($args, 'columns'));
+
+        // Render the content
+        echo $productsContent = $productsModule->render();
+        ?>
     </section>
     <?php
 endif;

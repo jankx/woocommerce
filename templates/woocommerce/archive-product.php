@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The Template for displaying product archives, including the main shop page which is a post type archive
  *
@@ -14,6 +15,7 @@
  * @package WooCommerce\Templates
  * @version 3.4.0
  */
+
 use Jankx\PostLayout\PostLayoutManager;
 use Jankx\PostLayout\Layout\Card;
 use Jankx\WooCommerce\WooCommerceTemplate;

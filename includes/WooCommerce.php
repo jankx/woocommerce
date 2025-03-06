@@ -27,6 +27,8 @@ class WooCommerce
 
     protected $ecommerceMenu;
 
+    protected $detailProductLayout;
+
     protected $menu;
 
     public static function instance()
@@ -47,11 +49,12 @@ class WooCommerce
 
         add_action('after_setup_theme', array(Plugin::class, 'getInstance'));
         add_action('after_setup_theme', array($this, 'loadFeatures'));
+        add_action('after_setup_theme', array($this, 'setupShopLayout'), 30);
 
 
         // Single products
         add_action('wp', array($this, 'loadSupportLayouts'), 20);
-        add_action('wp', array($this, 'setupShopLayout'), 30);
+        add_action('wp', [$this, 'loadSingleProductLayout'], 30);
 
         add_action('wp_enqueue_scripts', array($this, 'registerScripts'), 15);
 
@@ -155,17 +158,29 @@ class WooCommerce
 
     public function loadSupportLayouts()
     {
+        if (!is_singular('product')) {
+            return;
+        }
+
         if (!is_null(static::$singleProductLayouts)) {
             return static::$singleProductLayouts;
         }
 
-        if (is_singular('product')) {
-            static::$singleProductLayouts = apply_filters('jankx_woocommerce_woocommerce_single_layouts', array(
-            'default' => ImageAndProductInfosOnTopDescriptionBellow::class,
-            ));
-        }
-
+        static::$singleProductLayouts = apply_filters('jankx_woocommerce_woocommerce_single_layouts', array(
+        'default' => ImageAndProductInfosOnTopDescriptionBellow::class,
+        ));
         return static::$singleProductLayouts;
+    }
+
+    public function loadSingleProductLayout()
+    {
+        if (!is_singular('product')) {
+            return;
+        }
+        $singleProductLayout = jankx_woocommerce_single_product_layout();
+        if (isset(static::$singleProductLayouts[$singleProductLayout]) && class_exists(static::$singleProductLayouts[$singleProductLayout])) {
+            $this->detailProductLayout = new static::$singleProductLayouts[$singleProductLayout]();
+        }
     }
 
     public function getDefaultLoopItemLayout()
@@ -175,13 +190,7 @@ class WooCommerce
 
     public function setupShopLayout()
     {
-        $singleProductLayout = jankx_woocommerce_single_product_layout();
-        if ($singleProductLayout && $singleProductLayout !== 'default') {
-            if (isset(static::$singleProductLayouts[$singleProductLayout]) && class_exists(static::$singleProductLayouts[$singleProductLayout])) {
-                new static::$singleProductLayouts[$singleProductLayout]();
-            }
-        }
-
+        // Setup templates
         $engine = WooCommerceTemplate::getEngine();
         PostLayoutManager::createInstance($engine);
 

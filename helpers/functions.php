@@ -18,8 +18,9 @@ function jankx_woocommerce_single_product_layout()
 {
     $layout = apply_filters(
         'jankx/woocommerce/product/detail/layout',
-        GlobalConfigs::get('store.detail.layout', 'default')
+        GlobalConfigs::get('customs.layout.woocommerce.product', null)
     );
+
     if ($layout) {
         return $layout;
     }

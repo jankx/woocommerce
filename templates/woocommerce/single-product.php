@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The Template for displaying all single products
  *
@@ -14,6 +15,7 @@
  * @package     WooCommerce\Templates
  * @version     1.6.4
  */
+
 if (! defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
@@ -28,9 +30,9 @@ do_action('jankx_woocommerce_after_shop_header');
         if (has_action('jankx_woocommerce_woocommerce_content_single_product')) {
             do_action('jankx_woocommerce_woocommerce_content_single_product');
         } else {
-            jankx_woocommerce_template( 'woocommerce/content-single-product', array(
+            jankx_woocommerce_template('woocommerce/content-single-product', array(
                 'product' => &$GLOBALS['product'],
-            ) );
+            ));
         }
         ?>
 

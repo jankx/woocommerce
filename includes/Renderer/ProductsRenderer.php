@@ -20,6 +20,7 @@ class ProductsRenderer extends RendererBase
     protected $readmore = array();
     protected $args;
     protected $layoutOptions = array();
+    protected $wp_query;
 
     public function __construct($args = array())
     {
@@ -68,7 +69,7 @@ class ProductsRenderer extends RendererBase
 
     public function render()
     {
-        $wp_query   = $this->buildFirstTabQuery();
+        $wp_query   = empty($this->wp_query) ? $this->buildFirstTabQuery() : $this->wp_query;
         $plugin = jankx_woocommerce()->getShopPlugin();
         $postLayoutManager = PostLayoutManager::getInstance(
             TemplateAndLayout::getTemplateEngine()->getId()
@@ -128,5 +129,11 @@ class ProductsRenderer extends RendererBase
             'thumbnail_size' => $size,
             'content' => $image
         ], false);
+    }
+
+
+    public function setMainQuery($wp_query)
+    {
+        $this->wp_query = &$wp_query;
     }
 }
