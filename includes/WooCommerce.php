@@ -167,7 +167,7 @@ class WooCommerce
         }
 
         static::$singleProductLayouts = apply_filters('jankx_woocommerce_woocommerce_single_layouts', array(
-        'default' => ImageAndProductInfosOnTopDescriptionBellow::class,
+            'default' => ImageAndProductInfosOnTopDescriptionBellow::class,
         ));
         return static::$singleProductLayouts;
     }

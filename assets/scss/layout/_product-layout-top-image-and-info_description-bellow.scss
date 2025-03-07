@@ -1,0 +1,24 @@
+.product-layout-top-image-n-info {
+    .jankx-top-product-infos {
+        display: flex;
+        flex-wrap: nowrap;
+
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+
+
+    .jankx-block-features {
+        flex: 1;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        &.block-1 {
+            max-width: 40%;
+        }
+
+        &.block-2 {
+        }
+    }
+}
+
