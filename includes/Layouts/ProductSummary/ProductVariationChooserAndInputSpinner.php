@@ -81,7 +81,7 @@ class ProductVariationChooserAndInputSpinner extends ProductSummaryLayout
 
                 foreach ($terms as $term) {
                     if (in_array($term->slug, $options, true)) {
-                        $html .= '<label>';
+                        $html .= '<label class="jank-variant-chooser-ctrl">';
                         $html .= '<input
                             type="radio"
                             id="' . esc_attr($id) . '"
@@ -95,7 +95,7 @@ class ProductVariationChooserAndInputSpinner extends ProductSummaryLayout
                 }
             } else {
                 foreach ($options as $option) {
-                    $html .= '<label>';
+                    $html .= '<label class="jank-variant-chooser-ctrl">';
                     // This handles < 2.4.0 bw compatibility where text attributes were not sanitized.
                     $selected = sanitize_title($args['selected']) === $args['selected'] ? selected($args['selected'], sanitize_title($option), false) : selected($args['selected'], $option, false);
                     $html .= '<input
