@@ -11,6 +11,7 @@ use Jankx\PostLayout\PostLayoutManager;
 use Jankx\WooCommerce\Layouts\Loop\AddCartButtonInThumbnailWrap;
 use Jankx\WooCommerce\Layouts\Loop\DetailAndBuyNowButton;
 use Jankx\WooCommerce\Layouts\ProductDetail\NoSidebar\ImageAndProductInfosOnTopDescriptionBellow;
+use Jankx\WooCommerce\Layouts\ProductSummary\ProductVariationChooserAndInputSpinner;
 use Jankx\WooCommerce\WooCommerceTemplate;
 
 class WooCommerce
@@ -20,6 +21,7 @@ class WooCommerce
 
     protected static $instance;
     protected static $singleProductLayouts;
+    protected static $productSummaryLayouts = [];
 
     protected $detecter;
     protected $wooCommerceCustomizer;
@@ -31,6 +33,10 @@ class WooCommerce
 
     protected $menu;
 
+    /**
+     * Summary of instance
+     * @return WooCommerce
+     */
     public static function instance()
     {
         if (is_null(self::$instance)) {
@@ -203,5 +209,23 @@ class WooCommerce
                 ]
             );
         });
+    }
+
+
+    public function getProductSummaryLayouts()
+    {
+        if (!is_singular('product')) {
+            return [];
+        }
+
+        if (!empty(static::$productSummaryLayouts)) {
+            return static::$productSummaryLayouts;
+        }
+
+        static::$productSummaryLayouts = apply_filters('jankx/woocommerce/product/summary/layouts', [
+            ProductVariationChooserAndInputSpinner::NAME => ProductVariationChooserAndInputSpinner::class,
+        ]);
+
+        return static::$productSummaryLayouts;
     }
 }

@@ -12,6 +12,7 @@ class ImageAndProductInfosOnTopDescriptionBellow extends ProductDetailContent
     {
         $this->appendBodyClass();
 
+        add_action('woocommerce_before_single_product', [$this, 'initProductSummaryLayout']);
         // open top wrap
         add_action('woocommerce_before_single_product_summary', [$this, 'openTopProductInfoWrap'], 5);
 

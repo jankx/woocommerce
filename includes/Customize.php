@@ -18,6 +18,8 @@ class Customize extends BaseCustomize
 
     protected $shopSidebarHook;
 
+    protected $jsURLModified = false;
+
     public function __construct()
     {
         $this->initHooks();
@@ -236,6 +238,8 @@ class Customize extends BaseCustomize
             // Added WooCommerce before main content block
             add_action('woocommerce_before_main_content', 'jankx_open_container', 15);
             add_action('woocommerce_before_main_content', 'jankx_close_container', 30);
+        } else {
+            add_action('jankx/template/header/after', 'woocommerce_output_all_notices', 18);
         }
 
         if (apply_filters('jankx_woocommerce_woocommerce_dislabe_loop_add_to_cart', false)) {

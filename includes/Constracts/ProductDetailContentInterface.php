@@ -16,4 +16,9 @@ interface ProductDetailContentInterface
 
     public function startRightBlockTopInfo();
     public function endRightBlockTopInfo();
+
+
+    public function loadProductSummaryLayout();
+
+    public function resetProductSummaryLayout();
 }
