@@ -2,6 +2,7 @@
 
 namespace Jankx\WooCommerce;
 
+use Jankx\GlobalConfigs;
 use Jankx\SiteLayout\SiteLayout;
 use Jankx\WooCommerce\Abstracts\BaseCustomize;
 use Jankx\WooCommerce\WooCommerceTemplate;
@@ -108,9 +109,19 @@ class Customize extends BaseCustomize
 
         // Register shop sidebar
         register_sidebar(apply_filters(
-            'jankx_woocommerce_woocommerce_sidebar_args',
+            'jankx_woocommerce_global_sidebar_args',
             $shopSidebarArgs
         ));
+
+        if (GlobalConfigs::get('customs.woocommerce.product.sidebar', true)) {
+            $shopSidebarArgs['id'] = 'product_detail';
+            $shopSidebarArgs['name'] = __('Product Details Sidebar', 'jankx');
+
+            register_sidebar(apply_filters(
+                'jankx_woocommerce_product_sidebar_args',
+                $shopSidebarArgs
+            ));
+        }
     }
 
     protected function checkSidebarIsActive()
@@ -144,7 +155,33 @@ class Customize extends BaseCustomize
                 add_action($this->shopSidebarHook, array($this, 'createWooCommerceSidebar'), 35);
                 add_action('jankx_sidebar_shop_content', array($this, 'renderShopSidebar'));
             }
+
+            if (GlobalConfigs::get('customs.woocommerce.product.sidebar', true)) {
+                add_action('woocommerce_after_single_product_summary', [$this, 'openProductContentSidebarWrap'], 8);
+                add_action('woocommerce_after_single_product_summary', [$this, 'closeProductContentSidebarWrap'], 14);
+            }
         }
+    }
+
+    public function openProductContentSidebarWrap() {
+        printf('<div %s>', jankx_generate_html_attributes([
+            'class' => 'jankx-product-content-sidebar-wrap',
+            'id' =>'jankx-shop-content-sidebar'
+        ]));
+
+        printf('<div %s>', jankx_generate_html_attributes([
+            'class' => 'jankx-product-content-wrap',
+        ]));
+    }
+    public function closeProductContentSidebarWrap() {
+        echo '</div><!-- end .jankx-product-content-wrap -->';
+
+        printf('<div %s>', jankx_generate_html_attributes([
+            'class' => ['jankx-product-sidebar']
+        ]));
+        dynamic_sidebar('product_detail');
+        echo '</div><!-- end .jankx-product-sidebar -->';
+        echo '</div><!-- end #jankx-shop-content-sidebar -->';
     }
 
     public function createWooCommerceSidebar()

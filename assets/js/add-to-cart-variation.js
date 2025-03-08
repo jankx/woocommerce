@@ -493,8 +493,12 @@
 			// Detach unattached.
 			new_attr_select.find( 'input[type="radio"]' + option_gt_filter + ':not(.attached)' ).remove();
 
+
 			// Finally, copy to DOM and set value.
-			current_attr_select.html( new_attr_select.html() );
+
+			// Todo
+			// current_attr_select.html( new_attr_select.html() );
+
 			current_attr_select.find( 'input[type="radio"]' + option_gt_filter + ':not(.enabled)' ).prop( 'disabled', true );
 
 			// Choose selected value.
