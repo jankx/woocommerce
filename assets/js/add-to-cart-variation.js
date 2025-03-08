@@ -7,7 +7,7 @@
 		var self = this;
 
 		self.$form                = $form;
-		self.$attributeFields     = $form.find( '.variations select' );
+		self.$attributeFields     = $form.find( '.variations .attribute-chooser' );
 		self.$singleVariation     = $form.find( '.single_variation' );
 		self.$singleVariationWrap = $form.find( '.single_variation_wrap' );
 		self.$resetVariations     = $form.find( '.reset_variations' );
@@ -40,7 +40,7 @@
 		$form.on( 'announce_reset', { variationForm: self }, self.onAnnounceReset );
 		$form.on( 'clear_reset_announcement', { variationForm: self }, self.onClearResetAnnouncement );
 		$form.on( 'reset_image', { variationForm: self }, self.onResetImage );
-		$form.on( 'change.wc-variation-form', '.variations select', { variationForm: self }, self.onChange );
+		$form.on( 'change.wc-variation-form', '.variations .attribute-chooser', { variationForm: self }, self.onChange );
 		$form.on( 'found_variation.wc-variation-form', { variationForm: self }, self.onFoundVariation );
 		$form.on( 'check_variations.wc-variation-form', { variationForm: self }, self.onFindVariation );
 		$form.on( 'update_variation_values.wc-variation-form', { variationForm: self }, self.onUpdateAttributes );
@@ -398,12 +398,12 @@
 			if ( ! current_attr_select.data( 'attribute_html' ) ) {
 				var refSelect = current_attr_select.clone();
 
-				refSelect.find( 'option' ).removeAttr( 'attached' ).prop( 'disabled', false ).prop( 'selected', false );
+				refSelect.find( 'input[type="radio"]' ).removeAttr( 'attached' ).prop( 'disabled', false ).prop( 'selected', false );
 
 				// Legacy data attribute.
 				current_attr_select.data(
 					'attribute_options',
-					refSelect.find( 'option' + option_gt_filter ).get()
+					refSelect.find( 'input[type="radio"]' + option_gt_filter ).get()
 				);
 				current_attr_select.data( 'attribute_html', refSelect.html() );
 			}
@@ -439,7 +439,7 @@
 
 									// Attach to matching options by value. This is done to compare
 									// TEXT values rather than any HTML entities.
-									var $option_elements = new_attr_select.find( 'option' );
+									var $option_elements = new_attr_select.find( 'input[type="radio"]' );
 									if ( $option_elements.length ) {
 										for (var i = 0, len = $option_elements.length; i < len; i++) {
 											var $option_element = $( $option_elements[i] ),
@@ -453,7 +453,7 @@
 									}
 								} else {
 									// Attach all apart from placeholder.
-									new_attr_select.find( 'option:gt(0)' ).addClass( 'attached ' + variation_active );
+									new_attr_select.find( 'input[type="radio"]:gt(0)' ).addClass( 'attached ' + variation_active );
 								}
 							}
 						}
@@ -462,14 +462,14 @@
 			}
 
 			// Count available options.
-			attached_options_count = new_attr_select.find( 'option.attached' ).length;
+			attached_options_count = new_attr_select.find( 'input[type="radio"].attached' ).length;
 
 			// Check if current selection is in attached options.
 			if ( selected_attr_val ) {
 				selected_attr_val_valid = false;
 
 				if ( 0 !== attached_options_count ) {
-					new_attr_select.find( 'option.attached.enabled' ).each( function() {
+					new_attr_select.find( 'input[type="radio"].attached.enabled' ).each( function() {
 						var option_value = $( this ).val();
 
 						if ( selected_attr_val === option_value ) {
@@ -486,16 +486,16 @@
 			// - The current selection is valid.
 			// - Placeholders are not set to be permanently visible.
 			if ( attached_options_count > 0 && selected_attr_val && selected_attr_val_valid && ( 'no' === show_option_none ) ) {
-				new_attr_select.find( 'option:first' ).remove();
+				new_attr_select.find( 'input[type="radio"]:first' ).remove();
 				option_gt_filter = '';
 			}
 
 			// Detach unattached.
-			new_attr_select.find( 'option' + option_gt_filter + ':not(.attached)' ).remove();
+			new_attr_select.find( 'input[type="radio"]' + option_gt_filter + ':not(.attached)' ).remove();
 
 			// Finally, copy to DOM and set value.
 			current_attr_select.html( new_attr_select.html() );
-			current_attr_select.find( 'option' + option_gt_filter + ':not(.enabled)' ).prop( 'disabled', true );
+			current_attr_select.find( 'input[type="radio"]' + option_gt_filter + ':not(.enabled)' ).prop( 'disabled', true );
 
 			// Choose selected value.
 			if ( selected_attr_val ) {
