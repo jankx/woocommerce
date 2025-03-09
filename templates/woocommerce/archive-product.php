@@ -16,8 +16,8 @@
  * @version 3.4.0
  */
 
-use Jankx\PostLayout\PostLayoutManager;
 use Jankx\PostLayout\Layout\Card;
+use Jankx\WooCommerce\Renderer\ProductsRenderer;
 use Jankx\WooCommerce\WooCommerceTemplate;
 
 defined('ABSPATH') || exit;
@@ -25,7 +25,7 @@ defined('ABSPATH') || exit;
 get_header('shop');
 ?>
 <header class="woocommerce-products-header">
-    <?php if (apply_filters('woocommerce_show_page_title', true)) : ?>
+    <?php if (apply_filters('woocommerce_show_page_title', true)): ?>
         <h1 class="woocommerce-products-header__title page-title"><?php woocommerce_page_title(); ?></h1>
     <?php endif; ?>
 
@@ -62,13 +62,23 @@ if (woocommerce_product_loop()) {
     // Get ecommerce template Engine
     $engine = WooCommerceTemplate::getEngine();
     $wp_query->set('post_type', 'product');
-    $postLayoutManager = PostLayoutManager::getInstance($engine);
-    $postLayout = $postLayoutManager->createLayout(
-        array_get($args, 'layout', Card::LAYOUT_NAME)
-    );
 
-    $postLayout->setOptions($args);
-    $postLayout->render();
+
+    $settings = [];
+    $productsModule = new ProductsRenderer(array(
+        'layout' => array_get($args, 'layout'),
+    ));
+    $productsModule->setMainQuery($wp_query);
+
+
+    $productsModule->setLayoutOptions(array(
+        'columns_tablet' => 2,
+        'columns_mobile' => 1,
+        'columns' => array_get($args, 'columns', 4),
+        'thumbnail_size' => 'medium',
+    ));
+
+    echo $productsModule->render();
 
     /**
      * Hook: woocommerce_after_shop_loop.
