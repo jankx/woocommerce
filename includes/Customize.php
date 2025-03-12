@@ -66,6 +66,28 @@ class Customize extends BaseCustomize
             woocommerce_product_loop_start();
         }, 10, 2);
 
+
+        $changeThumbnailSize = null;
+
+        add_action("jankx/layout/product/loop/start", function($layoutName, $layoutInstance) use (&$changeThumbnailSize) {
+            $changeThumbnailSize = function ($size) use ($layoutName, $layoutInstance) {
+                if (($optionSize = $layoutInstance->getOption('thumbnail_size')) !== 'woocommerce_thumbnail') {
+                    if ($optionSize !== 'custom') {
+                        return $optionSize;
+                    }
+                    return sprintf('%sx%s', $layoutInstance->getOption('image_width', 300), $layoutInstance->getOption('image_height', 300));
+                }
+                return $size;
+            };
+            add_filter('single_product_archive_thumbnail_size', $changeThumbnailSize);
+            add_filter('woocommerce_product_get_image', [$this, 'createImageWrapper'], 10, 4);
+        },10, 2);
+
+        add_action("jankx/layout/product/loop/end", function()  use (&$changeThumbnailSize){
+            remove_filter('woocommerce_product_get_image', $changeThumbnailSize, 10, 4);
+            remove_filter('single_product_archive_thumbnail_size', [$this, 'changeThumbnailSize']);
+        }, 10, 2);
+
         add_action('jankx/layout/product/loop/end', function ($layout) {
             if (in_array($layout, array(Carousel::LAYOUT_NAME))) {
                 return;
@@ -394,5 +416,15 @@ class Customize extends BaseCustomize
         $templateLoader->setTemplateFile(false);
 
         $page->setTemplates($templateLoader->get_page_templates());
+    }
+
+    public function createImageWrapper($image, $wc_product, $size, $attr)
+    {
+        return jankx_template('post-layout/thumbnail', [
+            'post' => $wc_product,
+            'data_index' => 0,
+            'thumbnail_size' => $size,
+            'content' => $image
+        ], false);
     }
 }
