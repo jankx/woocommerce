@@ -33,10 +33,10 @@ class ProductVariationChooserAndInputSpinner extends ProductSummaryLayout
         if ($this->isVariantionChooser()) {
             add_filter('script_loader_src', function ($script) {
 
-                if (strpos($script,'add-to-cart-variation') !== false) {
+                if (strpos($script, 'add-to-cart-variation') !== false) {
                     $addToCartVariationJs = jankx_woocommerce_asset_url('js/add-to-cart-variation.js');
 
-                    $addToCartVariationJsPart2 =explode('add-to-cart-variation', $script);
+                    $addToCartVariationJsPart2 = explode('add-to-cart-variation', $script);
                     $addToCartVariationJsPart1 = explode('add-to-cart-variation', $addToCartVariationJs);
 
                     $script = sprintf('%s%s%s', $addToCartVariationJsPart1[0], 'add-to-cart-variation', $addToCartVariationJsPart2[1]);

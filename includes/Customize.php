@@ -69,7 +69,7 @@ class Customize extends BaseCustomize
 
         $changeThumbnailSize = null;
 
-        add_action("jankx/layout/product/loop/start", function($layoutName, $layoutInstance) use (&$changeThumbnailSize) {
+        add_action("jankx/layout/product/loop/start", function ($layoutName, $layoutInstance) use (&$changeThumbnailSize) {
             $changeThumbnailSize = function ($size) use ($layoutName, $layoutInstance) {
                 if (($optionSize = $layoutInstance->getOption('thumbnail_size')) !== 'woocommerce_thumbnail') {
                     if ($optionSize !== 'custom') {
@@ -81,10 +81,10 @@ class Customize extends BaseCustomize
             };
             add_filter('single_product_archive_thumbnail_size', $changeThumbnailSize);
             add_filter('woocommerce_product_get_image', [$this, 'createImageWrapper'], 10, 4);
-        },10, 2);
+        }, 10, 2);
 
-        add_action("jankx/layout/product/loop/end", function()  use (&$changeThumbnailSize){
-            remove_filter('woocommerce_product_get_image', $changeThumbnailSize, 10, 4);
+        add_action("jankx/layout/product/loop/end", function () use (&$changeThumbnailSize) {
+            remove_filter('woocommerce_product_get_image', $changeThumbnailSize, 10);
             remove_filter('single_product_archive_thumbnail_size', [$this, 'changeThumbnailSize']);
         }, 10, 2);
 
@@ -96,6 +96,11 @@ class Customize extends BaseCustomize
         });
 
         add_action('jankx/layout/product/loop/init', array($this, 'setContentWrapperTagForPostLayout'), 10, 2);
+
+
+        add_filter('jankx/posts/fetcher/product/content_layout', function () {
+            return WooCommerce::instance()->getDefaultLoopItemLayout();
+        });
     }
 
     public function init()
@@ -185,17 +190,19 @@ class Customize extends BaseCustomize
         }
     }
 
-    public function openProductContentSidebarWrap() {
+    public function openProductContentSidebarWrap()
+    {
         printf('<div %s>', jankx_generate_html_attributes([
             'class' => 'jankx-product-content-sidebar-wrap',
-            'id' =>'jankx-shop-content-sidebar'
+            'id' => 'jankx-shop-content-sidebar'
         ]));
 
         printf('<div %s>', jankx_generate_html_attributes([
             'class' => 'jankx-product-content-wrap',
         ]));
     }
-    public function closeProductContentSidebarWrap() {
+    public function closeProductContentSidebarWrap()
+    {
         echo '</div><!-- end .jankx-product-content-wrap -->';
 
         printf('<div %s>', jankx_generate_html_attributes([
