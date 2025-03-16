@@ -101,6 +101,8 @@ class Customize extends BaseCustomize
         add_filter('jankx/posts/fetcher/product/content_layout', function () {
             return WooCommerce::instance()->getDefaultLoopItemLayout();
         });
+
+        add_filter('jankx/layout/product/args', [$this, 'filterProductArgsByRequest'], 10, 4);
     }
 
     public function init()
@@ -433,5 +435,51 @@ class Customize extends BaseCustomize
             'thumbnail_size' => $size,
             'content' => $image
         ], false);
+    }
+
+
+    public function filterProductArgsByRequest($args, $originRequest, $data_preset, $postFetcher)
+    {
+        if (!empty($originRequest['meta'])) {
+            $args['meta_query'] = [
+                'relation' => 'AND'
+            ];
+
+            if (isset($originRequest['meta']['meta_price'])) {
+                $meta_prices = $originRequest['meta']['meta_price'];
+                $price_conditions = [];
+                if (!is_array($meta_prices)) {
+                    $meta_prices = [$meta_prices];
+                }
+                if (count($meta_prices) > 1) {
+                    $price_conditions['relation'] = 'OR';
+                }
+                foreach( $meta_prices as $meta_price ) {
+                    $condition = [];
+                    $priceArr = explode('-', $meta_price);
+                    if (count($priceArr) > 1) {
+                        $condition['relation'] = 'AND';
+                    }
+                    $condition[] = [
+                        'key' => '_price',
+                        'value' => $priceArr[0],
+                        'compare' => '>=',
+                        'type' => 'NUMERIC'
+                    ];
+
+                    if (isset($priceArr[1])) {
+                        $condition[] = [
+                            'key' => '_price',
+                            'value' => $priceArr[1],
+                            'compare' => '<',
+                            'type' => 'NUMERIC'
+                        ];
+                    }
+                    $price_conditions[] = $condition;
+                }
+                $args['meta_query'][] = $price_conditions;
+            }
+        }
+        return $args;
     }
 }
