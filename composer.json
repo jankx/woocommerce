@@ -12,7 +12,8 @@
     "minimum-stability": "dev",
     "require": {
         "jankx/core": "*",
-        "jankx/post-layout": "*"
+        "jankx/post-layout": "*",
+        "jankx/woocommerce-attributes-db-table": "*"
     },
     "autoload": {
         "psr-4": {
