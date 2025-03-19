@@ -438,6 +438,79 @@ class Customize extends BaseCustomize
     }
 
 
+    protected function processingMetaPrice($meta_prices)
+    {
+        $price_conditions = [];
+        if (!is_array($meta_prices)) {
+            $meta_prices = [$meta_prices];
+        }
+        if (count($meta_prices) > 1) {
+            $price_conditions['relation'] = 'OR';
+        }
+
+        foreach ($meta_prices as $meta_price) {
+            $condition = [];
+            $priceArr = explode('-', $meta_price);
+            if (count($priceArr) > 1) {
+                $condition['relation'] = 'AND';
+            }
+            $condition[] = [
+                'key' => '_price',
+                'value' => $priceArr[0],
+                'compare' => '>=',
+                'type' => 'NUMERIC'
+            ];
+
+            if (isset($priceArr[1])) {
+                $condition[] = [
+                    'key' => '_price',
+                    'value' => $priceArr[1],
+                    'compare' => '<',
+                    'type' => 'NUMERIC'
+                ];
+            }
+            $price_conditions[] = $condition;
+        }
+        return $price_conditions;
+    }
+
+    protected function processingProductAttributes($attributeConditions, $attribute)
+    {
+        $conditions = [];
+        if (!is_array($attributeConditions)) {
+            $attributeConditions = [$attributeConditions];
+        }
+
+        if (count($attributeConditions) > 1) {
+            $conditions['relation'] = 'OR';
+        }
+
+        foreach ($attributeConditions as $attributeCondition) {
+            $condition = [];
+            $conditionArr = explode('-', $attributeCondition);
+            if (count($conditionArr) > 1) {
+                $condition['relation'] = 'AND';
+            }
+            $condition[] = [
+                'key' => $attribute,
+                'value' => $conditionArr[0],
+                'compare' => '>=',
+                'type' => 'NUMERIC'
+            ];
+
+            if (isset($conditionArr[1])) {
+                $condition[] = [
+                    'key' => $attribute,
+                    'value' => $conditionArr[1],
+                    'compare' => '<',
+                    'type' => 'NUMERIC'
+                ];
+            }
+            $conditions[] = $condition;
+        }
+        return $conditions;
+    }
+
     public function filterProductArgsByRequest($args, $originRequest, $data_preset, $postFetcher)
     {
         if (!empty($originRequest['meta'])) {
@@ -445,39 +518,20 @@ class Customize extends BaseCustomize
                 'relation' => 'AND'
             ];
 
-            if (isset($originRequest['meta']['meta_price'])) {
-                $meta_prices = $originRequest['meta']['meta_price'];
-                $price_conditions = [];
-                if (!is_array($meta_prices)) {
-                    $meta_prices = [$meta_prices];
+            foreach ($originRequest['meta'] as $metaType => $meta) {
+                switch ($metaType) {
+                    case 'meta_price':
+                        $args['meta_query'][] = $this->processingMetaPrice($meta);
+                        break;
+                    default:
+                        if (strpos($metaType, 'attribute_') !== false) {
+                            $conditions = $this->processingProductAttributes($meta, $metaType);
+                            if (!empty($conditions)) {
+                                $args['meta_query'][] = $conditions;
+                            }
+                        }
+                        break;
                 }
-                if (count($meta_prices) > 1) {
-                    $price_conditions['relation'] = 'OR';
-                }
-                foreach( $meta_prices as $meta_price ) {
-                    $condition = [];
-                    $priceArr = explode('-', $meta_price);
-                    if (count($priceArr) > 1) {
-                        $condition['relation'] = 'AND';
-                    }
-                    $condition[] = [
-                        'key' => '_price',
-                        'value' => $priceArr[0],
-                        'compare' => '>=',
-                        'type' => 'NUMERIC'
-                    ];
-
-                    if (isset($priceArr[1])) {
-                        $condition[] = [
-                            'key' => '_price',
-                            'value' => $priceArr[1],
-                            'compare' => '<',
-                            'type' => 'NUMERIC'
-                        ];
-                    }
-                    $price_conditions[] = $condition;
-                }
-                $args['meta_query'][] = $price_conditions;
             }
         }
         return $args;
