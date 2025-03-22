@@ -5,6 +5,7 @@ namespace Jankx\WooCommerce;
 use Jankx\GlobalConfigs;
 use Jankx\SiteLayout\SiteLayout;
 use Jankx\WooCommerce\Abstracts\BaseCustomize;
+use Jankx\Woocommerce\Attributes\Database;
 use Jankx\WooCommerce\WooCommerceTemplate;
 use Jankx\WooCommerce\Traits\WooCommerceData;
 use Jankx\PostLayout\Layout\Carousel;
@@ -103,8 +104,14 @@ class Customize extends BaseCustomize
         });
 
         add_filter('jankx/layout/product/args', [$this, 'filterProductArgsByRequest'], 10, 4);
-    }
 
+
+        // Integrate with Jankx WooCommerce Attributes
+        if (defined('JANKX_WOO_ATTRIBUTES_MAIN_FILE')) {
+            add_action("jankx/posts/fetcher/product/query/start", [$this, 'registerJankxWooCommerceAttributeHooks'], 10, 2);
+            add_action("jankx/posts/fetcher/product/query/end", [$this, 'renoveJankxWooCommerceAttributeHooks'], 10, 2);
+        }
+    }
     public function init()
     {
         add_action('jankx/template/site/layout', array($this, 'customShopLayout'));
@@ -535,5 +542,74 @@ class Customize extends BaseCustomize
             }
         }
         return $args;
+    }
+
+
+    public function registerJankxWooCommerceAttributeHooks($args, $postFetcher)
+    {
+        add_filter('posts_join', [$this, 'filterJoinByWoocommerceAttributeCustomTable'], 10, 2);
+        add_filter('posts_where', [$this, 'filterWhereByWoocommerceAttributeCustomTable'], 10, 2);
+    }
+    public function removeJankxWooCommerceAttributeHooks($args, $postFetcher)
+    {
+        remove_filter('posts_join', [$this, 'filterJoinByWoocommerceAttributeCustomTable'], 10);
+        remove_filter('posts_where', [$this, 'filterWhereByWoocommerceAttributeCustomTable'], 10);
+        die('yeah');
+    }
+
+
+    public function filterJoinByWoocommerceAttributeCustomTable($join)
+    {
+        if (strpos($join, 'INNER JOIN xvn2_postmeta ON ( xvn2_posts.ID = xvn2_postmeta.post_id )') === false) {
+            return $join;
+        }
+        $wpdb = Database::getWpdb();
+
+        $join = str_replace([
+            sprintf('%s.post_id', $wpdb ->postmeta),
+            $wpdb ->postmeta,
+            'xvn2_jankx_woo_attributes.post_id'
+        ], [
+            sprintf('%s.product_id', Database::getAttributeTable()),
+            Database::getAttributeTable(),
+        ], $join);
+
+        $join = preg_replace_callback('/mt(\d{1,})\.post_id/', function ($matches) {
+            return sprintf('mt%d.product_id', $matches[1]);
+        }, $join);
+
+        return $join;
+    }
+
+    public function filterWhereByWoocommerceAttributeCustomTable($where)
+    {
+        $wpdb = Database::getWpdb();
+        if (strpos($where, sprintf('%s.meta_key = \'attribute_', $wpdb->postmeta)) === false) {
+            return $where;
+        }
+
+        $where = str_replace([
+            sprintf('%s.meta_key = \'attribute', $wpdb->postmeta),
+            sprintf('%s.meta_value', $wpdb->postmeta),
+        ], [
+            sprintf('%s.meta_key = \'attribute', Database::getAttributeTable()),
+            sprintf('%s.value', Database::getAttributeTable()),
+        ], $where);
+
+        if (preg_match_all("/meta_key\s?=\s?\'attribute_([^\']{1,})\'/", $where, $matches)) {
+            $originMetas = array_unique($matches[0]);
+            $attributes = array_unique($matches[1]);
+            $replaceAttributes = array_map(function ($attribute) {
+                return sprintf('attribute = \'%s\'', $attribute);
+            }, $attributes);
+
+            $where = str_replace($originMetas, $replaceAttributes, $where);
+        }
+
+        $where = preg_replace_callback('/mt(\d{1,})\.meta_value/', function ($matches) {
+            return sprintf('mt%d.value', $matches[1]);
+        }, $where);
+
+        return $where;
     }
 }
