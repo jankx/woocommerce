@@ -126,7 +126,10 @@ class WooCommerce
         // Register script
         js(
             static::NAME,
-            jankx_woocommerce_asset_url('js/ecommerce.js'),
+            [
+                'url' => jankx_woocommerce_asset_url('js/woocommerce.js'),
+                'url.min' => jankx_woocommerce_asset_url('js/woocommerce.min.js')
+            ],
             apply_filters('jankx/woocommerce/js/dependences', $deps),
             static::VERSION,
             true

@@ -12,6 +12,14 @@
     }
 }
 
+.woocommerce {
+    .jankx-block-features {
+        form.cart {
+            flex-direction: column;
+        }
+    }
+}
+
 .added_to_cart.wc-forward {
     position: absolute;
     width: 100%;

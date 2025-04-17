@@ -46,6 +46,9 @@ class ProductVariationChooserAndInputSpinner extends ProductSummaryLayout
                 return $script;
             });
         }
+
+        add_action('woocommerce_after_add_to_cart_quantity', [$this, 'startButtonGroup']);
+        add_action('woocommerce_after_add_to_cart_button', [$this, 'endButtonGroup']);
     }
 
 
@@ -148,6 +151,10 @@ class ProductVariationChooserAndInputSpinner extends ProductSummaryLayout
         }
     }
 
+    public function loadProductSummaryLayout()
+    {
+    }
+
     protected function startControlGroup()
     {
     }
@@ -197,5 +204,21 @@ class ProductVariationChooserAndInputSpinner extends ProductSummaryLayout
         <label for="<?php echo $inputId; ?>" class="quantity-control increase">+</label>
         <?php
         $this->endControlGroup();
+    }
+
+
+    public function startButtonGroup()
+    {
+        echo sprintf('<div %s>', jankx_generate_html_attributes(
+            apply_filters('jankx/woocommerce/add-cart/button-group/attrs', [
+                'class' => ['button-group']
+            ])
+        ));
+    }
+
+    public function endButtonGroup()
+    {
+        do_action('jankx/woocommerce/product/buttons');
+        echo '</div>';
     }
 }
