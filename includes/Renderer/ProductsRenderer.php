@@ -57,7 +57,8 @@ class ProductsRenderer extends RendererBase
             'post_type' => 'product',
             'categories' => array_get($this->args, 'categories'),
             'limit' => array_get($this->args, 'limit'),
-            'type' => array_get($this->args, 'type')
+            'type' => array_get($this->args, 'type'),
+            'paged' => get_query_var('paged')
         ));
 
         return $productQuery->getWordPressQuery();

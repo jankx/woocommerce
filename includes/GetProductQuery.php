@@ -13,6 +13,8 @@ class GetProductQuery extends QueryBuilder
     protected $limit = 10;
     protected $fields = '';
 
+    protected $paged = 1;
+
     /**
      * Set query type
      *
@@ -64,6 +66,7 @@ class GetProductQuery extends QueryBuilder
                 "jankx_woocommerce_query_{$this->type}_limit",
                 $this->limit
             ),
+            'paged' => $this->paged
         );
 
         if (!empty($this->categories)) {
@@ -90,6 +93,11 @@ class GetProductQuery extends QueryBuilder
                 }
             }
         }
+
+        if ($this->type === 'sales') {
+            $queryArgs['post__in'] = wc_get_product_ids_on_sale();
+        }
+
         $queryArgs['tax_query'] = $taxQuery;
 
         return new WP_Query(apply_filters(
@@ -106,5 +114,10 @@ class GetProductQuery extends QueryBuilder
         }
 
         return $this->wordpressQuery;
+    }
+
+    public function setPaged($paged)
+    {
+        $this->paged = intval($paged);
     }
 }
