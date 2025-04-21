@@ -118,6 +118,19 @@ class Products extends WidgetBase
             ]
         );
 
+        $this->add_control(
+            'show_paginate',
+            [
+                'label' => __('Show Paginate', 'jankx'),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __('Show', 'jankx'),
+                'label_off' => __('Hide', 'jankx'),
+                'return_value' => 'yes',
+                'default' => 'no',
+            ]
+        );
+
+
         $this->addThumbnailControls();
 
 
@@ -167,7 +180,8 @@ class Products extends WidgetBase
             'tags' => array_get($settings, 'product_tags', array()),
             'layout' => $this->get_responsive_setting('layout', Card::LAYOUT_NAME),
             'limit' => $this->get_responsive_setting('limit', 10),
-            'type' => array_get($settings, 'data_type', '')
+            'type' => array_get($settings, 'data_type', ''),
+            'show_paginate' => array_get($settings, 'show_paginate', 'no') === 'yes'
         ));
         if (($url = array_get($settings, 'readmore_url', ''))) {
             $productsModule->setReadMore($url);
@@ -181,6 +195,7 @@ class Products extends WidgetBase
             'thumbnail_size'  => array_get($settings, 'thumbnail_size', 'medium'),
             'image_width'  => array_get($settings, 'image_width', '300'),
             'image_height'  => array_get($settings, 'image_height', '300'),
+            'show_paginate' => array_get($settings, 'show_paginate', 'no') === 'yes'
         ));
         // Set Woocommerce loop columns
         wc_get_loop_prop('columns', $this->get_responsive_setting('columns', 4));
