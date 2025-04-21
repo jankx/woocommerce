@@ -1315,7 +1315,7 @@
             }).end();
         }
 
-        for (var i=_.currentSlide, max=i+_.options.slidesToShow; i < max; i++) {
+        for (var i = _.currentSlide, max = i + _.options.slidesToShow; i < max; i++) {
             if (_.options.focusOnChange) {
                 _.$slides.eq(i).attr({'tabindex': '0'});
             } else {
@@ -1813,7 +1813,7 @@
             _.respondTo = _.options.respondTo || 'window';
 
             for ( breakpoint in responsiveSettings ) {
-                l = _.breakpoints.length-1;
+                l = _.breakpoints.length - 1;
 
                 if (responsiveSettings.hasOwnProperty(breakpoint)) {
                     currentBreakpoint = responsiveSettings[breakpoint].breakpoint;
@@ -1833,7 +1833,7 @@
             }
 
             _.breakpoints.sort(function (a, b) {
-                return ( _.options.mobileFirst ) ? a-b : b-a;
+                return ( _.options.mobileFirst ) ? a - b : b - a;
             });
         }
 
@@ -2099,7 +2099,7 @@
                 if ( $.type(_.options.responsive) !== 'array' ) {
                     _.options.responsive = [ value[item] ];
                 } else {
-                    l = _.options.responsive.length-1;
+                    l = _.options.responsive.length - 1;
 
                     // loop through the responsive object and splice out duplicates.
                     while ( l >= 0 ) {

@@ -46,15 +46,17 @@ function jankx_woocommerce_asset_url($path = '')
     return sprintf('%s/assets/%s', $ecommerceDirUrl, $path);
 }
 
-function jankx_woocommerce_get_recently_view_products() {
+function jankx_woocommerce_get_recently_view_products()
+{
     $viewed_products = ! empty( $_COOKIE['woocommerce_recently_viewed'] ) ? (array) explode( '|', wp_unslash( $_COOKIE['woocommerce_recently_viewed'] ) ) : array(); // @codingStandardsIgnoreLine
-    $viewed_products = array_reverse( array_filter( array_map( 'absint', $viewed_products ) ) );
+    $viewed_products = array_reverse(array_filter(array_map('absint', $viewed_products)));
 
     return apply_filters('jankx_woocommerce_recently_viewed_products', $viewed_products);
 }
 
 
-function jankx_woocommerce_get_search_product_page_url() {
+function jankx_woocommerce_get_search_product_page_url()
+{
     return apply_filters(
         'jankx/woocommerce/search_product_page_url',
         GlobalConfigs::get('store.search.path', '/search')
