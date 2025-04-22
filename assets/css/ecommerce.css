@@ -2,7 +2,7 @@
  * Module Name: Jankx WooCommerce
  * Author: Puleeno Nguyen
  * Author URI: https://puleeno.com
- * Version: 1.0.19
+ * Version: 1.0.20
  */
 .lds-ellipsis {
   display: inline-block;
@@ -686,4 +686,35 @@ p.stars a::before {
   height: 1em;
   line-height: 1;
   text-indent: 0;
+}
+
+.jankx-top-product-infos form.cart div.quantity {
+  display: flex;
+  align-items: center;
+}
+.jankx-top-product-infos form.cart div.quantity .inputCenter2Conrol {
+  display: flex;
+  margin-left: 5px;
+}
+.jankx-top-product-infos form.cart div.quantity .quantity-control {
+  border: 1px solid #ddd;
+  display: block;
+  padding: 5px 15px;
+  cursor: pointer;
+  /* Safari */
+  -webkit-user-select: none;
+  /* IE 10 and IE 11 */
+  -ms-user-select: none;
+  /* Standard syntax */
+  user-select: none;
+}
+.jankx-top-product-infos form.cart div.quantity .qty {
+  border: 1px solid #ddd;
+  outline: 0;
+  margin: 0 5px;
+  min-width: 90px;
+}
+.jankx-top-product-infos form.cart div.quantity .quantity-control,
+.jankx-top-product-infos form.cart div.quantity .qty {
+  line-height: 22px;
 }
