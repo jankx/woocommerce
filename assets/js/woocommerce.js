@@ -31,14 +31,39 @@
         }
         woocommerceGallery.props.sources = imageSources;
     }
+})(jQuery);
 
-    if ($('.jankx-ecom-product-thumbnails').length > 0) {
-        $('.jankx-ecom-product-thumbnails').slick({
-            dots: false,
-            arrows: false,
-            infinite: true,
-            slidesToShow: 4,
-            slidesToScroll: 4
+
+/**
+ *
+ * @param {MouseEvent} e
+ */
+function jankx_woocommerce_quantity_control_event(e) {
+    /**
+     * @var {HtmlElement} elemt
+     */
+    const elemt = e.target;
+    const qty = elemt.parentElement.querySelector('.qty');
+    let qtyValue = parseInt(qty.value);
+
+    if (elemt.classList.contains('decrease')) {
+        qtyValue -= 1;
+    }
+    if (elemt.classList.contains('increase')) {
+        qtyValue += 1;
+    }
+    if (qtyValue <= 0) {
+        qtyValue = 1;
+    }
+    qty.value = qtyValue;
+    qty.focus();
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    const controls = document.querySelectorAll('.quantity-control');
+    if (controls.length > 0) {
+        controls.forEach(function(element){
+            element.addEventListener('click', jankx_woocommerce_quantity_control_event);
         });
     }
-})(jQuery);
+});

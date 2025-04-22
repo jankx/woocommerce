@@ -2,7 +2,7 @@
  * Module Name: Jankx WooCommerce
  * Author: Puleeno Nguyen
  * Author URI: https://puleeno.com
- * Version: 1.0.19
+ * Version: 1.0.20
  */
 
 @import "layout";
@@ -30,3 +30,6 @@
 @import "woocommerce/messages";
 @import "woocommerce/reviews";
 @import "woocommerce/rating";
+
+
+@import "controls/quantity-input";
