@@ -2,8 +2,12 @@
  * Module Name: Jankx WooCommerce
  * Author: Puleeno Nguyen
  * Author URI: https://puleeno.com
- * Version: 1.0.20
+ * Version: 1.0.21
  */
+.woocommerce ul.products li.product:not(.purchasable) .button {
+  display: none;
+}
+
 .lds-ellipsis {
   display: inline-block;
   position: relative;

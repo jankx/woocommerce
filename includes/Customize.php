@@ -82,11 +82,18 @@ class Customize extends BaseCustomize
             };
             add_filter('single_product_archive_thumbnail_size', $changeThumbnailSize);
             add_filter('woocommerce_product_get_image', [$this, 'createImageWrapper'], 10, 4);
+
+            add_filter('woocommerce_empty_price_html', [$this, 'customizeEmptyPrice']);
+            add_filter('woocommerce_variable_empty_price_html', [$this, 'customizeEmptyPrice']);
+            add_filter('woocommerce_grouped_empty_price_html', [$this, 'customizeEmptyPrice']);
         }, 10, 2);
 
         add_action("jankx/layout/product/loop/end", function () use (&$changeThumbnailSize) {
             remove_filter('woocommerce_product_get_image', $changeThumbnailSize, 10);
             remove_filter('single_product_archive_thumbnail_size', [$this, 'changeThumbnailSize']);
+            remove_filter('woocommerce_empty_price_html', [$this, 'customizeEmptyPrice']);
+            remove_filter('woocommerce_variable_empty_price_html', [$this, 'customizeEmptyPrice']);
+            remove_filter('woocommerce_grouped_empty_price_html', [$this, 'customizeEmptyPrice']);
         }, 10, 2);
 
         add_action('jankx/layout/product/loop/end', function ($layout) {
@@ -253,6 +260,8 @@ class Customize extends BaseCustomize
 
     public function renderProductContent()
     {
+
+        die('zo');
         return WooCommerceTemplate::render(
             $this->getName() . '/single-product'
         );
@@ -611,5 +620,14 @@ class Customize extends BaseCustomize
         }, $where);
 
         return $where;
+    }
+
+
+    public function customizeEmptyPrice() {
+        $emptyPrice = GlobalConfigs::get('customs.woocommerce.price.empty', '');
+
+        return WooCommerceTemplate::render('loop/empty-price', [
+            'text' => $emptyPrice
+        ], false);
     }
 }
