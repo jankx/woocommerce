@@ -1,0 +1,11 @@
+.woocommerce {
+    ul.products {
+        li.product {
+            &:not(.purchasable) {
+                .button {
+                    display: none;
+                }
+            }
+        }
+    }
+}
