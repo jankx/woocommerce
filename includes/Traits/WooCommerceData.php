@@ -13,7 +13,7 @@ trait WooCommerceData
     /**
      * Copy method from WC_REST_Products_V2_Controller::get_product_data method
      *
-     * @param  WC_Product $product The WooCommerce product
+     * @param  \WC_Product $product The WooCommerce product
      */
     public function getProductData($product)
     {
