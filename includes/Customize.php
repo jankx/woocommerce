@@ -261,7 +261,6 @@ class Customize extends BaseCustomize
     public function renderProductContent()
     {
 
-        die('zo');
         return WooCommerceTemplate::render(
             $this->getName() . '/single-product'
         );
