@@ -404,13 +404,20 @@ ul.product-list .product, ul.products .product {
   margin-left: -10px;
   margin-right: -10px;
 }
-.product-layout-top-image-n-info .jankx-block-features {
-  flex: 1;
-  padding-left: 10px;
-  padding-right: 10px;
+@media (min-width: 768px) {
+  .product-layout-top-image-n-info .jankx-block-features {
+    flex: 1;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .product-layout-top-image-n-info .jankx-block-features.block-1 {
+    max-width: 40%;
+  }
 }
-.product-layout-top-image-n-info .jankx-block-features.block-1 {
-  max-width: 40%;
+@media (max-width: 767px) {
+  .product-layout-top-image-n-info .jankx-top-product-infos {
+    flex-wrap: wrap;
+  }
 }
 .woocommerce ul.products li.product.item-loop-dabnb .jankx-ecommerce-buttons {
   display: flex;
