@@ -87,7 +87,8 @@ class Products extends WidgetBase
                 'options' => [
                     '' => __('Default'),
                     'featured' => __('Featured', 'woocommerce'),
-                    'sales' => __('On sales', 'woocommerce')
+                    'sales' => __('On sales', 'woocommerce'),
+                    'search_query' => __('Search Query', 'jankx')
                 ],
                 'default' => '',
             ]
