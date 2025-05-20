@@ -2,7 +2,7 @@
  * Module Name: Jankx WooCommerce
  * Author: Puleeno Nguyen
  * Author URI: https://puleeno.com
- * Version: 1.0.21
+ * Version: 1.0.22
  */
 .woocommerce ul.products li.product:not(.purchasable) .button {
   display: none;
@@ -728,4 +728,12 @@ p.stars a::before {
 .jankx-top-product-infos form.cart div.quantity .quantity-control,
 .jankx-top-product-infos form.cart div.quantity .qty {
   line-height: 22px;
+}
+
+.woocommerce div.product .jankx-top-product-infos form.cart div.quantity {
+  margin-bottom: 20px;
+}
+.woocommerce div.product .jankx-top-product-infos form.cart .button-group,
+.woocommerce div.product .jankx-top-product-infos form.cart div.quantity {
+  width: 100%;
 }
