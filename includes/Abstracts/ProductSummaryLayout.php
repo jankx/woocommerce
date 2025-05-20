@@ -26,7 +26,9 @@ abstract class ProductSummaryLayout implements ProductSummaryLayoutInterface
 
     public function isVariantionChooser()
     {
-        return $this->isVariationChooser;
+        return false;
+
+        // return $this->isVariationChooser;
     }
 
     public function isUseSpinnerForQuantityInput()
