@@ -18,6 +18,16 @@
             flex-direction: column;
         }
     }
+
+    div.product {
+        form.cart {
+            .variations {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    }
 }
 
 .added_to_cart.wc-forward {

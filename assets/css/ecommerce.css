@@ -2,7 +2,7 @@
  * Module Name: Jankx WooCommerce
  * Author: Puleeno Nguyen
  * Author URI: https://puleeno.com
- * Version: 1.0.22
+ * Version: 1.0.23
  */
 .woocommerce ul.products li.product:not(.purchasable) .button {
   display: none;
@@ -241,6 +241,11 @@
 
 .woocommerce .jankx-block-features form.cart {
   flex-direction: column;
+}
+.woocommerce div.product form.cart .variations {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .added_to_cart.wc-forward {
