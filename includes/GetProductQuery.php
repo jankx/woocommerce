@@ -97,7 +97,12 @@ class GetProductQuery extends QueryBuilder
         if ($this->type === 'sales') {
             $queryArgs['post__in'] = wc_get_product_ids_on_sale();
         }
-
+        if ($this->type === 'search_query') {
+            $queryKeyword = apply_filters('jankx/woocommerce/query/search/name', 's');
+            if (isset($_GET[$queryKeyword]) && !empty($_GET[$queryKeyword])) {
+                $queryArgs['s'] = $_GET[$queryKeyword];
+            }
+        }
         $queryArgs['tax_query'] = $taxQuery;
 
         return new WP_Query(apply_filters(
