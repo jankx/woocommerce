@@ -101,6 +101,8 @@ class GetProductQuery extends QueryBuilder
             $queryKeyword = apply_filters('jankx/woocommerce/query/search/name', 's');
             if (isset($_GET[$queryKeyword]) && !empty($_GET[$queryKeyword])) {
                 $queryArgs['s'] = $_GET[$queryKeyword];
+            } elseif (!empty($_GET['s'])) {
+                $queryArgs['s'] = $_GET['s'];
             }
         }
         $queryArgs['tax_query'] = $taxQuery;
