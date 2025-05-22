@@ -118,6 +118,9 @@ class Customize extends BaseCustomize
             add_action("jankx/posts/fetcher/product/query/start", [$this, 'registerJankxWooCommerceAttributeHooks'], 10, 2);
             add_action("jankx/posts/fetcher/product/query/end", [$this, 'renoveJankxWooCommerceAttributeHooks'], 10, 2);
         }
+        if (GlobalConfigs::get('customs.woocommerce.sales.flash_percent', false)) {
+            add_filter('woocommerce_sale_flash', [$this, 'add_percentage_to_sale_badge'], 20, 3);
+        }
     }
     public function init()
     {
@@ -177,7 +180,7 @@ class Customize extends BaseCustomize
             );
         }
 
-        return ! static::$disableShopSidebar;
+        return !static::$disableShopSidebar;
     }
 
     public function customShopLayout($layoutLoader)
@@ -268,7 +271,8 @@ class Customize extends BaseCustomize
 
     public function changeWooCommerceTemplates($template, $template_name, $args, $template_path, $default_path)
     {
-        $jankxTemplate    = sprintf('woocommerce/%s', rtrim($template_name, '.php'));
+        $jankxTemplate = sprintf('woocommerce/%s', str_replace('.php', '', $template_name));
+
         $searchedTemplate = WooCommerceTemplate::search($jankxTemplate);
         // Return Jankx WooCommerce template when the template is existing
         if ($searchedTemplate) {
@@ -419,7 +423,7 @@ class Customize extends BaseCustomize
     public function customizeArchiveProductPage($page, $templateFile, $templateEngine, $templates, $templateLoader)
     {
         $templates = $page->getTemplates();
-        if (!in_array('archive-product', (array)$templates) || jankx_is_support_block_template()) {
+        if (!in_array('archive-product', (array) $templates) || jankx_is_support_block_template()) {
             return;
         }
         $product_page = get_post(wc_get_page_id('shop'));
@@ -574,8 +578,8 @@ class Customize extends BaseCustomize
         $wpdb = Database::getWpdb();
 
         $join = str_replace([
-            sprintf('%s.post_id', $wpdb ->postmeta),
-            $wpdb ->postmeta,
+            sprintf('%s.post_id', $wpdb->postmeta),
+            $wpdb->postmeta,
             'xvn2_jankx_woo_attributes.post_id'
         ], [
             sprintf('%s.product_id', Database::getAttributeTable()),
@@ -622,11 +626,68 @@ class Customize extends BaseCustomize
     }
 
 
-    public function customizeEmptyPrice() {
+    public function customizeEmptyPrice()
+    {
         $emptyPrice = GlobalConfigs::get('customs.woocommerce.price.empty', '');
 
         return WooCommerceTemplate::render('loop/empty-price', [
             'text' => $emptyPrice
+        ], false);
+    }
+
+    public function add_percentage_to_sale_badge($html, $post, $product)
+    {
+
+        if ($product->is_type('variable')) {
+            $percentages = array();
+
+            // Get all variation prices
+            $prices = $product->get_variation_prices();
+
+            // Loop through variation prices
+            foreach ($prices['price'] as $key => $price) {
+                // Only on sale variations
+                if ($prices['regular_price'][$key] !== $price) {
+                    // Calculate and set in the array the percentage for each variation on sale
+                    $percentages[] = round(100 - (floatval($prices['sale_price'][$key]) / floatval($prices['regular_price'][$key]) * 100));
+                }
+            }
+            // We keep the highest value
+            $percentage = max($percentages) . '%';
+        } elseif ($product->is_type('grouped')) {
+            $percentages = array();
+
+            // Get all variation prices
+            $children_ids = $product->get_children();
+
+            // Loop through variation prices
+            foreach ($children_ids as $child_id) {
+                $child_product = wc_get_product($child_id);
+
+                $regular_price = (float) $child_product->get_regular_price();
+                $sale_price = (float) $child_product->get_sale_price();
+
+                if ($sale_price != 0 || !empty($sale_price)) {
+                    // Calculate and set in the array the percentage for each child on sale
+                    $percentages[] = round(100 - ($sale_price / $regular_price * 100));
+                }
+            }
+            // We keep the highest value
+            $percentage = max($percentages) . '%';
+        } else {
+            $regular_price = (float) $product->get_regular_price();
+            $sale_price = (float) $product->get_sale_price();
+
+            if ($sale_price != 0 || !empty($sale_price)) {
+                $percentage = round(100 - ($sale_price / $regular_price * 100)) . '%';
+            } else {
+                return $html;
+            }
+        }
+
+        return WooCommerceTemplate::render('loop/onsale_percent', [
+            'percentage' => $percentage,
+            'text' => esc_html__('SALE', 'woocommerce'),
         ], false);
     }
 }
