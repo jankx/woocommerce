@@ -5,7 +5,6 @@
  * @license https://github.com/jankx/ecommerce/blob/master/license.txt
  */
 
-(function ($) {
     var woocommerceGalleryImages = document.querySelectorAll('.woocommerce-product-gallery__wrapper .woocommerce-product-gallery__image img');
     if (woocommerceGalleryImages.length > 0) {
         var imageSources       = [];
@@ -31,7 +30,6 @@
         }
         woocommerceGallery.props.sources = imageSources;
     }
-})(jQuery);
 
 
 /**

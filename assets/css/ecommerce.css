@@ -399,6 +399,10 @@ ul.product-list .product, ul.products .product {
     flex-wrap: wrap;
   }
 }
+.jankx-carousel-product-images .woocommerce-product-gallery {
+  overflow: hidden;
+}
+
 .woocommerce ul.products li.product.item-loop-dabnb .jankx-ecommerce-buttons {
   display: flex;
   flex-basis: auto;

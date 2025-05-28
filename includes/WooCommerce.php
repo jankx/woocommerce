@@ -5,6 +5,7 @@ namespace Jankx\WooCommerce;
 use Jankx\WooCommerce\Customize as WooCommercePlugin;
 use Jankx\WooCommerce\Component\CartButton;
 use Jankx\WooCommerce\Integration\Plugin;
+use Jankx\WooCommerce\Layouts\ProductDetail\CarouselGallaryImageLayout;
 use Jankx\WooCommerce\MenuItems;
 use Jankx\WooCommerce\Rest\RestManager;
 use Jankx\PostLayout\PostLayoutManager;
@@ -22,6 +23,7 @@ class WooCommerce
     protected static $instance;
     protected static $singleProductLayouts;
     protected static $productSummaryLayouts = [];
+    protected static $productGalleryImageLayouts = [];
 
     protected $detecter;
     protected $wooCommerceCustomizer;
@@ -30,6 +32,9 @@ class WooCommerce
     protected $ecommerceMenu;
 
     protected $detailProductLayout;
+
+    protected $galleryImageLayout;
+
 
     protected $menu;
 
@@ -178,7 +183,10 @@ class WooCommerce
         static::$singleProductLayouts = apply_filters('jankx_woocommerce_woocommerce_single_layouts', array(
             'default' => ImageAndProductInfosOnTopDescriptionBellow::class,
         ));
-        return static::$singleProductLayouts;
+
+        static::$productGalleryImageLayouts = [
+            'carousel' => CarouselGallaryImageLayout::class
+        ];
     }
 
     public function loadSingleProductLayout()
@@ -189,6 +197,16 @@ class WooCommerce
         $singleProductLayout = jankx_woocommerce_single_product_layout();
         if (isset(static::$singleProductLayouts[$singleProductLayout]) && class_exists(static::$singleProductLayouts[$singleProductLayout])) {
             $this->detailProductLayout = new static::$singleProductLayouts[$singleProductLayout]();
+        }
+
+        // This is WooCommerce default layout
+        $productGalleryImageLayoutName = apply_filters('jankx/woocommerce/product/detail/gallery/layout', null);
+        if (isset(static::$productGalleryImageLayouts[$productGalleryImageLayoutName])) {
+            $productGalleryImageCls = static::$productGalleryImageLayouts[$productGalleryImageLayoutName];
+            $this->galleryImageLayout = new $productGalleryImageCls();
+
+            // Init gallery layout
+            $this->galleryImageLayout->init();
         }
     }
 
