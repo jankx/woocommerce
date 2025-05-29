@@ -52,9 +52,15 @@ class CarouselGallaryImageLayout extends ProductGalleryLayoutAbstract
                 'alt' => $product->get_title()
             ];
         }
+
+        $slide_classes = ['swiper-slide'];
+        if (apply_filters('jankx/woocommerce/product/gallery/lightbox/enabled', true)) {
+            $slide_classes[] = 'woocommerce-product-gallery__image';
+        }
         return WooCommerceTemplate::render('single/carousel_gallery', [
             'images' => $images,
             'instance_id' => static::INSTANCE_ID,
+            'slide_classes' => $slide_classes
         ], false);
     }
 
@@ -88,25 +94,29 @@ class CarouselGallaryImageLayout extends ProductGalleryLayoutAbstract
     }
     public function registerCarouselScripts()
     {
-        execute_script(sprintf('<script>const thumbnails = new Swiper(".%2$s", {
-      spaceBetween: 10,
-      slidesPerView: 4,
-      freeMode: true,
-      watchSlidesProgress: true,
-    });
-    const productGallery = new Swiper(".%1$s", {
-      spaceBetween: 10,
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-      thumbs: {
-        swiper: thumbnails,
-      },
-    });
-    </script>', static::INSTANCE_ID, 'jankx-ecom-product-thumbnails'));
+        $galeryOptions = apply_filters('jankx/woocommerce/product/gallery/carousel/options', [
+            'loop' => true,
+            'navigation' => [
+                'nextEl' => ".swiper-button-next",
+                'prevEl' => ".swiper-button-prev",
+            ],
+            'thumbnails' => [
+                'swiper' => 'w'
+            ]
+        ]);
+        $galeryOptionsStr = json_encode($galeryOptions);
+        ob_start();
+        ?>
+        <script>
+            const thumbnails = new Swiper('.jankx-ecom-product-thumbnails', {
+                loop: true,
+                slidesPerView: 4,
+            });
+            const carouselGallery = new Swiper('.jankx-woocommerce-gallery', <?php echo $galeryOptionsStr; ?>);
+        </script>
+        <?php
+        execute_script(ob_get_clean());
     }
-
 
     public function appendLayoutToPostClass($classes)
     {
