@@ -94,29 +94,31 @@ class CarouselGallaryImageLayout extends ProductGalleryLayoutAbstract
     }
     public function registerCarouselScripts()
     {
-        $galeryOptions = apply_filters('jankx/woocommerce/product/gallery/carousel/options', [
-            'loop' => true,
+        $thumbnailOptions = apply_filters('jankx/woocommerce/product/gallery/thumbnails/options', [
+            'spaceBetween' => 10,
+            'slidesPerView' => 4,
+            'freeMode' => true,
+            'watchSlidesProgress' => true,
+        ]);
+        $galleryOptions = apply_filters('jankx/woocommerce/product/gallery/carousel/options', [
+            'spaceBetween' => 10,
             'navigation' => [
                 'nextEl' => ".swiper-button-next",
                 'prevEl' => ".swiper-button-prev",
-            ]
+            ],
         ]);
-        $galeryOptionsStr = json_encode($galeryOptions);
         ob_start();
         ?>
         <script>
-            const thumbnails = new Swiper('.jankx-ecom-product-thumbnails', {
-                loop: true,
-                slidesPerView: 4,
-            });
+            const thumbnailOptions = <?php echo json_encode($thumbnailOptions); ?>;
+            const thumbnails = new Swiper(".jankx-ecom-product-thumbnails", thumbnailOptions);
 
-            const galleryOptions = <?php echo $galeryOptionsStr; ?>;
-            if (typeof galleryOptions.thumbnails === 'undefined') {
-                galleryOptions.thumbnails = {};
+            const galleryOptions = <?php echo json_encode($galleryOptions); ?>;
+            if (typeof galleryOptions.thumbs ==='undefined') {
+                galleryOptions.thumbs= {};
             }
-            galleryOptions.thumbnails.swiper = thumbnails;
-
-            const carouselGallery = new Swiper('.jankx-woocommerce-gallery', galleryOptions);
+            galleryOptions.thumbs.swiper = thumbnails;
+            const productGallery = new Swiper(".jankx-woocommerce-gallery", galleryOptions);
         </script>
         <?php
         execute_script(ob_get_clean());
