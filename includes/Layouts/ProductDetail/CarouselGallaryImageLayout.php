@@ -57,7 +57,7 @@ class CarouselGallaryImageLayout extends ProductGalleryLayoutAbstract
         if (apply_filters('jankx/woocommerce/product/gallery/lightbox/enabled', true)) {
             $slide_classes[] = 'woocommerce-product-gallery__image';
         }
-        return WooCommerceTemplate::render('single/carousel_gallery', [
+        return WooCommerceTemplate::render('single-product/carousel_gallery', [
             'images' => $images,
             'instance_id' => static::INSTANCE_ID,
             'slide_classes' => $slide_classes
@@ -99,9 +99,6 @@ class CarouselGallaryImageLayout extends ProductGalleryLayoutAbstract
             'navigation' => [
                 'nextEl' => ".swiper-button-next",
                 'prevEl' => ".swiper-button-prev",
-            ],
-            'thumbnails' => [
-                'swiper' => 'w'
             ]
         ]);
         $galeryOptionsStr = json_encode($galeryOptions);
@@ -112,7 +109,14 @@ class CarouselGallaryImageLayout extends ProductGalleryLayoutAbstract
                 loop: true,
                 slidesPerView: 4,
             });
-            const carouselGallery = new Swiper('.jankx-woocommerce-gallery', <?php echo $galeryOptionsStr; ?>);
+
+            const galleryOptions = <?php echo $galeryOptionsStr; ?>;
+            if (typeof galleryOptions.thumbnails === 'undefined') {
+                galleryOptions.thumbnails = {};
+            }
+            galleryOptions.thumbnails.swiper = thumbnails;
+
+            const carouselGallery = new Swiper('.jankx-woocommerce-gallery', galleryOptions);
         </script>
         <?php
         execute_script(ob_get_clean());

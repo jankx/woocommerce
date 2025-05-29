@@ -1,17 +1,3 @@
-.product-layout-top-image-n-info {
-    .jankx-top-product-infos {
-        display: flex;
-        flex-wrap: nowrap;
-
-        margin-left: -10px;
-        margin-right: -10px;
-    }
-
-
-    .jankx-block-features {
-    }
-}
-
 @media(min-width:768px) {
     .product-layout-top-image-n-info {
         .jankx-block-features {
@@ -26,13 +12,13 @@
             &.block-2 {
             }
         }
-    }
-}
 
-@media(max-width: 767px) {
-    .product-layout-top-image-n-info {
         .jankx-top-product-infos {
-            flex-wrap: wrap;
+            display: flex;
+            flex-wrap: nowrap;
+
+            margin-left: -10px;
+            margin-right: -10px;
         }
     }
 }
