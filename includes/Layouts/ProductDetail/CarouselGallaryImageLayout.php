@@ -96,9 +96,23 @@ class CarouselGallaryImageLayout extends ProductGalleryLayoutAbstract
     {
         $thumbnailOptions = apply_filters('jankx/woocommerce/product/gallery/thumbnails/options', [
             'spaceBetween' => 10,
-            'slidesPerView' => 4,
+            'slidesPerView' => 5,
             'freeMode' => true,
             'watchSlidesProgress' => true,
+            'breakpoints' => [
+                '640' => [
+                  'slidesPerView' => 2,
+                  'spaceBetween' => 20,
+                ],
+                '768' => [
+                  'slidesPerView' => 4,
+                  'spaceBetween' => 40,
+                ],
+                '1024' => [
+                  'slidesPerView' => 5,
+                  'spaceBetween' => 50,
+                ],
+            ]
         ]);
         $galleryOptions = apply_filters('jankx/woocommerce/product/gallery/carousel/options', [
             'spaceBetween' => 10,
@@ -106,6 +120,9 @@ class CarouselGallaryImageLayout extends ProductGalleryLayoutAbstract
                 'nextEl' => ".swiper-button-next",
                 'prevEl' => ".swiper-button-prev",
             ],
+            'autoHeight' => false,
+            'observer' => true,
+            'observeParents' => true,
         ]);
         ob_start();
         ?>
