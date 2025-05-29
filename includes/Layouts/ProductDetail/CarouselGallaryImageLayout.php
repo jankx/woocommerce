@@ -57,7 +57,7 @@ class CarouselGallaryImageLayout extends ProductGalleryLayoutAbstract
         if (apply_filters('jankx/woocommerce/product/gallery/lightbox/enabled', true)) {
             $slide_classes[] = 'woocommerce-product-gallery__image';
         }
-        return WooCommerceTemplate::render('single/carousel_gallery', [
+        return WooCommerceTemplate::render('single-product/carousel_gallery', [
             'images' => $images,
             'instance_id' => static::INSTANCE_ID,
             'slide_classes' => $slide_classes
