@@ -62,3 +62,13 @@ function jankx_woocommerce_get_search_product_page_url()
         GlobalConfigs::get('store.search.path', '/search')
     );
 }
+
+if (!function_exists('jankx_woocommerce_out_of_stock_to_buye_enabled')) {
+    function jankx_woocommerce_out_of_stock_to_buye_enabled()
+    {
+        return GlobalConfigs::get(
+            'customs.woocommerce.stock.out.contact',
+            apply_filters('jankx/woocommerce/stock/out_of_stock/contact_enabled', false)
+        );
+    }
+}
