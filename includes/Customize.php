@@ -88,6 +88,14 @@ class Customize extends BaseCustomize
             add_filter('woocommerce_grouped_empty_price_html', [$this, 'customizeEmptyPrice']);
         }, 10, 2);
 
+        add_action('woocommerce_before_single_product', function () {
+            add_filter('woocommerce_empty_price_html', [$this, 'customizeEmptyPrice']);
+            add_filter('woocommerce_variable_empty_price_html', [$this, 'customizeEmptyPrice']);
+            add_filter('woocommerce_grouped_empty_price_html', [$this, 'customizeEmptyPrice']);
+        });
+
+
+        // cleanup
         add_action("jankx/layout/product/loop/end", function () use (&$changeThumbnailSize) {
             remove_filter('woocommerce_product_get_image', $changeThumbnailSize, 10);
             remove_filter('single_product_archive_thumbnail_size', [$this, 'changeThumbnailSize']);
