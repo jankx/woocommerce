@@ -9,6 +9,8 @@ use Jankx\Woocommerce\Attributes\Database;
 use Jankx\WooCommerce\WooCommerceTemplate;
 use Jankx\WooCommerce\Traits\WooCommerceData;
 use Jankx\PostLayout\Layout\Carousel;
+use WC_Product;
+use WC_Product_Variable;
 
 class Customize extends BaseCustomize
 {
@@ -93,6 +95,8 @@ class Customize extends BaseCustomize
             add_filter('woocommerce_variable_empty_price_html', [$this, 'customizeEmptyPrice']);
             add_filter('woocommerce_grouped_empty_price_html', [$this, 'customizeEmptyPrice']);
         });
+
+        add_action('woocommerce_single_product_summary', [$this, 'addedOutOfStockProductContact']);
 
 
         // cleanup
@@ -697,5 +701,16 @@ class Customize extends BaseCustomize
             'percentage' => $percentage,
             'text' => esc_html__('SALE', 'woocommerce'),
         ], false);
+    }
+
+
+    public function addedOutOfStockProductContact() {
+        global $product;
+
+        if ($product instanceof WC_Product && !$product->is_purchasable() && !$product instanceof WC_Product_Variable) {
+            echo '<form class="variations_form cart">';
+                jankx_woocommerce_template('single-product/contact_button', []);
+            echo '</form>';
+        }
     }
 }
