@@ -26,10 +26,6 @@ if (! defined('ABSPATH')) {
 }
 if (!empty($related_products)) : ?>
     <?php
-        $wp_query = new WP_Query();
-        $wp_query->set('post_type', 'product');
-        $wp_query->posts = $related_products;
-        $wp_query->post_count = count($related_products);
 
         $args = apply_filters('jankx/woocommerce/product/related/layout_args', wp_parse_args($args, array(
             'layout' => Card::LAYOUT_NAME,
@@ -41,7 +37,7 @@ if (!empty($related_products)) : ?>
         $postLayoutManager = PostLayoutManager::getInstance($engine);
         $postLayout = $postLayoutManager->createLayout(
             array_get($args, 'layout', Card::LAYOUT_NAME),
-            $wp_query
+            $related_products
         );
         $postLayout->setOptions($args);
     ?>
@@ -60,7 +56,7 @@ if (!empty($related_products)) : ?>
         $productsModule = new ProductsRenderer(array(
             'layout' => array_get($args, 'layout'),
         ));
-        $productsModule->setMainQuery($wp_query);
+        $productsModule->setMainQuery($related_products);
 
         if (($url = array_get($settings, 'readmore_url', ''))) {
             $productsModule->setReadMore($url);

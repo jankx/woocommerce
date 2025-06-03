@@ -11,6 +11,7 @@ use Jankx\WooCommerce\Traits\WooCommerceData;
 use Jankx\PostLayout\Layout\Carousel;
 use WC_Product;
 use WC_Product_Variable;
+use WP_Query;
 
 class Customize extends BaseCustomize
 {
@@ -133,6 +134,10 @@ class Customize extends BaseCustomize
         if (GlobalConfigs::get('customs.woocommerce.sales.flash_percent', false)) {
             add_filter('woocommerce_sale_flash', [$this, 'add_percentage_to_sale_badge'], 20, 3);
         }
+
+
+        remove_action('woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20);
+        add_action('woocommerce_after_single_product_summary', [$this, 'related_products'], 20);
     }
     public function init()
     {
@@ -704,7 +709,8 @@ class Customize extends BaseCustomize
     }
 
 
-    public function addedOutOfStockProductContact() {
+    public function addedOutOfStockProductContact()
+    {
         global $product;
 
         if ($product instanceof WC_Product && !$product->is_purchasable() && !$product instanceof WC_Product_Variable) {
@@ -712,5 +718,46 @@ class Customize extends BaseCustomize
                 jankx_woocommerce_template('single-product/contact_button', []);
             echo '</form>';
         }
+    }
+
+
+    public function related_products()
+    {
+        $args = array(
+            'posts_per_page' => 4,
+            'columns'        => 4,
+			'orderby'        => 'rand', // @codingStandardsIgnoreLine.
+        );
+
+        $args = apply_filters('woocommerce_output_related_products_args', $args);
+
+        global $product;
+
+        if (! ( $product instanceof WC_Product )) {
+            return;
+        }
+
+        $defaults = array(
+            'posts_per_page' => 2,
+            'columns'        => 2,
+			'orderby'        => 'rand', // @codingStandardsIgnoreLine.
+            'order'          => 'desc',
+        );
+
+        $args = wp_parse_args($args, $defaults);
+
+        $related_product_ids = wc_get_related_products($product->get_id(), $args['posts_per_page'], $product->get_upsell_ids());
+
+        // Get visible related products then sort them at random.
+        $args['related_products'] = new WP_Query([
+            'post_type' => 'product',
+            'post__in' => $related_product_ids,
+        ]);
+
+        // Set global loop values.
+        wc_set_loop_prop('name', 'related');
+        wc_set_loop_prop('columns', apply_filters('woocommerce_related_products_columns', $args['columns']));
+
+        wc_get_template('single-product/related.php', $args);
     }
 }
