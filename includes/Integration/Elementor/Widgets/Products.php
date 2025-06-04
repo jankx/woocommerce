@@ -205,7 +205,7 @@ class Products extends WidgetBase
         $productsContent = $productsModule->render(false);
         $widgetTitle = array_get($settings, 'title');
         if ($widgetTitle && $productsContent) {
-            echo sprintf('<h3 class="products-widget-title"><span>%s</span></h3>', $widgetTitle);
+            echo sprintf('<h2 class="products-widget-title"><span>%s</span></h2>', $widgetTitle);
         }
         echo $productsContent;
     }
