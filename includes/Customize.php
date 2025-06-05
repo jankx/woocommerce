@@ -156,6 +156,9 @@ class Customize extends BaseCustomize
         add_filter('jankx_woocommerce_localize_object_data', array($this, 'registerGlobalVars'));
 
         add_action('jankx/template/renderer/pre', array($this, 'customizeArchiveProductPage'), 10, 5);
+
+        remove_action('woocommerce_shop_loop_item_title', 'woocommerce_template_loop_product_title', 10);
+        add_action('woocommerce_shop_loop_item_title', [$this, 'changeWooCommerceProductTitle']);
     }
 
     public function registerShopSidebars()
@@ -702,7 +705,7 @@ class Customize extends BaseCustomize
             }
         }
 
-        return WooCommerceTemplate::render('loop/onsale_percent', [
+        return WooCommerceTemplate::render('loop/onsale-percent', [
             'percentage' => $percentage,
             'text' => esc_html__('SALE', 'woocommerce'),
         ], false);
@@ -759,5 +762,12 @@ class Customize extends BaseCustomize
         wc_set_loop_prop('columns', apply_filters('woocommerce_related_products_columns', $args['columns']));
 
         wc_get_template('single-product/related.php', $args);
+    }
+
+    public function changeWooCommerceProductTitle() {
+        return WooCommerceTemplate::render('loop/product-name', [
+            'class_name' => esc_attr( apply_filters( 'woocommerce_product_loop_title_classes', 'woocommerce-loop-product__title' ) ),
+            'product_name' => get_the_title()
+        ]);
     }
 }
