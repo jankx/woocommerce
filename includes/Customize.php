@@ -317,9 +317,9 @@ class Customize extends BaseCustomize
         if (strpos($template, sprintf(implode(DIRECTORY_SEPARATOR, ['', 'plugins', 'woocommerce']))) !== false) {
             $t = null;
             if (is_singular('product')) {
-                $t = 'woocommerce/single-product';
+                $t = 'single-product';
             } elseif (is_product_taxonomy()) {
-                $t = 'woocommerce/archive-product';
+                $t = 'archive-product';
             }
 
             if (!is_null($t)) {
