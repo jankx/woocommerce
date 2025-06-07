@@ -762,9 +762,10 @@ class Customize extends BaseCustomize
         wc_get_template('single-product/related.php', $args);
     }
 
-    public function changeWooCommerceProductTitle() {
+    public function changeWooCommerceProductTitle()
+    {
         return WooCommerceTemplate::render('loop/product-name', [
-            'class_name' => esc_attr( apply_filters( 'woocommerce_product_loop_title_classes', 'woocommerce-loop-product__title' ) ),
+            'class_name' => esc_attr(apply_filters('woocommerce_product_loop_title_classes', 'woocommerce-loop-product__title')),
             'product_name' => get_the_title()
         ]);
     }

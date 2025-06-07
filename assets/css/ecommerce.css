@@ -2,7 +2,7 @@
  * Module Name: Jankx WooCommerce
  * Author: Puleeno Nguyen
  * Author URI: https://puleeno.com
- * Version: 1.0.33
+ * Version: 1.0.35
  */
 .woocommerce ul.products li.product:not(.purchasable) .button {
   display: none;
@@ -232,6 +232,17 @@
 .woocommerce .product_meta .posted_in a + a {
   margin-left: 5px;
 }
+.woocommerce div.product .product_title {
+  margin-top: 0;
+  margin-bottom: 15px;
+  line-height: 100%;
+}
+.woocommerce div.product .product_meta {
+  margin-bottom: 15px;
+}
+.woocommerce div.product .button-group {
+  margin-bottom: 15px;
+}
 .woocommerce div.product form.cart .variations {
   display: flex;
   flex-direction: column;
@@ -240,6 +251,9 @@
 .woocommerce div.product form.cart .variations th {
   min-width: 70px;
   text-align: left;
+}
+.woocommerce div.product form.cart .variations .label label {
+  margin-right: 5px;
 }
 .woocommerce div.product form.cart .variations select {
   border: 1px solid #e4e4e4;
