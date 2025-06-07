@@ -212,6 +212,7 @@ class Customize extends BaseCustomize
             remove_action('jankx/template/main_content/after', 'get_sidebar', 35);
             remove_action('jankx/template/main_content/after', array($layoutLoader, 'loadSecondarySidebar'), 45);
 
+
             if ($this->checkSidebarIsActive()) {
                 $this->shopSidebarHook = apply_filters(
                     'jankx/woocommerce/woocommerce/sidebar/hook_loader',
@@ -277,28 +278,25 @@ class Customize extends BaseCustomize
     public function renderShopSidebar()
     {
         if ($this->shopSidebarHook) {
-            return WooCommerceTemplate::render('woocommerce/shop-sidebar');
+            return WooCommerceTemplate::render('shop-sidebar');
         }
     }
 
     public function renderProductContent()
     {
 
-        return WooCommerceTemplate::render(
-            $this->getName() . '/single-product'
-        );
+        return WooCommerceTemplate::render('single-product');
     }
 
     public function changeWooCommerceTemplates($template, $template_name, $args, $template_path, $default_path)
     {
-        $jankxTemplate = sprintf('woocommerce/%s', str_replace('.php', '', $template_name));
+        $jankxTemplate = sprintf('%s', str_replace('.php', '', $template_name));
 
         $searchedTemplate = WooCommerceTemplate::search($jankxTemplate);
         // Return Jankx WooCommerce template when the template is existing
         if ($searchedTemplate) {
             return $searchedTemplate;
         }
-
         // Return default WooCommerce template when Jankx WooCommerce template is not found`
         return $template;
     }

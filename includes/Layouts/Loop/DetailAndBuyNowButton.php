@@ -40,7 +40,7 @@ class DetailAndBuyNowButton extends ProductLoopItemContent
     public function addGoToDetailButton()
     {
         WooCommerceTemplate::render(
-            'woocommerce/loop/detail-button',
+            'loop/detail-button',
             [
             ]
         );
