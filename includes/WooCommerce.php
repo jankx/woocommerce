@@ -18,7 +18,7 @@ use Jankx\WooCommerce\WooCommerceTemplate;
 class WooCommerce
 {
     const NAME = 'jankx-ecommerce';
-    const VERSION = '1.0.36';
+    const VERSION = '1.0.38';
 
     protected static $instance;
     protected static $singleProductLayouts;
