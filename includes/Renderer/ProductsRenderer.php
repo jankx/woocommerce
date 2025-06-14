@@ -3,7 +3,7 @@
 namespace Jankx\WooCommerce\Renderer;
 
 if (!defined('ABSPATH')) {
-    exit('Cheatin huh?');
+    exit('Cheating huh?');
 }
 
 use Jankx\WooCommerce\WooCommerce;

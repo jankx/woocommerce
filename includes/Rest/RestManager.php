@@ -3,7 +3,7 @@
 namespace Jankx\WooCommerce\Rest;
 
 if (!defined('ABSPATH')) {
-    exit('Cheatin huh?');
+    exit('Cheating huh?');
 }
 
 class RestManager

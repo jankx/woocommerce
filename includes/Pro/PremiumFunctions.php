@@ -3,7 +3,7 @@
 namespace Jankx\WooCommerce\Pro;
 
 if (!defined('ABSPATH')) {
-    exit('Cheatin huh?');
+    exit('Cheating huh?');
 }
 
 class PremiumFunctions

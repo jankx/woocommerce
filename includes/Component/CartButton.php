@@ -3,7 +3,7 @@
 namespace Jankx\WooCommerce\Component;
 
 if (!defined('ABSPATH')) {
-    exit('Cheatin huh?');
+    exit('Cheating huh?');
 }
 
 use WC_Cart;

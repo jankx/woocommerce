@@ -3,7 +3,7 @@
 namespace Jankx\WooCommerce;
 
 if (!defined('ABSPATH')) {
-    exit('Cheatin huh?');
+    exit('Cheating huh?');
 }
 
 use WC_Product_Simple;

@@ -1,6 +1,6 @@
-<?php 
+<?php
 if (!defined('ABSPATH')) {
-    exit('Cheatin huh?');
+    exit('Cheating huh?');
 }
  ?>
 <div id="jankx-ecommerce-top-prod-info">

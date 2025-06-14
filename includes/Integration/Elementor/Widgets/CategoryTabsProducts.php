@@ -3,7 +3,7 @@
 namespace Jankx\WooCommerce\Integration\Elementor\Widgets;
 
 if (!defined('ABSPATH')) {
-    exit('Cheatin huh?');
+    exit('Cheating huh?');
 }
 
 use Jankx;

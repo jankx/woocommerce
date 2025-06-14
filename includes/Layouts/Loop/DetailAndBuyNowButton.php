@@ -3,7 +3,7 @@
 namespace Jankx\WooCommerce\Layouts\Loop;
 
 if (!defined('ABSPATH')) {
-    exit('Cheatin huh?');
+    exit('Cheating huh?');
 }
 
 use WC_Product;

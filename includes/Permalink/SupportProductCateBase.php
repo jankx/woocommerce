@@ -3,7 +3,7 @@
 namespace Jankx\WooCommerce\Permalink;
 
 if (!defined('ABSPATH')) {
-    exit('Cheatin huh?');
+    exit('Cheating huh?');
 }
 
 class SupportProductCateBase

@@ -3,7 +3,7 @@
 namespace Jankx\WooCommerce\Constracts\ProductDetail;
 
 if (!defined('ABSPATH')) {
-    exit('Cheatin huh?');
+    exit('Cheating huh?');
 }
 
 interface ProductGalleryLayoutConstract

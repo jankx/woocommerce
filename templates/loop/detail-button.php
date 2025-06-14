@@ -1,6 +1,6 @@
-<?php 
+<?php
 if (!defined('ABSPATH')) {
-    exit('Cheatin huh?');
+    exit('Cheating huh?');
 }
  ?>
 <?php woocommerce_template_loop_product_link_open(); ?>

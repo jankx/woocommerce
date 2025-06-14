@@ -3,7 +3,7 @@
 namespace Jankx\WooCommerce\Widget;
 
 if (!defined('ABSPATH')) {
-    exit('Cheatin huh?');
+    exit('Cheating huh?');
 }
 
 use WP_Widget;

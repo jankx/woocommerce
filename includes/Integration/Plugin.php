@@ -3,7 +3,7 @@
 namespace Jankx\WooCommerce\Integration;
 
 if (!defined('ABSPATH')) {
-    exit('Cheatin huh?');
+    exit('Cheating huh?');
 }
 
 use Jankx\WooCommerce\Integration\Elementor\Elementor;

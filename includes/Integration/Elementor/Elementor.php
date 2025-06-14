@@ -3,7 +3,7 @@
 namespace Jankx\WooCommerce\Integration\Elementor;
 
 if (!defined('ABSPATH')) {
-    exit('Cheatin huh?');
+    exit('Cheating huh?');
 }
 
 use Jankx\WooCommerce\Integration\Elementor\Widgets\CategoryTabsProducts;

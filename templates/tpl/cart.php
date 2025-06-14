@@ -1,6 +1,6 @@
-<?php 
+<?php
 if (!defined('ABSPATH')) {
-    exit('Cheatin huh?');
+    exit('Cheating huh?');
 }
  ?>
 <ul class="woocommerce-mini-cart cart_list product_list_widget ">

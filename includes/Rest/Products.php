@@ -3,7 +3,7 @@
 namespace Jankx\Woocommerce\Rest;
 
 if (!defined('ABSPATH')) {
-    exit('Cheatin huh?');
+    exit('Cheating huh?');
 }
 
 use WP_Rest_Request;
