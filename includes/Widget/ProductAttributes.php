@@ -2,6 +2,10 @@
 
 namespace Jankx\WooCommerce\Widget;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 use WP_Widget;
 use Jankx;
 

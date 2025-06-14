@@ -2,6 +2,10 @@
 
 namespace Jankx\WooCommerce\Layouts\Loop;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 use WC_Product;
 use Jankx\WooCommerce\Abstracts\ProductLoopItemContent;
 use Jankx\WooCommerce\WooCommerceTemplate;

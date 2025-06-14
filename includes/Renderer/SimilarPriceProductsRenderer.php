@@ -2,6 +2,10 @@
 
 namespace Jankx\WooCommerce\Renderer;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 use WP_Query;
 use Jankx\WooCommerce\Constracts\Renderer;
 use Jankx\WooCommerce\WooCommerce;

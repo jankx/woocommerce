@@ -2,6 +2,10 @@
 
 namespace Jankx\WooCommerce;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 use Jankx;
 use Jankx\Template\Template;
 use Jankx\TemplateEngine\Engines\WordPress;

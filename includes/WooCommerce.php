@@ -2,6 +2,10 @@
 
 namespace Jankx\WooCommerce;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 use Jankx\WooCommerce\Customize as WooCommercePlugin;
 use Jankx\WooCommerce\Component\CartButton;
 use Jankx\WooCommerce\Integration\Plugin;

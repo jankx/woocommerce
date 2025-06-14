@@ -2,6 +2,10 @@
 
 namespace Jankx\WooCommerce\Layouts\ProductSummary;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 use Jankx\WooCommerce\Abstracts\ProductSummaryLayout;
 
 class ProductVariationChooserAndInputSpinner extends ProductSummaryLayout

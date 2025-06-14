@@ -2,6 +2,10 @@
 
 namespace Jankx\WooCommerce;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 use WC_Product_Simple;
 use Jankx\WooCommerce\WooCommerceTemplate;
 

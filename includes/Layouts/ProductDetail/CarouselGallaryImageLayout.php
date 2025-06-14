@@ -2,6 +2,10 @@
 
 namespace Jankx\WooCommerce\Layouts\ProductDetail;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 use Jankx\WooCommerce\Abstracts\ProductDetail\ProductGalleryLayoutAbstract;
 use Jankx\WooCommerce\WooCommerceTemplate;
 use WC_Product;

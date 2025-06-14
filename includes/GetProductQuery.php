@@ -2,6 +2,10 @@
 
 namespace Jankx\WooCommerce;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 use WP_Query;
 use WooCommerce;
 

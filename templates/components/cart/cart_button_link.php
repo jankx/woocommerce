@@ -1,3 +1,8 @@
+<?php 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+ ?>
 <a href="<?php echo $cart_url; ?>">
     <?php echo $icon; ?>
     <?php if ($text) : ?>

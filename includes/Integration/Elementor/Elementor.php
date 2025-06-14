@@ -2,6 +2,10 @@
 
 namespace Jankx\WooCommerce\Integration\Elementor;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 use Jankx\WooCommerce\Integration\Elementor\Widgets\CategoryTabsProducts;
 use Jankx\WooCommerce\Integration\Elementor\Widgets\Products;
 use Jankx\Elementor\Compatibles\ElementorCompatible;

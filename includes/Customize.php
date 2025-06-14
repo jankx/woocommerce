@@ -2,6 +2,10 @@
 
 namespace Jankx\WooCommerce;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 use Jankx\GlobalConfigs;
 use Jankx\SiteLayout\SiteLayout;
 use Jankx\WooCommerce\Abstracts\BaseCustomize;

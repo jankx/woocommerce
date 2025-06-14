@@ -2,6 +2,10 @@
 
 namespace Jankx\Woocommerce\Rest;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 use WP_Rest_Request;
 use Jankx\WooCommerce\GetProductQuery;
 use Jankx\WooCommerce\WooCommerce;

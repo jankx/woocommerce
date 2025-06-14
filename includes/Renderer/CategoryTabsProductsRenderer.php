@@ -2,6 +2,10 @@
 
 namespace Jankx\WooCommerce\Renderer;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 use Jankx\TemplateAndLayout;
 use Jankx\WooCommerce\WooCommerce;
 use Jankx\WooCommerce\WooCommerceTemplate;

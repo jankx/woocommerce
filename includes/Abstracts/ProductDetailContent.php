@@ -2,6 +2,10 @@
 
 namespace Jankx\WooCommerce\Abstracts;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 use Jankx\WooCommerce\Constracts\ProductDetailContentInterface;
 use Jankx\WooCommerce\Constracts\ProductSummaryLayoutInterface;
 use Jankx\WooCommerce\Layouts\ProductSummary\ProductVariationChooserAndInputSpinner;

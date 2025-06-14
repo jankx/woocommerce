@@ -2,6 +2,10 @@
 
 namespace Jankx\WooCommerce\Integration\Elementor\Widgets;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 use Jankx;
 use Jankx\Elementor\WidgetBase;
 use Elementor\Controls_Manager;

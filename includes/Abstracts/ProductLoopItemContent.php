@@ -2,6 +2,10 @@
 
 namespace Jankx\WooCommerce\Abstracts;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 use Jankx\GlobalConfigs;
 use Jankx\PostLayout\Abstracts\LoopItemContent;
 

@@ -2,6 +2,10 @@
 
 namespace Jankx\WooCommerce\Layouts\ProductDetail\NoSidebar;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 use Jankx\WooCommerce\Abstracts\ProductDetailContent;
 
 class ImageAndProductInfosOnTopDescriptionBellow extends ProductDetailContent

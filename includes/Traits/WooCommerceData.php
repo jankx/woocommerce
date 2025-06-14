@@ -8,6 +8,10 @@
 
 namespace Jankx\WooCommerce\Traits;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 trait WooCommerceData
 {
     /**

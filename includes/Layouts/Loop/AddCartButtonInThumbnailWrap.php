@@ -2,6 +2,10 @@
 
 namespace Jankx\WooCommerce\Layouts\Loop;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 use Jankx\WooCommerce\Abstracts\ProductLoopItemContent;
 
 class AddCartButtonInThumbnailWrap extends ProductLoopItemContent

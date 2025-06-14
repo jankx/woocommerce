@@ -1,3 +1,8 @@
+<?php 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+ ?>
 <aside id="jankx-shop-sidebar" class="sidebar shop">
     <?php do_action('jankx_woocommerce_before_shop_sidebar'); ?>
     <?php

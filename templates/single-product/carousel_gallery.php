@@ -1,3 +1,8 @@
+<?php 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+ ?>
 <div class="swiper <?php echo $instance_id; ?>">
     <div class="swiper-wrapper">
         <?php foreach ($images as $index => $image) : ?>

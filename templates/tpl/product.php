@@ -1,3 +1,8 @@
+<?php 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+ ?>
 <li class="{%=o.post_class%}">
     <a href="{%=o.permalink%}" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
         {%#o.thumbnail_image%}

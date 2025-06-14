@@ -2,6 +2,10 @@
 
 namespace Jankx\WooCommerce\Component;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 use WC_Cart;
 use WC_Session_Handler;
 use Jankx\Component\Abstracts\Component;

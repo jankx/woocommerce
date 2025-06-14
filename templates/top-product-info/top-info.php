@@ -1,3 +1,8 @@
+<?php 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+ ?>
 <div id="jankx-ecommerce-top-prod-info">
     <?php jankx_open_container(); ?>
 

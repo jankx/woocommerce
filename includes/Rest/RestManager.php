@@ -2,6 +2,10 @@
 
 namespace Jankx\WooCommerce\Rest;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 class RestManager
 {
     protected static $instance;

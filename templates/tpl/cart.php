@@ -1,3 +1,8 @@
+<?php 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+ ?>
 <ul class="woocommerce-mini-cart cart_list product_list_widget ">
     <li class="woocommerce-mini-cart-item mini_cart_item">
         <a

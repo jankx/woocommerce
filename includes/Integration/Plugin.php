@@ -2,6 +2,10 @@
 
 namespace Jankx\WooCommerce\Integration;
 
+if (!defined('ABSPATH')) {
+    exit('Cheatin huh?');
+}
+
 use Jankx\WooCommerce\Integration\Elementor\Elementor;
 
 class Plugin
