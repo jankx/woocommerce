@@ -37,9 +37,13 @@ class WooCommercePostLayoutHook
      */
     public static function provideGenerator($generator, $post_type, $attributes)
     {
-        die('zo');
+        // Debug
+        $wc_active = class_exists('WooCommerce') || class_exists('WC') || function_exists('WC');
+        error_log('WooCommercePostLayoutHook: post_type=' . $post_type . ', woocommerce_active=' . ($wc_active ? 'yes' : 'no'));
+        
         // Only for product post type and when WooCommerce is active
-        if ($post_type === 'product' && class_exists('WooCommerce')) {
+        if ($post_type === 'product' && $wc_active) {
+            error_log('WooCommercePostLayoutHook: Returning WooCommerceContentGenerator');
             return new WooCommerceContentGenerator();
         }
         
