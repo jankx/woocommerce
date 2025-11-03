@@ -86,7 +86,11 @@ class WooCommerceContentGenerator implements ContentGeneratorInterface
 
         ob_start();
         ?>
-        <ul data-block-name="woocommerce/product-template" class="wc-block-product-template__responsive columns-<?php echo esc_attr($columns); ?> wc-block-product-template wp-block-woocommerce-product-template is-layout-flow wp-block-product-template-is-layout-flow">
+        <div data-wp-interactive="woocommerce/product-collection" data-wp-context='{"notices":[]}' class="wp-block-woocommerce-product-collection is-layout-flow wp-block-product-collection-is-layout-flow">
+            <div data-wp-interactive="woocommerce/store-notices" class="wc-block-components-notices alignwide">
+                <!-- Store notices container for WooCommerce blocks -->
+            </div>
+            <ul data-block-name="woocommerce/product-template" class="wc-block-product-template__responsive columns-<?php echo esc_attr($columns); ?> wc-block-product-template wp-block-woocommerce-product-template is-layout-flow wp-block-product-template-is-layout-flow">
             <?php
             // Use WooCommerce product loop
             while ($query->have_posts()) {
@@ -144,6 +148,10 @@ class WooCommerceContentGenerator implements ContentGeneratorInterface
                     <?php endif; ?>
 
                     <?php if ($showAddToCart): ?>
+                    <?php
+                    // Generate unique notice ID for this product button
+                    $notice_id = 'wc-add-to-cart-notice-' . $product_id . '-' . wp_unique_id();
+                    ?>
                     <div data-block-name="woocommerce/product-button" data-font-size="small" data-is-descendent-of-query-loop="true" data-text-align="center" class="wp-block-button wc-block-components-product-button align-center wp-block-woocommerce-product-button has-small-font-size" data-wp-interactive="woocommerce/product-button" data-wp-init="actions.refreshCartItems" data-wp-context="<?php echo esc_attr(json_encode([
                         'quantityToAdd' => 1,
                         'productId' => $product_id,
@@ -152,7 +160,7 @@ class WooCommerceContentGenerator implements ContentGeneratorInterface
                         'tempQuantity' => $cart_quantity,
                         'animationStatus' => 'IDLE',
                         'inTheCartText' => sprintf(__('Có ### trong giỏ hàng', 'woocommerce')),
-                        'noticeId' => '',
+                        'noticeId' => $notice_id,
                         'hasPressedButton' => false
                     ])); ?>">
                         
@@ -181,7 +189,8 @@ class WooCommerceContentGenerator implements ContentGeneratorInterface
                 
             }
             ?>
-        </ul>
+            </ul>
+        </div>
         <?php
         
         
@@ -190,6 +199,27 @@ class WooCommerceContentGenerator implements ContentGeneratorInterface
         $wp_query = $original_query;
         $product = $original_product;
         
+        return ob_get_clean();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function wrapCarouselHtml(\WP_Query $query, array $options, string $carouselHtml): string
+    {
+        if (!$this->isWooCommerceActive()) {
+            return $carouselHtml;
+        }
+
+        ob_start();
+        ?>
+        <div data-wp-interactive="woocommerce/product-collection" data-wp-context='{"notices":[]}' class="wp-block-woocommerce-product-collection is-layout-flow wp-block-product-collection-is-layout-flow">
+            <div data-wp-interactive="woocommerce/store-notices" class="wc-block-components-notices alignwide">
+                <!-- Store notices container for WooCommerce blocks -->
+            </div>
+            <?php echo $carouselHtml; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        </div>
+        <?php
         return ob_get_clean();
     }
 
