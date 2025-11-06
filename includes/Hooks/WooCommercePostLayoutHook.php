@@ -3,6 +3,7 @@
 namespace Jankx\WooCommerce\Hooks;
 
 use Jankx\WooCommerce\PostLayout\WooCommerceContentGenerator;
+use Jankx\WooCommerce\Query\PostTypeLayoutQueryBuilder;
 
 /**
  * WooCommerce Post Layout Hook
@@ -31,6 +32,9 @@ class WooCommercePostLayoutHook
         
         // Register order by options for product post type
         add_filter('jankx/gutenberg/query-options/order-by', [self::class, 'registerOrderByOptions'], 10, 1);
+        
+        // Hook into query builder filter to handle WooCommerce query presets
+        add_filter('jankx/post-layout/query-builder', [self::class, 'buildQuery'], 10, 2);
     }
 
     /**
@@ -111,6 +115,76 @@ class WooCommercePostLayoutHook
             ];
         }
 
+        // Check if "featured" preset already exists
+        $has_featured = false;
+        foreach ($presets as $preset) {
+            if (isset($preset['value']) && $preset['value'] === 'featured') {
+                $has_featured = true;
+                break;
+            }
+        }
+
+        // Add "featured" preset if not exists
+        if (!$has_featured) {
+            $presets[] = [
+                'value' => 'featured',
+                'label' => __('Featured Products', 'jankx'),
+                'postType' => 'product', // Only available for product post type
+                'help' => __('Display featured products.', 'jankx'),
+            ];
+        }
+
+        // Define additional presets to register
+        $additional_presets = [
+            [
+                'value' => 'related-products',
+                'label' => __('Related Products', 'jankx'),
+                'help' => __('Display related products based on product categories and tags.', 'jankx'),
+            ],
+            [
+                'value' => 'best-sellers',
+                'label' => __('Best Sellers', 'jankx'),
+                'help' => __('Display best selling products.', 'jankx'),
+            ],
+            [
+                'value' => 'top-rated',
+                'label' => __('Top Rated Products', 'jankx'),
+                'help' => __('Display top rated products.', 'jankx'),
+            ],
+            [
+                'value' => 'upsells',
+                'label' => __('Upsells', 'jankx'),
+                'help' => __('Display upsell products.', 'jankx'),
+            ],
+            [
+                'value' => 'new-arrivals',
+                'label' => __('New Arrivals', 'jankx'),
+                'help' => __('Display newly added products.', 'jankx'),
+            ],
+        ];
+
+        // Register additional presets
+        foreach ($additional_presets as $preset_config) {
+            $preset_value = $preset_config['value'];
+            $has_preset = false;
+            
+            foreach ($presets as $preset) {
+                if (isset($preset['value']) && $preset['value'] === $preset_value) {
+                    $has_preset = true;
+                    break;
+                }
+            }
+
+            if (!$has_preset) {
+                $presets[] = [
+                    'value' => $preset_value,
+                    'label' => $preset_config['label'],
+                    'postType' => 'product', // Only available for product post type
+                    'help' => $preset_config['help'],
+                ];
+            }
+        }
+
         return $presets;
     }
 
@@ -165,6 +239,18 @@ class WooCommercePostLayoutHook
         }
 
         return $options;
+    }
+
+    /**
+     * Build query for WooCommerce query presets
+     *
+     * @param array $attributes Block attributes
+     * @param string $queryPreset Query preset name
+     * @return array Modified attributes
+     */
+    public static function buildQuery(array $attributes, string $queryPreset): array
+    {
+        return PostTypeLayoutQueryBuilder::buildQuery($attributes, $queryPreset);
     }
 }
 
