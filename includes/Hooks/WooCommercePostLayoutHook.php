@@ -6,6 +6,7 @@ use Jankx\Gutenberg\SmartTabs\SmartTabTriggerRegistry;
 use Jankx\WooCommerce\PostLayout\WooCommerceContentGenerator;
 use Jankx\WooCommerce\Query\PostTypeLayoutQueryBuilder;
 use Jankx\WooCommerce\SmartTabs\ProductReviewsTrigger;
+use Jankx\WooCommerce\SmartTabs\ProductAdditionalInfoTrigger;
 
 /**
  * WooCommerce Post Layout Hook
@@ -281,6 +282,7 @@ class WooCommercePostLayoutHook
         }
 
         $registry->registerTrigger(new ProductReviewsTrigger());
+        $registry->registerTrigger(new ProductAdditionalInfoTrigger());
     }
 
     /**

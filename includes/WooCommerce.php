@@ -3,8 +3,6 @@ namespace Jankx\WooCommerce;
 
 use Jankx\WooCommerce\Hooks\WooCommercePostLayoutHook;
 
-require_once __DIR__ . '/SmartTabs/ProductReviewsTrigger.php';
-
 /**
  * WooCommerce Integration
  *
@@ -21,22 +19,31 @@ class WooCommerce
      */
     public static function init()
     {
-        error_log('WooCommerce::init() called');
-        // Register Post Layout hooks if WooCommerce is active
-        // Check for WooCommerce main class or WC class
-        $wc_exists = class_exists('WooCommerce') || class_exists('WC') || function_exists('WC');
-        error_log('WooCommerce detected: ' . ($wc_exists ? 'yes' : 'no'));
-        
-        if ($wc_exists) {
-            error_log('Calling WooCommercePostLayoutHook::init()');
-            WooCommercePostLayoutHook::init();
-            
-            // Enqueue WooCommerce product template style
-            add_action('wp_enqueue_scripts', [self::class, 'enqueue_product_template_style'], 20);
-            
-            // Ensure store notices container exists for WooCommerce blocks
-            add_action('wp_footer', [self::class, 'ensure_store_notices_container'], 5);
+        if (!self::isWooCommerceActive()) {
+            return;
         }
+
+        if (!class_exists(WooCommercePostLayoutHook::class)) {
+            return;
+        }
+
+        WooCommercePostLayoutHook::init();
+
+        // Enqueue WooCommerce product template style
+        add_action('wp_enqueue_scripts', [self::class, 'enqueue_product_template_style'], 20);
+
+        // Ensure store notices container exists for WooCommerce blocks
+        add_action('wp_footer', [self::class, 'ensure_store_notices_container'], 5);
+    }
+
+    /**
+     * Determine if WooCommerce is active.
+     *
+     * @return bool
+     */
+    protected static function isWooCommerceActive(): bool
+    {
+        return class_exists('WooCommerce') || class_exists('WC') || function_exists('WC');
     }
 
     /**
@@ -98,7 +105,7 @@ class WooCommerce
             WC_PLUGIN_FILE
         );
 
-        $version = defined('WC_VERSION') ? WC_VERSION : '6.8.3';
+        $version = defined('WC_VERSION') ? constant('WC_VERSION') : '6.8.3';
 
         wp_enqueue_style(
             'woocommerce-product-template-style',
