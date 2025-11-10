@@ -57,6 +57,20 @@ class ProductReviewsTrigger extends AbstractSmartTabTrigger
     /**
      * {@inheritdoc}
      */
+    public function prepareAttributes(array $attributes): array
+    {
+        $attributes = parent::prepareAttributes($attributes);
+
+        if (empty($attributes['tabId'])) {
+            $attributes['tabId'] = 'reviews';
+        }
+
+        return $attributes;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function resolveTitle(string $baseTitle, array $attributes, array $context = []): string
     {
         if (!function_exists('wc_get_product')) {
