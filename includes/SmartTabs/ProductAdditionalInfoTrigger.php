@@ -45,7 +45,7 @@ class ProductAdditionalInfoTrigger extends AbstractSmartTabTrigger
     {
         $settings = parent::getEditorSettings($context);
         $settings['supports'] = [
-            'customTitle' => false,
+            'customTitle' => true,
             'customContent' => false,
             'icon' => true,
         ];
@@ -105,6 +105,10 @@ class ProductAdditionalInfoTrigger extends AbstractSmartTabTrigger
      */
     public function resolveTitle(string $baseTitle, array $attributes, array $context = []): string
     {
+        if ($baseTitle !== '') {
+            return $baseTitle;
+        }
+
         return __('Additional Information', 'woocommerce');
     }
 
