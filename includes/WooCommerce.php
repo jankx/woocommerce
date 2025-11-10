@@ -3,6 +3,8 @@ namespace Jankx\WooCommerce;
 
 use Jankx\WooCommerce\Hooks\WooCommercePostLayoutHook;
 
+require_once __DIR__ . '/SmartTabs/ProductReviewsTrigger.php';
+
 /**
  * WooCommerce Integration
  *

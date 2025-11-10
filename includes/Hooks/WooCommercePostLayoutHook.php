@@ -2,8 +2,10 @@
 
 namespace Jankx\WooCommerce\Hooks;
 
+use Jankx\Gutenberg\SmartTabs\SmartTabTriggerRegistry;
 use Jankx\WooCommerce\PostLayout\WooCommerceContentGenerator;
 use Jankx\WooCommerce\Query\PostTypeLayoutQueryBuilder;
+use Jankx\WooCommerce\SmartTabs\ProductReviewsTrigger;
 
 /**
  * WooCommerce Post Layout Hook
@@ -38,6 +40,9 @@ class WooCommercePostLayoutHook
 
         // Ensure recently viewed products are tracked even when widget is not active
         add_action('template_redirect', [self::class, 'trackRecentlyViewedProducts'], 25);
+
+        // Register Smart Tab triggers
+        add_action('jankx/smart-tabs/register-triggers', [self::class, 'registerSmartTabTriggers']);
     }
 
     /**
@@ -261,6 +266,21 @@ class WooCommercePostLayoutHook
     public static function buildQuery(array $attributes, string $queryPreset): array
     {
         return PostTypeLayoutQueryBuilder::buildQuery($attributes, $queryPreset);
+    }
+
+    /**
+     * Register Smart Tab triggers provided by WooCommerce integration.
+     *
+     * @param SmartTabTriggerRegistry $registry
+     * @return void
+     */
+    public static function registerSmartTabTriggers(SmartTabTriggerRegistry $registry): void
+    {
+        if (!class_exists('WooCommerce')) {
+            return;
+        }
+
+        $registry->registerTrigger(new ProductReviewsTrigger());
     }
 
     /**
