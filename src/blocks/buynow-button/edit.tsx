@@ -8,7 +8,6 @@ import {
   PanelBody,
   TextControl,
   ToggleControl,
-  Notice,
 } from '@wordpress/components';
 import metadata from './block.json';
 import type { BuyNowButtonAttributes } from './types';
@@ -66,12 +65,6 @@ export default function Edit({
         </PanelBody>
       </InspectorControls>
       <div {...blockProps}>
-        <Notice status="info" isDismissible={false}>
-          {__(
-            'The preview reflects the current product context. A placeholder button is shown when no product can be resolved.',
-            'jankx',
-          )}
-        </Notice>
         <ServerSideRender block={blockName} attributes={attributes} />
       </div>
     </>

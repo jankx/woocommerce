@@ -5,10 +5,9 @@ import {
   useBlockProps,
 } from '@wordpress/block-editor';
 import {
-    PanelBody,
-    TextControl,
-    ToggleControl,
-    Notice,
+  PanelBody,
+  TextControl,
+  ToggleControl,
 } from '@wordpress/components';
 import metadata from './block.json';
 import type { DiscountPercentsAttributes } from './types';
@@ -66,15 +65,6 @@ export default function Edit({
         </PanelBody>
       </InspectorControls>
       <div {...blockProps}>
-        <Notice
-          status="info"
-          isDismissible={false}
-        >
-          {__(
-            'The preview reflects live pricing data. If no product context is available, a placeholder value will be shown.',
-            'jankx',
-          )}
-        </Notice>
         <ServerSideRender
           block={blockName}
           attributes={attributes}

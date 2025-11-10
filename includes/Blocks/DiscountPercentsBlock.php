@@ -187,8 +187,8 @@ class DiscountPercentsBlock extends Block
             return '';
         }
 
-        // Provide a sensible default preview percentage.
-        $previewValue = 25;
+        // Provide a random preview percentage to illustrate formatting.
+        $previewValue = function_exists('wp_rand') ? wp_rand(5, 70) : rand(5, 70);
 
         return $this->renderBadge($previewValue, $attributes, ['is-preview']);
     }
