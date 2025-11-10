@@ -1,0 +1,20 @@
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[2].use[3]!./src/blocks/discount-percents/editor.scss ***!
+  \*********************************************************************************************************************************************************************************************************/
+.jankx-discount-percents {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  background-color: var(--wp--preset--color--primary, #ca2b2b);
+  color: var(--wp--preset--color--base, #ffffff);
+  min-width: 3rem;
+  text-align: center;
+}
+.jankx-discount-percents span {
+  display: inline-block;
+}
+
+/*# sourceMappingURL=editor.css.map*/

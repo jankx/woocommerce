@@ -1,0 +1,17 @@
+.jankx-discount-percents {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  background-color: var(--wp--preset--color--primary, #ca2b2b);
+  color: var(--wp--preset--color--base, #ffffff);
+  min-width: 3rem;
+  text-align: center;
+
+  span {
+    display: inline-block;
+  }
+}
+

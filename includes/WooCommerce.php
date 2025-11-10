@@ -1,6 +1,8 @@
 <?php
 namespace Jankx\WooCommerce;
 
+use Jankx\WooCommerce\Blocks\BuyNowButtonBlock;
+use Jankx\WooCommerce\Blocks\DiscountPercentsBlock;
 use Jankx\WooCommerce\Hooks\WooCommercePostLayoutHook;
 
 /**
@@ -28,6 +30,21 @@ class WooCommerce
         }
 
         WooCommercePostLayoutHook::init();
+
+        // Allow the WooCommerce package to register its own Gutenberg blocks.
+        add_action(
+            'jankx/gutenberg/register-blocks',
+            [self::class, 'registerBlocks'],
+            10,
+            2
+        );
+
+        add_filter(
+            'woocommerce_add_to_cart_redirect',
+            [self::class, 'maybeRedirectBuyNow'],
+            20,
+            2
+        );
 
         // Enqueue WooCommerce product template style
         add_action('wp_enqueue_scripts', [self::class, 'enqueue_product_template_style'], 20);
@@ -239,11 +256,57 @@ class WooCommerce
         </script>
         <?php
     }
+
+    /**
+     * Register Gutenberg blocks exposed by the WooCommerce integration.
+     *
+     * @param \Jankx\Gutenberg\GutenbergRepository $repository
+     * @param \Jankx\Foundation\Application|null   $app
+     *
+     * @return void
+     */
+    public static function registerBlocks($repository, $app = null): void
+    {
+        if (!is_object($repository)) {
+            return;
+        }
+
+        $blockClasses = array_filter([
+            class_exists(DiscountPercentsBlock::class) ? DiscountPercentsBlock::class : null,
+            class_exists(BuyNowButtonBlock::class) ? BuyNowButtonBlock::class : null,
+        ]);
+
+        foreach ($blockClasses as $blockClass) {
+            if (method_exists($repository, 'hasBlock') && $repository->hasBlock($blockClass)) {
+                continue;
+            }
+            $repository->registerBlock($blockClass);
+        }
+    }
+
+    /**
+     * Redirect to checkout when Buy Now requests are triggered.
+     *
+     * @param string $url
+     * @param int|\WC_Product $product
+     *
+     * @return string
+     */
+    public static function maybeRedirectBuyNow($url, $product)
+    {
+        if (empty($_REQUEST['wc_buy_now'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            return $url;
+        }
+
+        $checkout_url = wc_get_checkout_url();
+
+        return $checkout_url ?: $url;
+    }
 }
 
 // Auto-initialize if WordPress is loaded
 if (function_exists('add_action')) {
-    add_action('init', [WooCommerce::class, 'init'], 20);
+    add_action('init', [WooCommerce::class, 'init'], 5);
     error_log('WooCommerce integration: Hook registered on init');
 } else {
     error_log('WooCommerce integration: add_action not available');

@@ -1,0 +1,78 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "jankx/buynow-button",
+  "title": "Buy Now Button",
+  "category": "widgets",
+  "description": "Render a buy-now button that sends the customer directly to checkout.",
+  "keywords": [
+    "woocommerce",
+    "buy now",
+    "checkout"
+  ],
+  "textdomain": "jankx",
+  "usesContext": [
+    "postId",
+    "postType",
+    "woocommerce/productId"
+  ],
+  "attributes": {
+    "text": {
+      "type": "string",
+      "default": "Buy Now"
+    },
+    "openInNewTab": {
+      "type": "boolean",
+      "default": false
+    },
+    "relNoFollow": {
+      "type": "boolean",
+      "default": false
+    },
+    "relSponsored": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "supports": {
+    "html": false,
+    "align": [
+      "left",
+      "center",
+      "right",
+      "wide",
+      "full"
+    ],
+    "color": {
+      "text": true,
+      "background": true,
+      "link": true,
+      "__experimentalDefaultControls": {
+        "text": true,
+        "background": true
+      }
+    },
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "fontFamily": true,
+      "fontWeight": true,
+      "fontStyle": true,
+      "textTransform": true,
+      "textDecoration": true,
+      "letterSpacing": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true
+      }
+    },
+    "shadow": true
+  },
+  "editorScript": "file:./build/index.js",
+  "style": "file:./build/style.css",
+  "editorStyle": "file:./build/editor.css"
+}
+

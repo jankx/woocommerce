@@ -1,0 +1,65 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "jankx/discount-percents",
+  "title": "Discount Percent Badge",
+  "category": "widgets",
+  "description": "Display the discount percentage for the current product.",
+  "keywords": [
+    "woocommerce",
+    "discount",
+    "sale"
+  ],
+  "textdomain": "jankx",
+  "supports": {
+    "html": false,
+    "align": [
+      "left",
+      "center",
+      "right"
+    ],
+    "color": {
+      "text": true,
+      "background": true,
+      "link": false,
+      "__experimentalDefaultControls": {
+        "text": true,
+        "background": true
+      }
+    },
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "fontFamily": true,
+      "fontWeight": true,
+      "fontStyle": true,
+      "textTransform": true,
+      "letterSpacing": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true
+      }
+    }
+  },
+  "attributes": {
+    "prefix": {
+      "type": "string",
+      "default": "-"
+    },
+    "suffix": {
+      "type": "string",
+      "default": "%"
+    },
+    "displayZero": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "style": "file:./build/style.css",
+  "editorStyle": "file:./build/editor.css",
+  "editorScript": "file:./build/index.js"
+}
+

@@ -1,0 +1,41 @@
+/*!*****************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[2].use[3]!./src/blocks/buynow-button/editor.scss ***!
+  \*****************************************************************************************************************************************************************************************************/
+.jankx-buynow-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.jankx-buynow-button .buynow-button__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  background-color: var(--wp--preset--color--primary, #2f54eb);
+  color: var(--wp--preset--color--base, #ffffff);
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.jankx-buynow-button .buynow-button__link:hover, .jankx-buynow-button .buynow-button__link:focus {
+  background-color: var(--wp--custom--color--primary-dark, #1d39c4);
+  color: inherit;
+  transform: translateY(-1px);
+}
+.jankx-buynow-button .buynow-button__link:active {
+  transform: translateY(0);
+}
+.jankx-buynow-button.is-preview {
+  opacity: 0.8;
+}
+.jankx-buynow-button.is-preview .buynow-button__link {
+  pointer-events: none;
+}
+.jankx-buynow-button.requires-configuration .buynow-button__link {
+  background-color: var(--wp--preset--color--neutral-300, #d9d9d9);
+  color: var(--wp--preset--color--neutral-900, #262626);
+}
+
+/*# sourceMappingURL=editor.css.map*/
