@@ -35,6 +35,9 @@ class WooCommercePostLayoutHook
         
         // Hook into query builder filter to handle WooCommerce query presets
         add_filter('jankx/post-layout/query-builder', [self::class, 'buildQuery'], 10, 2);
+
+        // Ensure recently viewed products are tracked even when widget is not active
+        add_action('template_redirect', [self::class, 'trackRecentlyViewedProducts'], 25);
     }
 
     /**
@@ -258,6 +261,144 @@ class WooCommercePostLayoutHook
     public static function buildQuery(array $attributes, string $queryPreset): array
     {
         return PostTypeLayoutQueryBuilder::buildQuery($attributes, $queryPreset);
+    }
+
+    /**
+     * Track recently viewed products to support custom layouts
+     *
+     * WooCommerce only tracks when the default widget is active.
+     * This replicates the WooCommerce logic so the cookie is always populated.
+     *
+     * @return void
+     */
+    public static function trackRecentlyViewedProducts(): void
+    {
+        if (!function_exists('wc_setcookie')) {
+            return;
+        }
+
+        if (!is_singular('product')) {
+            return;
+        }
+
+        global $post;
+
+        if (!$post || !isset($post->ID)) {
+            return;
+        }
+
+        $viewed_products = self::getRecentlyViewedIdsFromCookie();
+
+        $keys = array_flip($viewed_products);
+
+        if (isset($keys[$post->ID])) {
+            unset($viewed_products[$keys[$post->ID]]);
+        }
+
+        $viewed_products[] = $post->ID;
+
+        $viewed_products = self::limitRecentlyViewedList($viewed_products);
+
+        wc_setcookie('woocommerce_recently_viewed', implode('|', $viewed_products));
+
+        if (is_user_logged_in()) {
+            update_user_meta(get_current_user_id(), self::getUserMetaKey(), $viewed_products);
+        }
+    }
+
+    /**
+     * Retrieve recently viewed IDs from cookie
+     *
+     * @return array<int>
+     */
+    protected static function getRecentlyViewedIdsFromCookie(): array
+    {
+        return !empty($_COOKIE['woocommerce_recently_viewed'])
+            ? wp_parse_id_list((array) explode('|', wp_unslash($_COOKIE['woocommerce_recently_viewed'])))
+            : [];
+    }
+
+    /**
+     * Retrieve recently viewed IDs for current user (meta + cookie)
+     *
+     * @return array<int>
+     */
+    public static function getRecentlyViewedProductIds(): array
+    {
+        $cookie_ids = self::getRecentlyViewedIdsFromCookie();
+
+        if (!is_user_logged_in()) {
+            return self::limitRecentlyViewedList($cookie_ids);
+        }
+
+        $user_ids = get_user_meta(get_current_user_id(), self::getUserMetaKey(), true);
+        if (!is_array($user_ids)) {
+            $user_ids = [];
+        } else {
+            $user_ids = array_map('intval', $user_ids);
+        }
+
+        if (!empty($cookie_ids)) {
+            // Rebuild list to prioritise current session order, falling back to stored meta
+            $combined = [];
+            foreach ($cookie_ids as $id) {
+                $combined[$id] = $id;
+            }
+
+            foreach ($user_ids as $id) {
+                if (!isset($combined[$id])) {
+                    $combined[$id] = $id;
+                }
+            }
+
+            $viewed_products = array_values($combined);
+        } else {
+            $viewed_products = $user_ids;
+        }
+
+        return self::limitRecentlyViewedList($viewed_products);
+    }
+
+    /**
+     * Helper to limit recently viewed list length
+     *
+     * @param array<int> $viewed_products
+     * @return array<int>
+     */
+    protected static function limitRecentlyViewedList(array $viewed_products): array
+    {
+        $viewed_products = array_values(array_unique(array_map('intval', $viewed_products)));
+
+        /**
+         * Filter the maximum number of recently viewed products to store.
+         *
+         * @param int $max_viewed Default 30 products.
+         */
+        $max_viewed = (int) apply_filters('jankx/woocommerce/recently_viewed/max_items', 30);
+        if ($max_viewed < 1) {
+            $max_viewed = 30;
+        }
+
+        if (count($viewed_products) > $max_viewed) {
+            $viewed_products = array_slice($viewed_products, -1 * $max_viewed);
+        }
+
+        return $viewed_products;
+    }
+
+    /**
+     * Get meta key used to store recently viewed products
+     *
+     * @return string
+     */
+    protected static function getUserMetaKey(): string
+    {
+        /**
+         * Filter the user meta key used for storing recently viewed products.
+         *
+         * @param string $meta_key Default meta key.
+         */
+        return apply_filters('jankx/woocommerce/recently_viewed/user_meta_key', 'jankx_recently_viewed_products');
     }
 }
 

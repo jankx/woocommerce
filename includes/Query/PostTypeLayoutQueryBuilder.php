@@ -2,6 +2,8 @@
 
 namespace Jankx\WooCommerce\Query;
 
+use Jankx\WooCommerce\Hooks\WooCommercePostLayoutHook;
+
 /**
  * Post Type Layout Query Builder for WooCommerce
  *
@@ -388,11 +390,7 @@ class PostTypeLayoutQueryBuilder
         }
 
         // WooCommerce stores viewed product IDs in cookie
-        $viewed_products = ! empty($_COOKIE['woocommerce_recently_viewed'])
-            ? array_map('absint', explode('|', wp_unslash($_COOKIE['woocommerce_recently_viewed'])))
-            : [];
-
-        $viewed_products = array_filter(array_reverse($viewed_products));
+        $viewed_products = WooCommercePostLayoutHook::getRecentlyViewedProductIds();
 
         if (empty($viewed_products)) {
             // No viewed products -> return empty result
