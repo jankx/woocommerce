@@ -49,6 +49,7 @@ class ProductAdditionalInfoTrigger extends AbstractSmartTabTrigger
             'customContent' => false,
             'icon' => true,
         ];
+        $settings['previewTitle'] = __('Additional Information', 'woocommerce');
 
         return $settings;
     }
@@ -102,7 +103,7 @@ class ProductAdditionalInfoTrigger extends AbstractSmartTabTrigger
     /**
      * {@inheritdoc}
      */
-    public function resolveTitle(array $attributes, array $context = []): string
+    public function resolveTitle(string $baseTitle, array $attributes, array $context = []): string
     {
         return __('Additional Information', 'woocommerce');
     }

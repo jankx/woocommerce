@@ -45,10 +45,11 @@ class ProductReviewsTrigger extends AbstractSmartTabTrigger
     {
         $settings = parent::getEditorSettings($context);
         $settings['supports'] = [
-            'customTitle' => false,
+            'customTitle' => true,
             'customContent' => false,
             'icon' => true,
         ];
+        $settings['previewTitle'] = __('Reviews (count)', 'woocommerce');
 
         return $settings;
     }
@@ -56,34 +57,39 @@ class ProductReviewsTrigger extends AbstractSmartTabTrigger
     /**
      * {@inheritdoc}
      */
-    public function resolveTitle(array $attributes, array $context = []): string
+    public function resolveTitle(string $baseTitle, array $attributes, array $context = []): string
     {
         if (!function_exists('wc_get_product')) {
-            return __('Reviews', 'woocommerce');
+            $base = $baseTitle !== '' ? $baseTitle : __('Reviews', 'woocommerce');
+            return $base;
         }
 
         $post_id = isset($context['post_id']) ? (int) $context['post_id'] : 0;
 
         if ($post_id <= 0) {
-            return __('Reviews', 'woocommerce');
+            $base = $baseTitle !== '' ? $baseTitle : __('Reviews', 'woocommerce');
+            return $base;
         }
 
         $product = wc_get_product($post_id);
         if (!$product) {
-            return __('Reviews', 'woocommerce');
+            $base = $baseTitle !== '' ? $baseTitle : __('Reviews', 'woocommerce');
+            return $base;
         }
 
+        $base = $baseTitle !== '' ? $baseTitle : __('Reviews', 'woocommerce');
         $review_count = (int) $product->get_review_count();
 
         if ($review_count > 0) {
             return sprintf(
-                /* translators: %d: number of product reviews */
-                __('Reviews (%d)', 'woocommerce'),
+                /* translators: 1: tab title, 2: number of product reviews */
+                __('%1$s (%2$d)', 'woocommerce'),
+                $base,
                 $review_count
             );
         }
 
-        return __('Reviews', 'woocommerce');
+        return $base;
     }
 
     /**
