@@ -166,7 +166,7 @@ class WooCommerceContentGenerator implements ContentGeneratorInterface
                         
                         <?php if ($product->is_purchasable() && $product->is_in_stock()): ?>
                         <button class="wp-block-button__link wp-element-button wc-block-components-product-button__button add_to_cart_button ajax_add_to_cart product_type_<?php echo esc_attr($product_type); ?> has-font-size has-small-font-size has-text-align-center wc-interactive" style="" type="button" data-product_id="<?php echo esc_attr($product_id); ?>" data-product_sku="<?php echo esc_attr($product->get_sku()); ?>" aria-label="<?php echo esc_attr(sprintf(__('Thêm vào giỏ hàng: "%s"', 'woocommerce'), get_the_title())); ?>" data-wp-on--click="actions.addCartItem">
-                            <span data-wp-text="state.addToCartText" data-wp-class--wc-block-slide-in="state.slideInAnimation" data-wp-class--wc-block-slide-out="state.slideOutAnimation" data-wp-on--animationend="actions.handleAnimationEnd" data-wp-watch="callbacks.startAnimation" data-wp-run="callbacks.syncTempQuantityOnLoad" data-wp-on--click="actions.handlePressedState" class="">
+                            <span data-wp-class--wc-block-slide-in="state.slideInAnimation" data-wp-class--wc-block-slide-out="state.slideOutAnimation" data-wp-on--animationend="actions.handleAnimationEnd" data-wp-watch="callbacks.startAnimation" data-wp-run="callbacks.syncTempQuantityOnLoad" data-wp-on--click="actions.handlePressedState" class="">
                                 <?php echo $is_in_cart ? sprintf(__('Có %d trong giỏ hàng', 'woocommerce'), $cart_quantity) : __('Thêm vào giỏ hàng', 'woocommerce'); ?>
                             </span>
                         </button>
