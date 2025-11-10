@@ -1,0 +1,53 @@
+.jankx-stock-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .stock-status__label {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+    opacity: 0.7;
+  }
+
+  .stock-status__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    line-height: 1;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    background-color: var(--wp--preset--color--neutral-200, #e8e8e8);
+    color: var(--wp--preset--color--neutral-900, #222222);
+  }
+
+  &.status-instock .stock-status__badge {
+    background-color: var(--wp--preset--color--success, #33a853);
+    color: #ffffff;
+  }
+
+  &.status-outofstock .stock-status__badge {
+    background-color: var(--wp--preset--color--error, #ea4335);
+    color: #ffffff;
+  }
+
+  &.status-onbackorder .stock-status__badge,
+  &.status-preorder .stock-status__badge {
+    background-color: var(--wp--preset--color--warning, #fbbc05);
+    color: #111111;
+  }
+
+  &.status-coming-soon .stock-status__badge {
+    background-color: var(--wp--preset--color--neutral-500, #9e9e9e);
+    color: #ffffff;
+  }
+
+  &.is-preview {
+    opacity: 0.85;
+  }
+}
+

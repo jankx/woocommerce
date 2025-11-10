@@ -1,0 +1,52 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "jankx/stock-status",
+  "title": "Stock Status",
+  "category": "widgets",
+  "description": "Display the stock availability state for the current product.",
+  "keywords": [
+    "woocommerce",
+    "stock",
+    "availability"
+  ],
+  "textdomain": "jankx",
+  "usesContext": [
+    "postId",
+    "woocommerce/productId"
+  ],
+  "supports": {
+    "html": false,
+    "align": [
+      "left",
+      "center",
+      "right"
+    ],
+    "color": {
+      "text": true,
+      "background": true,
+      "__experimentalDefaultControls": {
+        "text": true,
+        "background": true
+      }
+    },
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "fontWeight": true,
+      "textTransform": true,
+      "letterSpacing": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true
+      }
+    }
+  },
+  "style": "file:./build/style.css",
+  "editorStyle": "file:./build/editor.css",
+  "editorScript": "file:./build/index.js"
+}
+

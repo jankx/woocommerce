@@ -3,6 +3,7 @@ namespace Jankx\WooCommerce;
 
 use Jankx\WooCommerce\Blocks\BuyNowButtonBlock;
 use Jankx\WooCommerce\Blocks\DiscountPercentsBlock;
+use Jankx\WooCommerce\Blocks\StockStatusBlock;
 use Jankx\WooCommerce\Hooks\WooCommercePostLayoutHook;
 
 /**
@@ -274,6 +275,7 @@ class WooCommerce
         $blockClasses = array_filter([
             class_exists(DiscountPercentsBlock::class) ? DiscountPercentsBlock::class : null,
             class_exists(BuyNowButtonBlock::class) ? BuyNowButtonBlock::class : null,
+            class_exists(StockStatusBlock::class) ? StockStatusBlock::class : null,
         ]);
 
         foreach ($blockClasses as $blockClass) {

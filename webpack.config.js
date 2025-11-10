@@ -15,6 +15,9 @@ module.exports = {
     'blocks/buynow-button/build/index': './src/blocks/buynow-button/index.tsx',
     'blocks/buynow-button/build/style': './src/blocks/buynow-button/style.scss',
     'blocks/buynow-button/build/editor': './src/blocks/buynow-button/editor.scss',
+    'blocks/stock-status/build/index': './src/blocks/stock-status/index.tsx',
+    'blocks/stock-status/build/style': './src/blocks/stock-status/style.scss',
+    'blocks/stock-status/build/editor': './src/blocks/stock-status/editor.scss',
   },
   output: {
     path: path.resolve(__dirname),
@@ -79,6 +82,10 @@ module.exports = {
         {
           from: path.resolve(__dirname, 'src/blocks/buynow-button/block.json'),
           to: path.resolve(__dirname, 'blocks/buynow-button/block.json'),
+        },
+        {
+          from: path.resolve(__dirname, 'src/blocks/stock-status/block.json'),
+          to: path.resolve(__dirname, 'blocks/stock-status/block.json'),
         },
       ],
     }),
