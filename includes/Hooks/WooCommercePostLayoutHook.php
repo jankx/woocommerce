@@ -140,6 +140,13 @@ class WooCommercePostLayoutHook
                 'value' => 'related-products',
                 'label' => __('Related Products', 'jankx'),
                 'help' => __('Display related products based on product categories and tags.', 'jankx'),
+                'postType' => 'product',
+            ],
+            [
+                'value' => 'recently-viewed',
+                'label' => __('Sản phẩm đã xem', 'jankx'),
+                'help' => __('Display products the visitor has recently viewed.', 'jankx'),
+                'postType' => 'product',
             ],
             [
                 'value' => 'best-sellers',

@@ -37,6 +37,8 @@ class PostTypeLayoutQueryBuilder
                 return self::buildOnSaleQuery($attributes);
             case 'featured':
                 return self::buildFeaturedQuery($attributes);
+            case 'recently-viewed':
+                return self::buildRecentlyViewedQuery($attributes);
             case 'related-products':
                 return self::buildRelatedProductsQuery($attributes);
             case 'best-sellers':
@@ -369,6 +371,38 @@ class PostTypeLayoutQueryBuilder
         // New arrivals are sorted by date in descending order (newest first)
         $attributes['orderBy'] = 'date';
         $attributes['order'] = 'DESC';
+
+        return $attributes;
+    }
+
+    /**
+     * Build recently viewed products query
+     *
+     * @param array $attributes Block attributes
+     * @return array Modified attributes with post__in for recently viewed products
+     */
+    protected static function buildRecentlyViewedQuery(array $attributes): array
+    {
+        if (!function_exists('wc_get_product')) {
+            return $attributes;
+        }
+
+        // WooCommerce stores viewed product IDs in cookie
+        $viewed_products = ! empty($_COOKIE['woocommerce_recently_viewed'])
+            ? array_map('absint', explode('|', wp_unslash($_COOKIE['woocommerce_recently_viewed'])))
+            : [];
+
+        $viewed_products = array_filter(array_reverse($viewed_products));
+
+        if (empty($viewed_products)) {
+            // No viewed products -> return empty result
+            $attributes['postIn'] = [0];
+            return $attributes;
+        }
+
+        $attributes['postIn'] = $viewed_products;
+        $attributes['orderBy'] = 'post__in';
+        $attributes['order'] = 'ASC';
 
         return $attributes;
     }
