@@ -24,6 +24,7 @@ class WooCommerceContentGenerator extends AbstractContentGenerator
         'showSaleBadge',
         'postsPerPage',
         'imageSize',
+        'imageRatio',
         'postTemplate',
     ];
 
@@ -55,12 +56,19 @@ class WooCommerceContentGenerator extends AbstractContentGenerator
 
         $options['postTemplate'] = $templateBlock;
 
-        return PostLayoutTemplateBlock::renderTemplateWithQuery(
+        $html = PostLayoutTemplateBlock::renderTemplateWithQuery(
             $templateBlock,
             $query,
             $options,
             $this->getLayout()
         );
+
+        $layout = $this->getLayout();
+        if ($layout) {
+            return $layout->wrapTemplateHtml($html, $options);
+        }
+
+        return $html;
     }
 
     protected function renderPreviewContent(array $options = []): array
