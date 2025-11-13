@@ -2,6 +2,7 @@
 
 namespace Jankx\WooCommerce\Hooks;
 
+use Jankx\Facades\Log;
 use Jankx\Gutenberg\SmartTabs\SmartTabTriggerRegistry;
 use Jankx\WooCommerce\PostLayout\WooCommerceContentGenerator;
 use Jankx\WooCommerce\Query\PostTypeLayoutQueryBuilder;
@@ -58,11 +59,11 @@ class WooCommercePostLayoutHook
     {
         // Debug
         $wc_active = class_exists('WooCommerce') || class_exists('WC') || function_exists('WC');
-        error_log('WooCommercePostLayoutHook: post_type=' . $post_type . ', woocommerce_active=' . ($wc_active ? 'yes' : 'no'));
+        Log::debug('WooCommercePostLayoutHook: post_type=' . $post_type . ', woocommerce_active=' . ($wc_active ? 'yes' : 'no'));
         
         // Only for product post type and when WooCommerce is active
         if ($post_type === 'product' && $wc_active) {
-            error_log('WooCommercePostLayoutHook: Returning WooCommerceContentGenerator');
+            Log::debug('WooCommercePostLayoutHook: Returning WooCommerceContentGenerator');
             return new WooCommerceContentGenerator();
         }
         

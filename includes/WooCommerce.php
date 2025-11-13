@@ -1,6 +1,7 @@
 <?php
 namespace Jankx\WooCommerce;
 
+use Jankx\Facades\Log;
 use Jankx\WooCommerce\Blocks\BuyNowButtonBlock;
 use Jankx\WooCommerce\Blocks\DiscountPercentsBlock;
 use Jankx\WooCommerce\Blocks\StockStatusBlock;
@@ -29,6 +30,8 @@ class WooCommerce
         if (!class_exists(WooCommercePostLayoutHook::class)) {
             return;
         }
+        Log::debug('WooCommerce integration: Hook registered on init');
+
 
         WooCommercePostLayoutHook::init();
 
@@ -307,10 +310,4 @@ class WooCommerce
 }
 
 // Auto-initialize if WordPress is loaded
-if (function_exists('add_action')) {
-    add_action('init', [WooCommerce::class, 'init'], 5);
-    error_log('WooCommerce integration: Hook registered on init');
-} else {
-    error_log('WooCommerce integration: add_action not available');
-}
-
+add_action('init', [WooCommerce::class, 'init'], 5);
