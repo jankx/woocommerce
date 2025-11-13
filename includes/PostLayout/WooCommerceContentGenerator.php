@@ -226,5 +226,23 @@ class WooCommerceContentGenerator extends AbstractContentGenerator
             implode('', $blocks)
         );
     }
+
+
+    /**
+     * Append classes to the wrapper
+     *
+     * @param array<string> $classes
+     * @param array $options
+     * @return array<string> Updated classes list
+     */
+    public function appendClassesToWrapper(array $classes, array $options = []): array
+    {
+        // Add this class for compatibility with WooCommerce CSS for the "woocommerce/product-collection" block
+        if (empty($options['postTemplate'])) {
+            $classes[] = 'wp-block-woocommerce-product-collection';
+        }
+
+        return $classes;
+    }
 }
 
