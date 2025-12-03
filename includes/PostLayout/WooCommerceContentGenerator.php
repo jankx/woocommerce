@@ -50,6 +50,14 @@ class WooCommerceContentGenerator extends AbstractContentGenerator
             $templateBlock = $this->getDefaultTemplateBlock($options);
         }
 
+        // Ensure template block has innerBlocks, if not, build them from attributes
+        if (is_array($templateBlock) && empty($templateBlock['innerBlocks'])) {
+            $innerBlocks = $this->buildInnerBlocksFromOptions($options);
+            if (!empty($innerBlocks)) {
+                $templateBlock['innerBlocks'] = $innerBlocks;
+            }
+        }
+
         if (!is_array($templateBlock) || empty($templateBlock)) {
             return '';
         }
@@ -163,19 +171,36 @@ class WooCommerceContentGenerator extends AbstractContentGenerator
 
     protected function getDefaultTemplateBlock(array $options): array
     {
+        // Try to build from parsed blocks first
         $content = $this->buildDefaultTemplateContent($options);
 
-        if (empty($content)) {
+        if (!empty($content)) {
+            $blocks = parse_blocks($content);
+            if (!empty($blocks) && !empty($blocks[0])) {
+                $templateBlock = $blocks[0];
+                // Ensure innerBlocks exist
+                if (empty($templateBlock['innerBlocks'])) {
+                    $templateBlock['innerBlocks'] = $this->buildInnerBlocksFromOptions($options);
+                }
+                return $templateBlock;
+            }
+        }
+
+        // Fallback: build directly from options
+        $innerBlocks = $this->buildInnerBlocksFromOptions($options);
+        if (empty($innerBlocks)) {
             return [];
         }
 
-        $blocks = parse_blocks($content);
-
-        if (empty($blocks)) {
-            return [];
-        }
-
-        return $blocks[0];
+        return [
+            'blockName' => 'jankx/post-layout-template',
+            'attrs' => [
+                'className' => 'wc-block-product-template wc-block-product-template--default',
+            ],
+            'innerBlocks' => $innerBlocks,
+            'innerHTML' => '',
+            'innerContent' => [],
+        ];
     }
 
     protected function buildDefaultTemplateContent(array $options): string
@@ -197,7 +222,7 @@ class WooCommerceContentGenerator extends AbstractContentGenerator
         }
 
         if ($showTitle) {
-            $blocks[] = '<!-- wp:woocommerce/product-title {"textAlign":"center","level":3} /-->';
+            $blocks[] = '<!-- wp:post-title {"textAlign":"center","isLink":true,"style":{"spacing":{"margin":{"bottom":"0.75rem","top":"0"}},"typography":{"lineHeight":"1.4"}},"fontSize":"medium","__woocommerceNamespace":"woocommerce/product-collection/product-title"} /-->';
         }
 
         if ($showRating) {
@@ -243,6 +268,85 @@ class WooCommerceContentGenerator extends AbstractContentGenerator
         }
 
         return $classes;
+    }
+
+    /**
+     * Build inner blocks from options as fallback
+     *
+     * @param array $options
+     * @return array
+     */
+    protected function buildInnerBlocksFromOptions(array $options): array
+    {
+        $innerBlocks = [];
+
+        $showFeaturedImage = $options['showFeaturedImage'] ?? true;
+        $showSaleBadge = $options['showSaleBadge'] ?? true;
+        $showTitle = $options['showTitle'] ?? true;
+        $showPrice = $options['showPrice'] ?? true;
+        $showRating = $options['showRating'] ?? false;
+        $showAddToCart = $options['showAddToCart'] ?? true;
+
+        if ($showFeaturedImage) {
+            $innerBlocks[] = [
+                'blockName' => 'woocommerce/product-image',
+                'attrs' => [
+                    'align' => 'center',
+                    'showSaleBadge' => $showSaleBadge,
+                ],
+            ];
+        }
+
+        if ($showTitle) {
+            $innerBlocks[] = [
+                'blockName' => 'woocommerce/product-title',
+                'attrs' => [
+                    'textAlign' => 'center',
+                    'level' => 3,
+                ],
+            ];
+        }
+
+        if ($showRating) {
+            $innerBlocks[] = [
+                'blockName' => 'woocommerce/product-rating',
+                'attrs' => [
+                    'textAlign' => 'center',
+                ],
+            ];
+        }
+
+        if ($showPrice) {
+            $innerBlocks[] = [
+                'blockName' => 'woocommerce/product-price',
+                'attrs' => [
+                    'textAlign' => 'center',
+                    'fontSize' => 'small',
+                ],
+            ];
+        }
+
+        if ($showAddToCart) {
+            $innerBlocks[] = [
+                'blockName' => 'woocommerce/product-button',
+                'attrs' => [
+                    'textAlign' => 'center',
+                    'fontSize' => 'small',
+                ],
+            ];
+        }
+
+        // Ensure at least title is shown
+        if (empty($innerBlocks)) {
+            $innerBlocks[] = [
+                'blockName' => 'woocommerce/product-title',
+                'attrs' => [
+                    'textAlign' => 'center',
+                ],
+            ];
+        }
+
+        return $innerBlocks;
     }
 }
 
