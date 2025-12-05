@@ -36,8 +36,13 @@ class WooCommerceServiceProvider extends ServiceProvider
      */
     public function register($app)
     {
+        \Jankx\WooCommerce\Helpers\Logger::info('WooCommerceServiceProvider: register() called', [
+            'provider' => __CLASS__,
+        ]);
+
         // Register singletons
         $this->app->singleton('woocommerce.layout.manager', function ($app) {
+            \Jankx\WooCommerce\Helpers\Logger::debug('ServiceProvider: Binding woocommerce.layout.manager');
             return LayoutManager::getInstance();
         });
 
@@ -71,9 +76,17 @@ class WooCommerceServiceProvider extends ServiceProvider
      */
     public function boot($app)
     {
+        \Jankx\WooCommerce\Helpers\Logger::info('WooCommerceServiceProvider: boot() called', [
+            'provider' => __CLASS__,
+        ]);
+
         // Initialize Layout Bootstrap
         // Bootstrap sẽ tự động register các providers khác
-        $this->app->make('woocommerce.layout.bootstrap');
+        $bootstrap = $this->app->make('woocommerce.layout.bootstrap');
+        
+        \Jankx\WooCommerce\Helpers\Logger::info('WooCommerceServiceProvider: Services booted successfully', [
+            'bootstrap' => get_class($bootstrap),
+        ]);
 
         // Register hooks
         $this->registerHooks();

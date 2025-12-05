@@ -38,6 +38,7 @@ class LayoutManager implements LayoutManagerInterface
      */
     private function __construct()
     {
+        \Jankx\WooCommerce\Helpers\Logger::debug('LayoutManager: Instance created');
         $this->init();
     }
 
@@ -95,12 +96,25 @@ class LayoutManager implements LayoutManagerInterface
         $layoutId = $layout->getId();
         $layoutType = $layout->getType();
 
+        \Jankx\WooCommerce\Helpers\Logger::debug('LayoutManager: Registering layout', [
+            'layout_id' => $layoutId,
+            'layout_type' => $layoutType,
+            'layout_name' => $layout->getName(),
+        ]);
+
         // Kiểm tra duplicate
         if ($this->has($layoutId)) {
+            \Jankx\WooCommerce\Helpers\Logger::warning('LayoutManager: Duplicate layout ID detected', [
+                'layout_id' => $layoutId,
+            ]);
+            
             // Allow override với filter
             if (!apply_filters('jankx_woocommerce_allow_layout_override', false, $layoutId, $layout)) {
+                \Jankx\WooCommerce\Helpers\Logger::warning('LayoutManager: Registration blocked (duplicate not allowed)');
                 return false;
             }
+            
+            \Jankx\WooCommerce\Helpers\Logger::info('LayoutManager: Override allowed by filter');
         }
 
         // Register layout
@@ -113,11 +127,22 @@ class LayoutManager implements LayoutManagerInterface
         $this->layoutsByType[$layoutType][$layoutId] = $layout;
 
         // Set as default nếu là layout đầu tiên của type này
-        if (!isset($this->defaults[$layoutType])) {
+        $isFirstOfType = !isset($this->defaults[$layoutType]);
+        if ($isFirstOfType) {
             $this->setDefault($layoutType, $layoutId);
+            \Jankx\WooCommerce\Helpers\Logger::info('LayoutManager: Set as default layout', [
+                'layout_id' => $layoutId,
+                'layout_type' => $layoutType,
+            ]);
         }
 
         do_action('jankx_woocommerce_layout_registered', $layout, $this);
+
+        \Jankx\WooCommerce\Helpers\Logger::info('LayoutManager: Layout registered successfully', [
+            'layout_id' => $layoutId,
+            'total_layouts' => count($this->layouts),
+            'type_layouts' => count($this->layoutsByType[$layoutType]),
+        ]);
 
         return true;
     }

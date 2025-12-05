@@ -57,14 +57,26 @@ class LayoutBootstrap
      */
     private function __construct()
     {
+        \Jankx\WooCommerce\Helpers\Logger::info('LayoutBootstrap: Constructor called', [
+            'class' => __CLASS__,
+            'memory_mb' => round(memory_get_usage() / 1024 / 1024, 2),
+        ]);
+
         $this->layoutManager = LayoutManager::getInstance();
+        \Jankx\WooCommerce\Helpers\Logger::debug('LayoutBootstrap: LayoutManager initialized');
+
         $this->cssManager = CssManager::getInstance();
+        \Jankx\WooCommerce\Helpers\Logger::debug('LayoutBootstrap: CssManager initialized');
+
         $this->settingsManager = SettingsManager::getInstance();
+        \Jankx\WooCommerce\Helpers\Logger::debug('LayoutBootstrap: SettingsManager initialized');
 
         // Initialize Service Provider
         $this->initServiceProvider();
 
         $this->init();
+        
+        \Jankx\WooCommerce\Helpers\Logger::info('LayoutBootstrap: Initialization complete');
     }
 
     /**
@@ -74,22 +86,34 @@ class LayoutBootstrap
      */
     private function initServiceProvider(): void
     {
+        \Jankx\WooCommerce\Helpers\Logger::debug('LayoutBootstrap: initServiceProvider called');
+        
         // Register WooCommerce Service Provider vào Jankx Application
         add_filter('jankx.foundation.providers', function($providers) {
+            $addedProviders = [];
+            
             // Add main WooCommerce Service Provider
             if (class_exists('\Jankx\WooCommerce\Providers\WooCommerceServiceProvider')) {
                 $providers[] = \Jankx\WooCommerce\Providers\WooCommerceServiceProvider::class;
+                $addedProviders[] = 'WooCommerceServiceProvider';
             }
             
             // Add WooCommerce Layout Config Service Provider
             if (class_exists('\Jankx\WooCommerce\Providers\WooCommerceLayoutServiceProvider')) {
                 $providers[] = \Jankx\WooCommerce\Providers\WooCommerceLayoutServiceProvider::class;
+                $addedProviders[] = 'WooCommerceLayoutServiceProvider';
             }
             
             // Add Theme Options Integration Service Provider
             if (class_exists('\Jankx\WooCommerce\Providers\ThemeOptionsIntegration')) {
                 $providers[] = \Jankx\WooCommerce\Providers\ThemeOptionsIntegration::class;
+                $addedProviders[] = 'ThemeOptionsIntegration';
             }
+            
+            \Jankx\WooCommerce\Helpers\Logger::info('LayoutBootstrap: Service providers registered', [
+                'providers' => $addedProviders,
+                'total_providers' => count($providers),
+            ]);
             
             return $providers;
         }, 10);

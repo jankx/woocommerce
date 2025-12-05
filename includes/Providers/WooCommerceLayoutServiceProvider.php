@@ -125,6 +125,10 @@ class WooCommerceLayoutServiceProvider extends ServiceProvider
      */
     public function loadConfiguration(): void
     {
+        \Jankx\WooCommerce\Helpers\Logger::info('ConfigProvider: Loading configuration', [
+            'config_path' => $this->configPath,
+        ]);
+
         // Load config file
         $this->loadConfigFile();
 
@@ -133,6 +137,12 @@ class WooCommerceLayoutServiceProvider extends ServiceProvider
 
         // Merge config với priority: theme options > config file > defaults
         $this->config = $this->mergeConfiguration();
+        
+        \Jankx\WooCommerce\Helpers\Logger::info('ConfigProvider: Configuration loaded', [
+            'layout_types' => count($this->config),
+            'has_global' => isset($this->config['global']),
+            'config_size' => strlen(json_encode($this->config)),
+        ]);
 
         do_action('jankx_woocommerce_config_loaded', $this->config, $this);
     }

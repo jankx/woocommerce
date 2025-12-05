@@ -81,7 +81,14 @@ class CssManager extends AbstractCssManager
      */
     public function compile(string $scssPath): string
     {
+        \Jankx\WooCommerce\Helpers\Logger::debug('CssManager: Compiling SCSS file', [
+            'file' => $scssPath,
+        ]);
+
         if (!file_exists($scssPath)) {
+            \Jankx\WooCommerce\Helpers\Logger::warning('CssManager: SCSS file not found', [
+                'file' => $scssPath,
+            ]);
             return '';
         }
 
@@ -90,8 +97,14 @@ class CssManager extends AbstractCssManager
         $cached = $this->getCached($cacheKey);
 
         if ($cached !== null) {
+            \Jankx\WooCommerce\Helpers\Logger::debug('CssManager: Using cached CSS', [
+                'cache_key' => $cacheKey,
+                'size_bytes' => strlen($cached),
+            ]);
             return $cached;
         }
+
+        \Jankx\WooCommerce\Helpers\Logger::debug('CssManager: Cache miss, compiling from source');
 
         $css = '';
 
@@ -118,8 +131,19 @@ class CssManager extends AbstractCssManager
 
             // Cache compiled CSS
             $this->cache($cacheKey, $css);
+            
+            \Jankx\WooCommerce\Helpers\Logger::info('CssManager: SCSS compiled successfully', [
+                'file' => basename($scssPath),
+                'size_bytes' => strlen($css),
+                'cached' => true,
+            ]);
 
         } catch (\Exception $e) {
+            \Jankx\WooCommerce\Helpers\Logger::error('CssManager: SCSS compilation failed', [
+                'file' => $scssPath,
+                'error' => $e->getMessage(),
+            ]);
+            
             if ($this->devMode) {
                 $css = sprintf('/* SCSS Compilation Error: %s */', esc_html($e->getMessage()));
             }
@@ -205,10 +229,20 @@ class CssManager extends AbstractCssManager
     {
         $layoutId = $layout->getId();
 
+        \Jankx\WooCommerce\Helpers\Logger::debug('CssManager: Injecting layout CSS', [
+            'layout_id' => $layoutId,
+            'settings_count' => count($settings),
+        ]);
+
         // Đã inject rồi thì skip
         if ($this->isInjected($layoutId)) {
+            \Jankx\WooCommerce\Helpers\Logger::debug('CssManager: CSS already injected, skipping', [
+                'layout_id' => $layoutId,
+            ]);
             return;
         }
+
+        $startTime = microtime(true);
 
         // Get common CSS
         $commonCss = $layout->getCommonCss();
@@ -221,6 +255,15 @@ class CssManager extends AbstractCssManager
 
         // Inject
         $this->inject($css, $layoutId);
+        
+        $duration = microtime(true) - $startTime;
+        \Jankx\WooCommerce\Helpers\Logger::info('CssManager: Layout CSS injected', [
+            'layout_id' => $layoutId,
+            'common_css_size' => strlen($commonCss),
+            'dynamic_css_size' => strlen($dynamicCss),
+            'total_size' => strlen($css),
+            'duration_ms' => round($duration * 1000, 2),
+        ]);
     }
 
     /**

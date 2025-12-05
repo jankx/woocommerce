@@ -305,3 +305,15 @@ if (!function_exists('checked')) {
     }
 }
 
+if (!function_exists('current_time')) {
+    function current_time($type, $gmt = 0) {
+        return date($type);
+    }
+}
+
+if (!function_exists('current_user_can')) {
+    function current_user_can($capability) {
+        return true;
+    }
+}
+
