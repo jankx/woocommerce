@@ -1,0 +1,10 @@
+# Test artifacts
+coverage/
+logs/
+.phpunit.result.cache
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+

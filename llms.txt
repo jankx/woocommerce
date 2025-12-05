@@ -1,0 +1,395 @@
+# Jankx WooCommerce Layout System
+
+Hệ thống quản lý layouts cho WooCommerce với kiến trúc mở rộng và hiệu năng cao.
+
+## Kiến trúc tổng quan
+
+Hệ thống sử dụng các Design Patterns chính:
+- Registry Pattern: LayoutManager quản lý tất cả layouts
+- Singleton Pattern: Managers (Layout, CSS, Settings) đều là singleton
+- Template Method Pattern: Abstract classes định nghĩa skeleton, child override chi tiết
+- Strategy Pattern: Layouts có thể swap dynamically
+
+## Cấu trúc core
+
+### Interfaces (Contracts/)
+- LayoutInterface: Base interface cho tất cả layouts
+- CssManagerInterface: Quản lý CSS compilation và injection
+- LayoutManagerInterface: Registry cho layouts
+- SettingsInterface: Quản lý settings cho layouts
+
+### Layout-specific Interfaces (Contracts/Layouts/)
+- ProductDetailLayoutInterface: Product detail pages
+- ProductLoopLayoutInterface: Product listing/grid
+- ProductCategoryBlockLayoutInterface: Category blocks
+- ProductGalleryLayoutInterface: Product galleries
+- CartFormLayoutInterface: Cart forms (mini cart, widget)
+- CartPageLayoutInterface: Cart page
+- CheckoutPageLayoutInterface: Checkout page
+- QuickCheckoutLayoutInterface: Quick checkout (custom feature)
+
+### Abstract Classes (Abstracts/)
+- AbstractLayout: Base cho tất cả layouts, implement common logic
+- AbstractCssManager: Base cho CSS managers
+- Abstract layout classes (Abstracts/Layouts/): Một abstract cho mỗi layout type
+
+### Core System (LayoutSystem/)
+- LayoutManager: Registry quản lý layouts (Singleton)
+- CssManager: Compile SCSS và inject inline CSS (Singleton)
+- SettingsManager: Quản lý settings và generate dynamic CSS (Singleton)
+- LayoutBootstrap: Bootstrap và khởi tạo hệ thống
+
+### Concrete Layouts (Layouts/)
+Mỗi loại có default layouts:
+- ProductDetail/: DefaultProductDetailLayout
+- ProductLoop/: GridProductLoopLayout, ListProductLoopLayout
+- CategoryBlock/: GridCategoryBlockLayout
+- Gallery/: SliderGalleryLayout
+- Cart/: DefaultCartPageLayout
+- Checkout/: DefaultCheckoutLayout, MultiStepCheckoutLayout
+- QuickCheckout/: ModalQuickCheckoutLayout
+
+## CSS Management Strategy
+
+### Inline CSS Only (Core Web Vitals Optimization)
+- Không dùng external CSS files
+- CSS được inject trực tiếp vào HTML via <style> tag
+- Mỗi layout có common CSS (compiled từ SCSS) và dynamic CSS (generated từ settings)
+
+### SCSS Compilation
+```php
+// SCSS files tại: assets/scss/layouts/{type}/{layout-id}.scss
+$cssManager = CssManager::getInstance();
+$css = $cssManager->compile('/path/to/layout.scss');
+```
+
+### Dynamic CSS Generation
+```php
+// Child layouts override generateDynamicCss()
+protected function generateDynamicCss(array $settings): string {
+    $css = '';
+    if (isset($settings['primary_color'])) {
+        $css .= ".layout-{$this->id} .button { background: {$settings['primary_color']}; }";
+    }
+    return $css;
+}
+```
+
+### CSS Injection Flow
+1. Determine current layout based on page context
+2. Get settings for layout
+3. Compile common CSS (cached)
+4. Generate dynamic CSS from settings
+5. Combine và inject vào wp_head
+6. Track injected CSS để avoid duplicates
+
+### Caching Strategy
+- Compiled SCSS cached in transients
+- Cache key includes file modification time
+- Development mode (WP_DEBUG) bypasses cache
+- Cache cleared khi settings thay đổi
+
+## Tạo Layout mới
+
+### Từ Theme
+```php
+// Extend abstract class phù hợp
+class MyCustomLayout extends AbstractProductDetailLayout {
+    public function __construct() {
+        parent::__construct(
+            'my-custom-layout',
+            __('My Custom Layout'),
+            'product-detail'
+        );
+        $this->supportedSettings = ['option1', 'option2'];
+    }
+    
+    // Override methods nếu cần
+    public function renderGallery(WC_Product $product): string {
+        return '<div>Custom gallery</div>';
+    }
+}
+
+// Đăng ký
+add_action('jankx_woocommerce_register_layouts', function($manager) {
+    $manager->register(new MyCustomLayout());
+});
+```
+
+### SCSS File Structure
+```scss
+// assets/scss/layouts/{type}/{layout-id}.scss
+.product-detail-my-custom-layout {
+    .gallery { /* styles */ }
+    .summary { /* styles */ }
+    
+    @media (max-width: 768px) { /* responsive */ }
+}
+```
+
+## Settings Management
+
+### Lưu và đọc settings
+```php
+$settings = SettingsManager::getInstance();
+
+// Set single setting
+$settings->set('layout-id.color', '#ff0000');
+
+// Set multiple
+$settings->setLayoutSettings('layout-id', [
+    'color' => '#ff0000',
+    'spacing' => 20
+]);
+
+// Get settings
+$color = $settings->get('layout-id.color');
+$all = $settings->getLayoutSettings('layout-id');
+```
+
+### Generate CSS from Settings
+```php
+// Tự động generate CSS từ settings
+$css = $settings->generateCss('layout-id');
+
+// Custom CSS generator
+$settings->registerCssGenerator('product-detail', function($layoutId, $settings) {
+    return ".layout { color: {$settings['color']}; }";
+});
+```
+
+## Hooks và Filters
+
+### Actions
+- `jankx_woocommerce_register_default_layouts`: Đăng ký default layouts
+- `jankx_woocommerce_register_layouts`: External registration từ themes/plugins
+- `jankx_woocommerce_layout_registered`: After layout registered
+- `jankx_woocommerce_default_layout_changed`: Default layout changed
+
+### Filters
+- `jankx_woocommerce_allow_layout_override`: Allow duplicate layout IDs
+- `jankx_woocommerce_current_layout`: Override current layout
+- `jankx_woocommerce_default_layout_id`: Override default layout ID
+- `jankx_woocommerce_compiled_css`: Modify compiled CSS
+- `jankx_woocommerce_scss_import_paths`: Add SCSS import paths
+- `jankx_woocommerce_validate_layout_settings`: Custom validation
+
+## API Usage Examples
+
+### Get Layout Manager
+```php
+$manager = \Jankx\WooCommerce\LayoutSystem\LayoutManager::getInstance();
+
+// Get layout
+$layout = $manager->get('layout-id');
+
+// Get by type
+$detailLayouts = $manager->getByType('product-detail');
+
+// Get default
+$defaultLayout = $manager->getDefault('product-detail');
+
+// Set default
+$manager->setDefault('product-detail', 'my-layout-id');
+```
+
+### Inject Layout CSS
+```php
+$cssManager = \Jankx\WooCommerce\LayoutSystem\CssManager::getInstance();
+$settings = ['color' => '#ff0000'];
+
+// Inject layout CSS
+$cssManager->injectLayoutCss($layout, $settings);
+
+// Or manual
+$css = $layout->getCommonCss() . $layout->getDynamicCss($settings);
+$cssManager->inject($css, $layout->getId());
+```
+
+### Override Current Layout
+```php
+add_filter('jankx_woocommerce_current_layout', function($layout, $type) {
+    if ($type === 'product-detail' && is_product(123)) {
+        $manager = LayoutManager::getInstance();
+        return $manager->get('special-layout');
+    }
+    return $layout;
+}, 10, 2);
+```
+
+## Layout Types và Methods
+
+### Product Detail Layout
+Methods: renderGallery(), renderSummary(), renderMeta(), renderTabs(), renderRelatedProducts()
+Settings: gallery_width, primary_color, show_related_products, sticky_add_to_cart
+
+### Product Loop Layout
+Methods: renderProduct(), renderThumbnail(), renderTitle(), renderPrice(), renderBadges(), renderQuickView()
+Settings: columns, item_spacing, border_radius, show_quick_view, hover_effect
+
+### Cart Page Layout
+Methods: renderCartTable(), renderCartActions(), renderCrossSells(), renderCartCollaterals()
+Settings: show_cross_sells, show_shipping_calculator, table_style
+
+### Checkout Page Layout
+Methods: renderBillingFields(), renderShippingFields(), renderOrderReview(), renderPaymentMethods()
+Settings: layout_style (single/two-column/multi-step), field_spacing, button_color
+
+## Performance Optimization
+
+### CSS Strategy
+- Inline CSS only (no external requests)
+- SCSS compiled và cached
+- Minified in production
+- Only inject CSS for current page layout
+- Avoid duplicate injections
+
+### Caching
+- Compiled CSS cached in transients
+- Cache invalidation on settings change
+- Development mode bypasses cache
+- Cache keys include file modification time
+
+### Best Practices
+- Use SCSS variables và mixins
+- Keep layouts focused (Single Responsibility)
+- Validate settings before generating CSS
+- Use lazy loading for heavy computations
+- Minimize CSS output (only essential styles)
+
+## Extension Points
+
+Themes và plugins có thể:
+1. Register custom layouts via `jankx_woocommerce_register_layouts`
+2. Override default layouts via filters
+3. Add custom settings cho layouts
+4. Register custom CSS generators
+5. Override templates trong theme directory
+6. Add SCSS import paths
+7. Hook vào lifecycle events
+
+## Common Patterns
+
+### Conditional Layout Loading
+```php
+add_filter('jankx_woocommerce_current_layout', function($layout, $type) {
+    // Load different layout based on conditions
+    if (user_is_premium()) {
+        return $manager->get('premium-layout');
+    }
+    return $layout;
+}, 10, 2);
+```
+
+### Custom Settings UI
+```php
+// Add settings fields trong theme customizer/options page
+// Save to SettingsManager
+$settings->setLayoutSettings($layoutId, $_POST['layout_settings']);
+```
+
+### A/B Testing Layouts
+```php
+add_filter('jankx_woocommerce_current_layout', function($layout, $type) {
+    if ($type === 'product-detail') {
+        $variant = get_ab_test_variant();
+        return $manager->get("product-detail-variant-{$variant}");
+    }
+    return $layout;
+}, 10, 2);
+```
+
+## Technical Details
+
+### Dependencies
+- WordPress 5.0+
+- WooCommerce 4.0+
+- PHP 7.4+
+- scssphp/scssphp (SCSS compiler)
+
+### File Locations
+- Interfaces: includes/Contracts/
+- Abstracts: includes/Abstracts/
+- Managers: includes/LayoutSystem/
+- Concrete layouts: includes/Layouts/
+- SCSS: assets/scss/layouts/
+- Templates: templates/layouts/
+
+### Naming Conventions
+- Layout IDs: kebab-case (e.g., 'grid-product-loop')
+- Class names: PascalCase (e.g., GridProductLoopLayout)
+- Methods: camelCase (e.g., renderProduct())
+- Settings keys: snake_case (e.g., 'primary_color')
+
+Đây là hệ thống layout hoàn chỉnh và production-ready cho WooCommerce với focus vào performance, extensibility và maintainability.
+
+## Service Provider System
+
+### WooCommerceLayoutServiceProvider
+Quản lý configuration từ file và theme options với priority:
+1. Theme Options (highest)
+2. Config File
+3. Defaults (lowest)
+
+### Config File
+Location: `themes/cheephub/config/woocomerce.php`
+
+Structure:
+```php
+return [
+    'product_detail' => [
+        'default_layout' => 'layout-id',
+        'enabled' => true,
+        'settings' => [...],
+    ],
+    // ... 8 layout types total
+    'global' => [...],
+];
+```
+
+### Theme Options Integration
+Auto-integration với:
+- Redux Framework
+- Titan Framework
+- Kirki
+- WordPress Theme Mods
+
+Mapping example:
+- Theme mod `woo_loop_columns` → `product_loop.settings.columns`
+- Redux option `product_detail_gallery_width` → `product_detail.settings.gallery_width`
+
+### API Usage
+```php
+$provider = \Jankx\WooCommerce\Providers\WooCommerceLayoutServiceProvider::getInstance();
+
+// Get config
+$value = $provider->get('product_detail.settings.gallery_width');
+$config = $provider->getConfig();
+
+// Update theme option
+$provider->updateThemeOption('product_loop.settings.columns', 3);
+
+// Reload
+$provider->reload();
+```
+
+### Configuration Priority Flow
+```
+Load config file
+    ↓
+Load theme options (Redux/Titan/Kirki/Theme Mods)
+    ↓
+Deep merge (theme options override config)
+    ↓
+Apply to layouts via SettingsManager
+    ↓
+Generate dynamic CSS
+```
+
+### Auto-loading
+Service Provider tự động khởi tạo qua LayoutBootstrap.
+Config được load trong hook `after_setup_theme` (priority 15).
+Settings được apply trong hook `jankx_woocommerce_register_layouts` (priority 100).
+
+Xem SERVICE_PROVIDER.md để biết chi tiết về configuration system.
+

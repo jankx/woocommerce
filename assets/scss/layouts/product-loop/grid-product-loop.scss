@@ -1,0 +1,137 @@
+// Grid Product Loop Layout SCSS
+@import '../common';
+
+.jankx-products-loop.grid-product-loop {
+    display: grid;
+    gap: $spacing-md;
+    
+    // Default 4 columns
+    grid-template-columns: repeat(4, 1fr);
+    
+    @include tablet {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include mobile {
+        grid-template-columns: 1fr;
+    }
+    
+    .product-item {
+        @include card;
+        position: relative;
+        overflow: hidden;
+        
+        &:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            
+            .product-badges {
+                transform: translateY(0);
+            }
+            
+            .quick-view-button {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .product-thumbnail {
+            position: relative;
+            overflow: hidden;
+            
+            img {
+                width: 100%;
+                height: auto;
+                display: block;
+                transition: transform 0.3s ease;
+            }
+            
+            &:hover img {
+                transform: scale(1.05);
+            }
+        }
+        
+        .product-badges {
+            position: absolute;
+            top: $spacing-sm;
+            right: $spacing-sm;
+            display: flex;
+            flex-direction: column;
+            gap: $spacing-xs;
+            transform: translateY(-5px);
+            transition: transform 0.3s ease;
+            
+            .badge {
+                padding: $spacing-xs $spacing-sm;
+                border-radius: $border-radius-sm;
+                font-size: $font-size-sm;
+                font-weight: bold;
+                text-transform: uppercase;
+                
+                &.badge-sale {
+                    background-color: #f44336;
+                    color: #fff;
+                }
+                
+                &.badge-new {
+                    background-color: #4caf50;
+                    color: #fff;
+                }
+                
+                &.badge-out-of-stock {
+                    background-color: #9e9e9e;
+                    color: #fff;
+                }
+            }
+        }
+        
+        .product-content {
+            padding: $spacing-md;
+        }
+        
+        .product-title {
+            margin: 0 0 $spacing-sm 0;
+            font-size: $font-size-base;
+            
+            a {
+                color: $text-color;
+                text-decoration: none;
+                @include line-clamp(2);
+                
+                &:hover {
+                    color: $primary-color;
+                }
+            }
+        }
+        
+        .product-price {
+            margin-bottom: $spacing-md;
+            font-size: $font-size-lg;
+            font-weight: bold;
+            color: $primary-color;
+            
+            del {
+                color: #999;
+                font-size: $font-size-sm;
+                margin-right: $spacing-xs;
+            }
+        }
+        
+        .button {
+            @include button;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .quick-view-button {
+            position: absolute;
+            bottom: $spacing-md;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            opacity: 0;
+            @include button($secondary-color);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+    }
+}
+

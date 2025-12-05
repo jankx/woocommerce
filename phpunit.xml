@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         verbose="true"
+         failOnRisky="true"
+         failOnWarning="true">
+    
+    <testsuites>
+        <testsuite name="Unit Tests">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Integration Tests">
+            <directory>tests/Integration</directory>
+        </testsuite>
+        <testsuite name="Feature Tests">
+            <directory>tests/Feature</directory>
+        </testsuite>
+    </testsuites>
+
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">includes</directory>
+        </include>
+        <exclude>
+            <directory>includes/Blocks</directory>
+            <directory>vendor</directory>
+        </exclude>
+        <report>
+            <html outputDirectory="tests/coverage/html"/>
+            <text outputFile="tests/coverage/coverage.txt"/>
+            <clover outputFile="tests/coverage/clover.xml"/>
+        </report>
+    </coverage>
+
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <const name="WP_DEBUG" value="true"/>
+    </php>
+
+    <logging>
+        <testdoxHtml outputFile="tests/logs/testdox.html"/>
+        <testdoxText outputFile="tests/logs/testdox.txt"/>
+    </logging>
+</phpunit>

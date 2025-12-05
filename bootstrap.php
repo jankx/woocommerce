@@ -18,3 +18,5 @@ if (file_exists($woocommerce_file)) {
     error_log('WooCommerce bootstrap: File not found: ' . $woocommerce_file);
 }
 
+// Initialize Layout System
+\Jankx\WooCommerce\LayoutSystem\LayoutBootstrap::getInstance();

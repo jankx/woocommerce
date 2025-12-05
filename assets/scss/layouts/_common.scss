@@ -1,0 +1,161 @@
+// Common SCSS variables và mixins cho tất cả layouts
+
+// ============================================
+// Variables
+// ============================================
+
+// Colors
+$primary-color: #0073aa !default;
+$secondary-color: #23282d !default;
+$text-color: #333 !default;
+$border-color: #ddd !default;
+$background-color: #fff !default;
+
+// Spacing
+$spacing-xs: 5px !default;
+$spacing-sm: 10px !default;
+$spacing-md: 20px !default;
+$spacing-lg: 30px !default;
+$spacing-xl: 40px !default;
+
+// Typography
+$font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !default;
+$font-size-base: 16px !default;
+$font-size-sm: 14px !default;
+$font-size-lg: 18px !default;
+$font-size-xl: 24px !default;
+
+// Border radius
+$border-radius-sm: 3px !default;
+$border-radius-md: 5px !default;
+$border-radius-lg: 8px !default;
+
+// Breakpoints
+$breakpoint-mobile: 480px !default;
+$breakpoint-tablet: 768px !default;
+$breakpoint-desktop: 1024px !default;
+$breakpoint-wide: 1280px !default;
+
+// ============================================
+// Mixins
+// ============================================
+
+// Responsive mixins
+@mixin mobile {
+    @media (max-width: $breakpoint-mobile) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (max-width: $breakpoint-tablet) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: $breakpoint-desktop) {
+        @content;
+    }
+}
+
+@mixin wide {
+    @media (min-width: $breakpoint-wide) {
+        @content;
+    }
+}
+
+// Flexbox mixins
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+// Button mixin
+@mixin button($bg-color: $primary-color, $text-color: #fff) {
+    background-color: $bg-color;
+    color: $text-color;
+    border: none;
+    padding: $spacing-sm $spacing-md;
+    border-radius: $border-radius-md;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        background-color: darken($bg-color, 10%);
+    }
+}
+
+// Card mixin
+@mixin card {
+    background: $background-color;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-md;
+    padding: $spacing-md;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+// Transition mixin
+@mixin transition($properties...) {
+    transition: $properties;
+}
+
+// Clearfix
+@mixin clearfix {
+    &::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+// Truncate text
+@mixin truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// Multi-line truncate
+@mixin line-clamp($lines: 2) {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+// ============================================
+// Utility Classes (nếu cần)
+// ============================================
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+// Spacing utilities
+@each $size, $value in (xs: $spacing-xs, sm: $spacing-sm, md: $spacing-md, lg: $spacing-lg, xl: $spacing-xl) {
+    .mt-#{$size} { margin-top: $value; }
+    .mb-#{$size} { margin-bottom: $value; }
+    .ml-#{$size} { margin-left: $value; }
+    .mr-#{$size} { margin-right: $value; }
+    .pt-#{$size} { padding-top: $value; }
+    .pb-#{$size} { padding-bottom: $value; }
+    .pl-#{$size} { padding-left: $value; }
+    .pr-#{$size} { padding-right: $value; }
+}
+
