@@ -2,6 +2,7 @@
 
 namespace Jankx\WooCommerce\LayoutSystem;
 
+use Jankx\WooCommerce\Helpers\Logger;
 use Jankx\WooCommerce\Contracts\LayoutInterface;
 use Jankx\WooCommerce\Contracts\LayoutManagerInterface;
 
@@ -65,6 +66,23 @@ class LayoutManager implements LayoutManagerInterface
         // Hook để cho phép themes/plugins đăng ký layouts
         add_action('init', [$this, 'registerDefaultLayouts'], 5);
         add_action('init', [$this, 'allowExternalRegistration'], 10);
+        
+        // Initialize category block filter
+        add_action('init', [$this, 'initCategoryBlockFilter'], 15);
+    }
+
+    /**
+     * Initialize category block filter hook
+     *
+     * @return void
+     */
+    public function initCategoryBlockFilter(): void
+    {
+        if (class_exists('\Jankx\WooCommerce\Hooks\CategoryBlockFilterHook')) {
+            \Jankx\WooCommerce\Hooks\CategoryBlockFilterHook::getInstance();
+            
+            \Jankx\WooCommerce\Helpers\Logger::debug('LayoutManager: CategoryBlockFilterHook initialized');
+        }
     }
 
     /**

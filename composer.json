@@ -6,7 +6,10 @@
     "autoload": {
         "psr-4": {
             "Jankx\\WooCommerce\\": "includes/"
-        }
+        },
+        "files": [
+            "bootstrap.php"
+        ]
     },
     "require": {
         "php": ">=7.4"

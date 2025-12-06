@@ -16,7 +16,10 @@ if (!defined('DAY_IN_SECONDS')) {
     define('DAY_IN_SECONDS', 86400);
 }
 
-// Load WordPressMocks class FIRST
+// Load WP_Term và WP_Error mock classes FIRST
+require_once __DIR__ . '/Helpers/WP_Term.php';
+
+// Load WordPressMocks class
 require_once __DIR__ . '/Helpers/WordPressMocks.php';
 
 // Load ALL WordPress functions (CRITICAL: Before autoloader)

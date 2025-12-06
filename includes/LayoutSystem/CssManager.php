@@ -2,6 +2,7 @@
 
 namespace Jankx\WooCommerce\LayoutSystem;
 
+use Jankx\WooCommerce\Helpers\Logger;
 use Jankx\WooCommerce\Abstracts\AbstractCssManager;
 use ScssPhp\ScssPhp\Compiler;
 

@@ -157,5 +157,57 @@ class WordPressMocks
     {
         return isset(self::$actions[$hook_name]) ? count(self::$actions[$hook_name]) : 0;
     }
+
+    // Terms methods
+    private static $terms = [];
+    private static $termRelationships = [];
+
+    public static function getTerm($term_id, $taxonomy = 'product_cat')
+    {
+        $key = $taxonomy . '_' . $term_id;
+        
+        if (isset(self::$terms[$key])) {
+            return self::$terms[$key];
+        }
+
+        // Return mock WP_Term object
+        $term = new \WP_Term($term_id, $taxonomy);
+        $term->name = 'Test Term ' . $term_id;
+        $term->slug = 'test-term-' . $term_id;
+        $term->count = rand(5, 50);
+        $term->description = '';
+        $term->parent = 0;
+        
+        return $term;
+    }
+
+    public static function getTerms($args = [])
+    {
+        $terms = [];
+        $count = $args['number'] ?? 5;
+        $taxonomy = $args['taxonomy'] ?? 'product_cat';
+        
+        for ($i = 1; $i <= $count; $i++) {
+            $term = new \WP_Term($i, $taxonomy);
+            $term->name = 'Test Term ' . $i;
+            $term->slug = 'test-term-' . $i;
+            $term->count = rand(5, 50);
+            $terms[] = $term;
+        }
+        
+        return $terms;
+    }
+
+    public static function getTermChildren($term_id, $taxonomy)
+    {
+        $key = $taxonomy . '_' . $term_id;
+        return self::$termRelationships[$key] ?? [];
+    }
+
+    public static function setTermChildren($term_id, $taxonomy, array $children)
+    {
+        $key = $taxonomy . '_' . $term_id;
+        self::$termRelationships[$key] = $children;
+    }
 }
 

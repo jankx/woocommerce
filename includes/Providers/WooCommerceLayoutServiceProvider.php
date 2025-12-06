@@ -3,6 +3,7 @@
 namespace Jankx\WooCommerce\Providers;
 
 use Jankx\Support\Providers\ServiceProvider;
+use Jankx\WooCommerce\Helpers\Logger;
 use Jankx\WooCommerce\LayoutSystem\LayoutManager;
 use Jankx\WooCommerce\LayoutSystem\CssManager;
 use Jankx\WooCommerce\LayoutSystem\SettingsManager;

@@ -317,3 +317,85 @@ if (!function_exists('current_user_can')) {
     }
 }
 
+// ============================================
+// Terms
+// ============================================
+
+// Define WordPress constants
+if (!defined('OBJECT')) {
+    define('OBJECT', 'OBJECT');
+}
+
+if (!defined('ARRAY_A')) {
+    define('ARRAY_A', 'ARRAY_A');
+}
+
+if (!defined('ARRAY_N')) {
+    define('ARRAY_N', 'ARRAY_N');
+}
+
+if (!function_exists('get_term')) {
+    function get_term($term, $taxonomy = '', $output = OBJECT, $filter = 'raw') {
+        return \Jankx\WooCommerce\Tests\Helpers\WordPressMocks::getTerm($term, $taxonomy);
+    }
+}
+
+if (!function_exists('get_terms')) {
+    function get_terms($args = []) {
+        return \Jankx\WooCommerce\Tests\Helpers\WordPressMocks::getTerms($args);
+    }
+}
+
+if (!function_exists('get_term_children')) {
+    function get_term_children($term_id, $taxonomy) {
+        return \Jankx\WooCommerce\Tests\Helpers\WordPressMocks::getTermChildren($term_id, $taxonomy);
+    }
+}
+
+if (!function_exists('get_term_link')) {
+    function get_term_link($term, $taxonomy = '') {
+        if (is_object($term)) {
+            return 'http://example.com/category/' . $term->slug;
+        }
+        return 'http://example.com/category/' . $term;
+    }
+}
+
+if (!function_exists('is_wp_error')) {
+    function is_wp_error($thing) {
+        return $thing instanceof \WP_Error;
+    }
+}
+
+if (!function_exists('get_term_meta')) {
+    function get_term_meta($term_id, $key = '', $single = false) {
+        return '';
+    }
+}
+
+// ============================================
+// WordPress Media
+// ============================================
+
+if (!function_exists('wp_get_attachment_image')) {
+    function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = false, $attr = '') {
+        return '<img src="https://via.placeholder.com/150" alt="placeholder" />';
+    }
+}
+
+// ============================================
+// WooCommerce Functions
+// ============================================
+
+if (!function_exists('wc_placeholder_img_src')) {
+    function wc_placeholder_img_src($size = 'woocommerce_thumbnail') {
+        return 'https://via.placeholder.com/300';
+    }
+}
+
+if (!function_exists('wc_get_products')) {
+    function wc_get_products($args = []) {
+        return []; // Return empty array for tests
+    }
+}
+

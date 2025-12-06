@@ -2,6 +2,7 @@
 
 namespace Jankx\WooCommerce\LayoutSystem;
 
+use Jankx\WooCommerce\Helpers\Logger;
 use Jankx\WooCommerce\Layouts\ProductDetail\DefaultProductDetailLayout;
 use Jankx\WooCommerce\Layouts\ProductLoop\GridProductLoopLayout;
 use Jankx\WooCommerce\Layouts\ProductLoop\ListProductLoopLayout;
@@ -153,6 +154,15 @@ class LayoutBootstrap
 
         // Category Block Layouts
         $manager->register(new GridCategoryBlockLayout());
+        
+        // Expand/Collapse Category Layout (Flatsome-style)
+        $expandCollapseLayout = new \Jankx\WooCommerce\Layouts\CategoryBlock\ExpandCollapseCategoryLayout();
+        $manager->register($expandCollapseLayout);
+        
+        Logger::info('LayoutBootstrap: Expand/Collapse Category Layout registered', [
+            'layout_id' => $expandCollapseLayout->getId(),
+            'layout_name' => $expandCollapseLayout->getName(),
+        ]);
 
         // Gallery Layouts
         $manager->register(new SliderGalleryLayout());

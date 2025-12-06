@@ -1,0 +1,336 @@
+// Expand/Collapse Category Block Layout - Flatsome Style
+@import '../common';
+
+.jankx-categories-expand-collapse {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    
+    .category-accordion-item {
+        background: $background-color;
+        border: 1px solid $border-color;
+        border-radius: $border-radius-md;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        
+        &:hover {
+            border-color: darken($border-color, 10%);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        &.is-expanded {
+            .category-toggle {
+                .icon-expand {
+                    display: none;
+                }
+                .icon-collapse {
+                    display: inline-block;
+                }
+            }
+        }
+        
+        &:not(.is-expanded) {
+            .icon-expand {
+                display: inline-block;
+            }
+            .icon-collapse {
+                display: none;
+            }
+        }
+    }
+    
+    .category-header {
+        @include flex-between;
+        padding: $spacing-md;
+        cursor: pointer;
+        user-select: none;
+        transition: background-color 0.2s ease;
+        
+        &:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .category-main {
+            display: flex;
+            align-items: center;
+            gap: $spacing-md;
+            flex: 1;
+        }
+    }
+    
+    .category-thumbnail {
+        width: 60px;
+        height: 60px;
+        border-radius: $border-radius-md;
+        object-fit: cover;
+        border: 1px solid $border-color;
+        
+        &.placeholder {
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+    
+    .category-info {
+        flex: 1;
+    }
+    
+    .category-title {
+        margin: 0 0 $spacing-xs 0;
+        font-size: $font-size-lg;
+        font-weight: 600;
+        
+        a {
+            color: $text-color;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            
+            &:hover {
+                color: $primary-color;
+            }
+        }
+    }
+    
+    .product-count {
+        font-size: $font-size-sm;
+        color: #999;
+    }
+    
+    .category-toggle {
+        @include button(transparent, $text-color);
+        padding: $spacing-xs $spacing-sm;
+        min-width: 40px;
+        height: 40px;
+        border: 1px solid $border-color;
+        transition: all 0.2s ease;
+        
+        &:hover {
+            background-color: $primary-color;
+            color: #fff;
+            border-color: $primary-color;
+        }
+        
+        .toggle-icon {
+            font-size: 20px;
+            font-weight: bold;
+            line-height: 1;
+        }
+    }
+    
+    .category-content {
+        border-top: 1px solid $border-color;
+        background-color: #fafafa;
+        overflow: hidden;
+    }
+    
+    // Subcategories list
+    .subcategories-list {
+        padding: $spacing-md;
+        
+        .subcategories-title {
+            margin: 0 0 $spacing-sm 0;
+            font-size: $font-size-base;
+            font-weight: 600;
+            color: $text-color;
+        }
+        
+        .subcategories {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: $spacing-xs;
+            
+            li {
+                margin: 0;
+            }
+            
+            a {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: $spacing-xs $spacing-sm;
+                color: $text-color;
+                text-decoration: none;
+                border-radius: $border-radius-sm;
+                transition: all 0.2s ease;
+                
+                &:hover {
+                    background-color: rgba($primary-color, 0.1);
+                    color: $primary-color;
+                }
+                
+                .count {
+                    font-size: $font-size-sm;
+                    color: #999;
+                }
+            }
+        }
+    }
+    
+    // Products preview
+    .products-preview {
+        padding: $spacing-md;
+        border-top: 1px dashed $border-color;
+        
+        .products-preview-title {
+            margin: 0 0 $spacing-md 0;
+            font-size: $font-size-base;
+            font-weight: 600;
+            color: $text-color;
+        }
+        
+        .products-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: $spacing-sm;
+            margin-bottom: $spacing-md;
+            
+            @include tablet {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            @include mobile {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .product-preview-item {
+            @include card;
+            padding: $spacing-sm;
+            text-align: center;
+            transition: all 0.3s ease;
+            
+            &:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+            
+            img {
+                width: 100%;
+                height: auto;
+                border-radius: $border-radius-sm;
+                margin-bottom: $spacing-xs;
+            }
+            
+            .product-name {
+                display: block;
+                font-size: $font-size-sm;
+                color: $text-color;
+                margin-bottom: $spacing-xs;
+                @include line-clamp(2);
+            }
+            
+            .product-price {
+                display: block;
+                font-weight: bold;
+                color: $primary-color;
+                font-size: $font-size-base;
+            }
+            
+            a {
+                text-decoration: none;
+            }
+        }
+        
+        .view-all-link {
+            display: inline-block;
+            @include button($primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            
+            &:hover {
+                background-color: darken($primary-color, 10%);
+            }
+        }
+    }
+    
+    // Responsive
+    @include tablet {
+        .category-header {
+            .category-main {
+                gap: $spacing-sm;
+            }
+        }
+        
+        .category-thumbnail {
+            width: 50px;
+            height: 50px;
+        }
+    }
+    
+    @include mobile {
+        .category-header {
+            padding: $spacing-sm;
+            
+            .category-main {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        
+        .category-toggle {
+            position: absolute;
+            top: $spacing-sm;
+            right: $spacing-sm;
+        }
+    }
+    
+    // Animation states
+    .category-content {
+        transition: all 0.3s ease;
+    }
+    
+    // Loading state
+    &.is-loading {
+        .category-accordion-item {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+    }
+}
+
+// Alternative styles
+.jankx-categories-expand-collapse {
+    // Minimal style
+    &.style-minimal {
+        .category-accordion-item {
+            border: none;
+            border-bottom: 1px solid #eee;
+            border-radius: 0;
+            
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+        
+        .category-header:hover {
+            background-color: transparent;
+        }
+    }
+    
+    // Bordered style
+    &.style-bordered {
+        .category-accordion-item {
+            border: 2px solid $border-color;
+        }
+    }
+    
+    // Card style (elevated)
+    &.style-card {
+        gap: $spacing-md;
+        
+        .category-accordion-item {
+            border: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            
+            &:hover {
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            }
+        }
+    }
+}
+
