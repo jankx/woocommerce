@@ -128,6 +128,82 @@ class CategoryBlockFilterHook
     }
 
     /**
+     * Get layout ID from config
+     *
+     * @return string
+     */
+    private function getLayoutId(): string
+    {
+        // Check via filter first
+        $layoutId = apply_filters('jankx_woocommerce_category_block_layout', null);
+        
+        if ($layoutId) {
+            Logger::debug('CategoryBlockFilterHook: Layout ID from filter', [
+                'layout_id' => $layoutId,
+            ]);
+            return $layoutId;
+        }
+
+        // Check via config
+        $hasApp = function_exists('app');
+        $configBound = $hasApp && app()->bound('woocommerce.layout.config');
+        
+        if ($configBound) {
+            $config = app('woocommerce.layout.config');
+            $layoutId = $config->get('product_category_block.default_layout', 'expand-collapse-category');
+            
+            Logger::debug('CategoryBlockFilterHook: Layout ID from config (app)', [
+                'layout_id' => $layoutId,
+            ]);
+            return $layoutId;
+        } else {
+            // Fallback: Load config directly from file
+            $configPath = get_template_directory() . '/config/woocomerce.php';
+            if (file_exists($configPath)) {
+                $config = include $configPath;
+                $layoutId = $config['product_category_block']['default_layout'] ?? 'expand-collapse-category';
+                
+                Logger::debug('CategoryBlockFilterHook: Layout ID from config file', [
+                    'layout_id' => $layoutId,
+                    'config_path' => $configPath,
+                ]);
+                return $layoutId;
+            }
+        }
+
+        // Default fallback
+        Logger::debug('CategoryBlockFilterHook: Using default layout ID', [
+            'layout_id' => 'expand-collapse-category',
+        ]);
+        return 'expand-collapse-category';
+    }
+
+    /**
+     * Get layout settings from config
+     *
+     * @return array
+     */
+    private function getLayoutSettings(): array
+    {
+        $hasApp = function_exists('app');
+        $configBound = $hasApp && app()->bound('woocommerce.layout.config');
+        
+        if ($configBound) {
+            $config = app('woocommerce.layout.config');
+            return $config->get('product_category_block.settings', []);
+        } else {
+            // Fallback: Load config directly from file
+            $configPath = get_template_directory() . '/config/woocomerce.php';
+            if (file_exists($configPath)) {
+                $config = include $configPath;
+                return $config['product_category_block']['settings'] ?? [];
+            }
+        }
+        
+        return [];
+    }
+
+    /**
      * Transform block output
      *
      * @param string $block_content
@@ -146,6 +222,10 @@ class CategoryBlockFilterHook
         // Process WooCommerce product categories block
         $isWooCommerceBlock = isset($block['blockName']) && $block['blockName'] === 'woocommerce/product-categories';
         
+        // Also check for data-block-name attribute in HTML
+        $hasWooCommerceBlockData = strpos($block_content, 'data-block-name="woocommerce/product-categories"') !== false;
+        $hasWooCommerceBlockClass = strpos($block_content, 'wc-block-product-categories') !== false;
+        
         // Process WordPress Categories block if it's showing product categories
         $isWordPressCategoriesBlock = isset($block['blockName']) && 
             ($block['blockName'] === 'core/categories' || $block['blockName'] === 'core/category');
@@ -156,6 +236,11 @@ class CategoryBlockFilterHook
             if ($taxonomy !== 'product_cat') {
                 return $block_content; // Not product categories, skip
             }
+        }
+        
+        // If it's a WooCommerce block (by data attribute or class), process it
+        if ($hasWooCommerceBlockData || $hasWooCommerceBlockClass) {
+            $isWooCommerceBlock = true;
         }
         
         // Check if HTML contains product category classes (fallback check)
@@ -180,6 +265,8 @@ class CategoryBlockFilterHook
             'content_length' => strlen($block_content),
             'is_woocommerce' => $isWooCommerceBlock,
             'is_wp_categories' => $isWordPressCategoriesBlock,
+            'has_woo_data' => $hasWooCommerceBlockData ?? false,
+            'has_woo_class' => $hasWooCommerceBlockClass ?? false,
         ]);
 
         // Parse HTML và extract categories
@@ -193,7 +280,7 @@ class CategoryBlockFilterHook
         }
 
         // Get layout
-        $layoutId = apply_filters('jankx_woocommerce_category_block_layout', 'expand-collapse-category');
+        $layoutId = $this->getLayoutId();
         $layout = $this->layoutManager->get($layoutId);
         
         if (!$layout) {
@@ -202,6 +289,11 @@ class CategoryBlockFilterHook
             ]);
             return $block_content; // Return original content
         }
+
+        // Inject CSS for this layout
+        $cssManager = \Jankx\WooCommerce\LayoutSystem\CssManager::getInstance();
+        $settings = $this->getLayoutSettings();
+        $cssManager->injectLayoutCss($layout, $settings);
 
         Logger::info('CategoryBlockFilterHook: Rendering with accordion layout', [
             'layout_id' => $layoutId,
@@ -460,16 +552,25 @@ class CategoryBlockFilterHook
      */
     public function injectTransformScript(): void
     {
+        // Only inject if accordion is enabled
+        if (!$this->enableAccordion) {
+            return;
+        }
+        
         // Get layout để render script
-        $layoutId = apply_filters('jankx_woocommerce_category_block_layout', 'expand-collapse-category');
+        $layoutId = $this->getLayoutId();
         $layout = $this->layoutManager->get($layoutId);
         
         if (!$layout) {
+            Logger::warning('CategoryBlockFilterHook: Layout not found for transform script', [
+                'layout_id' => $layoutId,
+            ]);
             return;
         }
 
-        Logger::debug('CategoryBlockFilterHook: Injecting transform script', [
+        Logger::info('CategoryBlockFilterHook: Injecting transform script', [
             'layout_id' => $layoutId,
+            'layout_name' => $layout->getName(),
         ]);
 
         // Check if category list exists on page
@@ -486,30 +587,106 @@ class CategoryBlockFilterHook
             }
             
             function transformCategoryLists() {
-                // Find all category lists
-                const categoryLists = document.querySelectorAll('ul.wp-block-categories-list, ul.wp-block-categories');
+                // Find all category lists - WooCommerce blocks and WordPress blocks
+                const wooCommerceBlocks = document.querySelectorAll('.wc-block-product-categories, [data-block-name="woocommerce/product-categories"]');
+                const categoryLists = document.querySelectorAll('ul.wp-block-categories-list, ul.wp-block-categories, ul.wc-block-product-categories-list');
                 
-                if (categoryLists.length === 0) {
-                    return;
-                }
+                console.log('[Jankx WooCommerce] Checking for category blocks', {
+                    wooCommerceBlocks: wooCommerceBlocks.length,
+                    categoryLists: categoryLists.length
+                });
                 
-                console.log('[Jankx WooCommerce] Found', categoryLists.length, 'category list(s) to transform');
-                
-                categoryLists.forEach(function(list) {
+                // Transform WooCommerce blocks
+                wooCommerceBlocks.forEach(function(block) {
                     // Check if already transformed
-                    if (list.closest('.jankx-categories-expand-collapse')) {
+                    if (block.classList.contains('jankx-transformed') || block.closest('.jankx-categories-expand-collapse')) {
                         return;
                     }
                     
-                    // Check if it's product categories (has cat-item- classes)
-                    const hasProductCategories = list.querySelectorAll('li[class*="cat-item-"]').length > 0;
-                    if (!hasProductCategories) {
+                    const list = block.querySelector('ul.wc-block-product-categories-list');
+                    if (list) {
+                        console.log('[Jankx WooCommerce] Transforming WooCommerce product categories block');
+                        transformWooCommerceBlock(block, list);
+                    }
+                });
+                
+                // Transform WordPress category lists
+                categoryLists.forEach(function(list) {
+                    // Check if already transformed
+                    if (list.closest('.jankx-categories-expand-collapse') || list.closest('.jankx-transformed')) {
                         return;
                     }
+                    
+                    // Check if it's product categories (has cat-item- classes or is in WooCommerce block)
+                    const hasProductCategories = list.querySelectorAll('li[class*="cat-item-"]').length > 0;
+                    const isWooCommerceList = list.classList.contains('wc-block-product-categories-list');
+                    
+                    if (!hasProductCategories && !isWooCommerceList) {
+                        return;
+                    }
+                    
+                    console.log('[Jankx WooCommerce] Transforming category list', {
+                        hasProductCategories: hasProductCategories,
+                        isWooCommerceList: isWooCommerceList
+                    });
                     
                     // Transform to accordion
                     transformToAccordion(list);
                 });
+            }
+            
+            function transformWooCommerceBlock(block, list) {
+                // Mark as transformed
+                block.classList.add('jankx-transformed');
+                
+                // Create accordion wrapper
+                const wrapper = document.createElement('div');
+                wrapper.className = 'jankx-categories-expand-collapse';
+                
+                // Wrap block
+                block.parentNode.insertBefore(wrapper, block);
+                wrapper.appendChild(block);
+                
+                // Transform list items
+                const items = list.querySelectorAll('li.wc-block-product-categories-list-item');
+                items.forEach(function(item) {
+                    const link = item.querySelector('a');
+                    if (!link) return;
+                    
+                    const categoryName = link.querySelector('.wc-block-product-categories-list-item__name');
+                    const name = categoryName ? categoryName.textContent.trim() : link.textContent.trim();
+                    const categoryUrl = link.getAttribute('href');
+                    const hasChildren = item.querySelector('ul.wc-block-product-categories-list') !== null;
+                    
+                    // Add toggle button if has children
+                    if (hasChildren) {
+                        const toggle = document.createElement('button');
+                        toggle.className = 'category-toggle';
+                        toggle.innerHTML = '<span class="toggle-icon"><span class="icon-expand">+</span><span class="icon-collapse">-</span></span>';
+                        toggle.setAttribute('aria-label', 'Toggle ' + name);
+                        
+                        const content = item.querySelector('ul.wc-block-product-categories-list');
+                        if (content) {
+                            content.style.display = 'none';
+                            content.classList.add('category-content');
+                            
+                            toggle.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                
+                                const isExpanded = content.style.display !== 'none';
+                                content.style.display = isExpanded ? 'none' : 'block';
+                                item.classList.toggle('expanded', !isExpanded);
+                                toggle.classList.toggle('active', !isExpanded);
+                            });
+                            
+                            // Insert toggle before link
+                            link.parentNode.insertBefore(toggle, link);
+                        }
+                    }
+                });
+                
+                console.log('[Jankx WooCommerce] WooCommerce block transformed to accordion');
             }
             
             function transformToAccordion(list) {

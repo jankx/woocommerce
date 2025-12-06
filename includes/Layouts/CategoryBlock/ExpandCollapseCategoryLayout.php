@@ -279,16 +279,47 @@ class ExpandCollapseCategoryLayout extends AbstractProductCategoryBlockLayout
 
         ob_start();
         echo '<div class="subcategories-list">';
-        echo '<h4 class="subcategories-title">' . __('Subcategories', 'jankx-woocommerce') . '</h4>';
         echo '<ul class="subcategories">';
         
         foreach ($children as $child) {
-            printf(
-                '<li><a href="%s" class="subcategory-link">%s <span class="count">(%d)</span></a></li>',
-                esc_url(get_term_link($child)),
-                esc_html($child->name),
-                $child->count
-            );
+            $hasChildSubcategories = $this->hasSubcategories($child);
+            
+            if ($hasChildSubcategories) {
+                // Render nested subcategories
+                $childChildren = get_terms([
+                    'taxonomy' => 'product_cat',
+                    'parent' => $child->term_id,
+                    'hide_empty' => !$this->showEmptyCategories,
+                ]);
+                
+                printf(
+                    '<li class="subcategory-item has-children">
+                        <div class="subcategory-header">
+                            <a href="%s" class="subcategory-link">%s</a>
+                            <button class="category-toggle" aria-label="Toggle"><span class="toggle-icon"><span class="icon-expand">▼</span><span class="icon-collapse">▲</span></span></button>
+                        </div>
+                        <div class="subcategory-content" style="display: none;">
+                            <ul class="subcategories-nested">',
+                    esc_url(get_term_link($child)),
+                    esc_html($child->name)
+                );
+                
+                foreach ($childChildren as $grandchild) {
+                    printf(
+                        '<li><a href="%s" class="subcategory-link">%s</a></li>',
+                        esc_url(get_term_link($grandchild)),
+                        esc_html($grandchild->name)
+                    );
+                }
+                
+                echo '</ul></div></li>';
+            } else {
+                printf(
+                    '<li class="subcategory-item"><a href="%s" class="subcategory-link">%s</a></li>',
+                    esc_url(get_term_link($child)),
+                    esc_html($child->name)
+                );
+            }
         }
         
         echo '</ul>';
@@ -369,12 +400,32 @@ class ExpandCollapseCategoryLayout extends AbstractProductCategoryBlockLayout
                 
                 const animationSpeed = parseInt(container.dataset.animationSpeed) || 300;
                 
-                // Handle toggle button clicks
+                // Handle toggle button clicks - support both main items and nested subcategories
                 container.addEventListener('click', function(e) {
                     const toggleBtn = e.target.closest('.category-toggle');
                     if (!toggleBtn) return;
                     
                     e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Check if it's a nested subcategory toggle
+                    const subcategoryItem = toggleBtn.closest('.subcategory-item');
+                    if (subcategoryItem) {
+                        const content = subcategoryItem.querySelector('.subcategory-content');
+                        if (!content) return;
+                        
+                        const isExpanded = content.style.display !== 'none';
+                        if (isExpanded) {
+                            content.style.display = 'none';
+                            subcategoryItem.classList.remove('is-expanded');
+                        } else {
+                            content.style.display = 'block';
+                            subcategoryItem.classList.add('is-expanded');
+                        }
+                        return;
+                    }
+                    
+                    // Main category toggle
                     const item = toggleBtn.closest('.category-accordion-item');
                     const content = item.querySelector('.category-content');
                     
