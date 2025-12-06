@@ -7,7 +7,7 @@ use Jankx\WooCommerce\Abstracts\Layouts\AbstractProductCategoryBlockLayout;
 /**
  * Class ExpandCollapseCategoryLayout
  * 
- * Flatsome-inspired category layout với expand/collapse functionality
+ * Modern category layout với expand/collapse functionality
  * Categories có thể expand để show subcategories hoặc products
  */
 class ExpandCollapseCategoryLayout extends AbstractProductCategoryBlockLayout

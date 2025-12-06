@@ -1,6 +1,6 @@
 <?php
 /**
- * Template: Flatsome Gallery Layout
+ * Template: Modern Gallery Layout
  * 
  * @var WC_Product $product
  * @var string $main_image
@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) {
 }
 ?>
 
-<div class="product-gallery product-gallery-<?php echo esc_attr($layout->getId()); ?> flatsome-gallery-wrapper">
+<div class="product-gallery product-gallery-<?php echo esc_attr($layout->getId()); ?> modern-gallery-wrapper">
     <?php echo $main_image; ?>
     
     <?php if (!empty($thumbnails)): ?>
@@ -42,7 +42,8 @@ if (!defined('ABSPATH')) {
 if (method_exists($layout, 'renderScript')) {
     $script = $layout->renderScript();
     if (!empty($script)) {
-        echo '<script type="text/javascript">' . $script . '</script>';
+        // renderScript() already includes <script> tags
+        echo $script;
     }
 }
 ?>

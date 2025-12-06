@@ -8,7 +8,7 @@ use Jankx\WooCommerce\Layouts\ProductLoop\GridProductLoopLayout;
 use Jankx\WooCommerce\Layouts\ProductLoop\ListProductLoopLayout;
 use Jankx\WooCommerce\Layouts\CategoryBlock\GridCategoryBlockLayout;
 use Jankx\WooCommerce\Layouts\Gallery\SliderGalleryLayout;
-use Jankx\WooCommerce\Layouts\Gallery\FlatsomeGalleryLayout;
+use Jankx\WooCommerce\Layouts\Gallery\ModernGalleryLayout;
 use Jankx\WooCommerce\Layouts\Cart\DefaultCartPageLayout;
 use Jankx\WooCommerce\Layouts\Checkout\DefaultCheckoutLayout;
 use Jankx\WooCommerce\Layouts\Checkout\MultiStepCheckoutLayout;
@@ -156,7 +156,7 @@ class LayoutBootstrap
         // Category Block Layouts
         $manager->register(new GridCategoryBlockLayout());
         
-        // Expand/Collapse Category Layout (Flatsome-style)
+        // Expand/Collapse Category Layout (Modern-style)
         $expandCollapseLayout = new \Jankx\WooCommerce\Layouts\CategoryBlock\ExpandCollapseCategoryLayout();
         $manager->register($expandCollapseLayout);
         
@@ -166,8 +166,11 @@ class LayoutBootstrap
         ]);
 
         // Gallery Layouts
-        $manager->register(new FlatsomeGalleryLayout());
+        $manager->register(new ModernGalleryLayout());
         $manager->register(new SliderGalleryLayout());
+        
+        // Enable Product Gallery Integration if config enabled
+        $this->enableProductGalleryIntegration();
 
         // Cart Layouts
         $manager->register(new DefaultCartPageLayout());
@@ -180,6 +183,42 @@ class LayoutBootstrap
         $manager->register(new ModalQuickCheckoutLayout());
 
         do_action('jankx_woocommerce_layouts_registered', $manager);
+    }
+
+    /**
+     * Enable Product Gallery Integration if enabled in config
+     *
+     * @return void
+     */
+    private function enableProductGalleryIntegration(): void
+    {
+        // Check if product_gallery is enabled in config
+        $hasApp = function_exists('app');
+        $configBound = $hasApp && app()->bound('woocommerce.layout.config');
+        
+        $enabled = false;
+        $layoutId = 'modern-gallery';
+        
+        if ($configBound) {
+            $config = app('woocommerce.layout.config');
+            $enabled = $config->get('product_gallery.enabled', false);
+            $layoutId = $config->get('product_gallery.default_layout', 'modern-gallery');
+        } else {
+            // Fallback: Load config directly from file
+            $configPath = get_template_directory() . '/config/woocomerce.php';
+            if (file_exists($configPath)) {
+                $config = include $configPath;
+                $enabled = $config['product_gallery']['enabled'] ?? false;
+                $layoutId = $config['product_gallery']['default_layout'] ?? 'modern-gallery';
+            }
+        }
+        
+        if ($enabled) {
+            \Jankx\WooCommerce\Integrations\ProductGalleryIntegration::enable($layoutId);
+            Logger::info('LayoutBootstrap: Product Gallery Integration enabled', [
+                'layout_id' => $layoutId,
+            ]);
+        }
     }
 
     /**

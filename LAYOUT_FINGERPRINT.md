@@ -31,6 +31,21 @@ Fingerprint cũng được inject vào **first wrapper element** dưới dạng 
 - `data-jankx-layout-name` - Layout name
 - `data-jankx-layout-priority` - Layout priority
 
+### Console Log (Tự động)
+Mỗi layout tự động log vào **Browser Console** với styled output:
+
+```javascript
+console.log('[Jankx WooCommerce Layout] Flatsome Gallery', {
+  id: "flatsome-gallery",
+  type: "product-gallery",
+  name: "Flatsome Gallery",
+  class: "Jankx\WooCommerce\Layouts\Gallery\FlatsomeGalleryLayout",
+  priority: 5,
+  timestamp: "2025-12-05 21:30:45",
+  instance: "jankx-layout-flatsome-gallery-67890abc"
+});
+```
+
 ---
 
 ## 🎯 Thông Tin Fingerprint
@@ -108,7 +123,23 @@ Mở **Elements** tab và tìm elements có:
 data-jankx-layout-id="..."
 ```
 
-### 3. Console JavaScript
+### 3. Browser Console (Tự động)
+Mỗi layout tự động log vào **Browser Console** khi render:
+
+```
+[Jankx WooCommerce Layout] Flatsome Gallery
+{
+  id: "flatsome-gallery",
+  type: "product-gallery",
+  name: "Flatsome Gallery",
+  class: "Jankx\WooCommerce\Layouts\Gallery\FlatsomeGalleryLayout",
+  priority: 5,
+  timestamp: "2025-12-05 21:30:45",
+  instance: "jankx-layout-flatsome-gallery-67890abc"
+}
+```
+
+### 4. Console JavaScript (Manual)
 ```javascript
 // Find all layouts
 document.querySelectorAll('[data-jankx-layout-id]').forEach(el => {
@@ -121,7 +152,7 @@ document.querySelectorAll('[data-jankx-layout-id]').forEach(el => {
 });
 ```
 
-### 4. Search trong HTML
+### 5. Search trong HTML
 Search trong source code:
 ```
 JANKX_WOO_LAYOUT
@@ -141,6 +172,7 @@ JANKX_WOO_LAYOUT
      data-jankx-layout-priority="5">
     <!-- Gallery content -->
 </div>
+<script type="text/javascript">(function(){if(typeof console!=='undefined'&&console.log){console.log('%c[Jankx WooCommerce Layout]%c Flatsome Gallery','color:#4CAF50;font-weight:bold;font-size:12px;padding:2px 4px;background:#E8F5E9;border-radius:3px','color:#333;font-size:11px',{id:'flatsome-gallery',type:'product-gallery',name:'Flatsome Gallery',class:'Jankx\WooCommerce\Layouts\Gallery\FlatsomeGalleryLayout',priority:5,timestamp:'2025-12-05 21:30:45',instance:'jankx-layout-flatsome-gallery-67890abc'});}})();</script>
 <!-- JANKX_WOO_LAYOUT: id=flatsome-gallery | type=product-gallery | name=Flatsome Gallery | class=Jankx\WooCommerce\Layouts\Gallery\FlatsomeGalleryLayout | priority=5 | time=2025-12-05 21:30:45 -->
 ```
 
@@ -190,7 +222,10 @@ data-jankx-layout-id="..." data-jankx-layout-type="..." ...
 ```
 
 #### `wrapWithFingerprint(string $output): string`
-Wrap output với fingerprint (comment + attributes)
+Wrap output với fingerprint (comment + attributes + console.log)
+
+#### `generateConsoleLogScript(): string`
+Generate inline JavaScript để log layout info vào browser console
 
 #### `injectFingerprintAttributes(string $html): string`
 Inject data attributes vào first wrapper element

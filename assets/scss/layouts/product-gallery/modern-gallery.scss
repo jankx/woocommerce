@@ -1,11 +1,12 @@
 /**
- * Flatsome Gallery Layout Styles
- * Inspired by Flatsome theme product gallery
+ * Modern Gallery Layout Styles
+ * Premium product gallery layout with modern design
  */
 
-.product-gallery-flatsome-gallery {
+.product-gallery-modern-gallery {
     position: relative;
     width: 100%;
+    min-height: 300px; // Ensure minimum height
 
     // Main image container
     .product-gallery-main {
@@ -14,6 +15,7 @@
         overflow: hidden;
         background: #fff;
         border-radius: 4px;
+        min-height: 400px; // Ensure minimum height
 
         .product-image-wrapper {
             position: relative;
@@ -21,6 +23,7 @@
             padding-top: 100%; // Square aspect ratio
             overflow: hidden;
             cursor: zoom-in;
+            background: #f5f5f5; // Light background instead of black
 
             &[data-zoom="true"] {
                 &:hover {
@@ -54,31 +57,143 @@
                 object-fit: cover;
                 transition: transform 0.3s ease;
                 transform-origin: center center;
+                display: block !important; // Force display
+                visibility: visible !important; // Force visibility
+                opacity: 1 !important; // Force opacity
+                z-index: 1; // Ensure above background
             }
 
-            .zoom-icon {
+            // Navigation buttons (prev/next)
+            .gallery-nav {
                 position: absolute;
-                top: 15px;
-                right: 15px;
-                width: 40px;
-                height: 40px;
-                background: rgba(0, 0, 0, 0.6);
+                top: 50%;
+                transform: translateY(-50%);
+                width: 50px;
+                height: 50px;
+                background: rgba(255, 255, 255, 0.95);
+                border: 1px solid rgba(0, 0, 0, 0.1);
                 border-radius: 50%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                cursor: pointer;
                 opacity: 0;
-                transition: opacity 0.3s ease;
-                pointer-events: none;
-                z-index: 10;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 15;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                pointer-events: auto !important; // Force enable clicks
+                user-select: none;
+                -webkit-user-select: none;
 
-                &::before {
-                    content: '+';
+                &:hover {
+                    background: #fff;
+                    opacity: 1 !important;
+                    transform: translateY(-50%) scale(1.15);
+                    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+                }
+
+                &:active {
+                    transform: translateY(-50%) scale(0.9);
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+                }
+
+                .nav-icon {
+                    color: #333;
+                    font-size: 28px;
+                    font-weight: 400;
+                    line-height: 1;
+                    pointer-events: none; // Prevent inner element from blocking clicks
+                    display: block;
+                }
+
+                &.gallery-prev {
+                    left: 20px;
+                }
+
+                &.gallery-next {
+                    right: 20px;
+                }
+
+                // Show when displayed (not hidden)
+                &[style*="display: flex"],
+                &[style*="display:flex"] {
+                    opacity: 0; // Will show on hover
+                    pointer-events: auto !important; // Always enable clicks even when invisible
+                    
+                    &:hover {
+                        opacity: 1 !important;
+                    }
+                }
+            }
+
+            // Zoom button (bottom-left position)
+            .zoom-icon {
+                position: absolute;
+                bottom: 20px;
+                left: 20px;
+                width: 44px;
+                height: 44px;
+                background: rgba(0, 0, 0, 0.7);
+                border: none;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                opacity: 0;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 15;
+                padding: 0;
+                pointer-events: auto !important; // Force enable clicks
+                user-select: none;
+                -webkit-user-select: none;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+                &:hover {
+                    background: rgba(0, 0, 0, 0.85);
+                    opacity: 1 !important;
+                    transform: scale(1.15);
+                    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+                }
+
+                &:active {
+                    transform: scale(0.9);
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+                }
+
+                .zoom-icon-inner {
                     color: #fff;
-                    font-size: 24px;
+                    font-size: 26px;
                     font-weight: 300;
                     line-height: 1;
+                    pointer-events: none; // Prevent inner element from blocking clicks
+                    display: block;
                 }
+            }
+
+            // Show navigation and zoom on hover
+            &:hover {
+                .gallery-nav,
+                .zoom-icon {
+                    opacity: 1 !important;
+                }
+            }
+            
+            // Always show navigation if displayed (not hidden by JS)
+            .gallery-nav[style*="display: flex"],
+            .gallery-nav[style*="display:flex"] {
+                opacity: 0; // Will show on hover
+                pointer-events: auto !important; // Always enable clicks even when invisible
+                
+                &:hover {
+                    opacity: 1 !important;
+                }
+            }
+            
+            // Ensure buttons are always clickable
+            .gallery-nav,
+            .zoom-icon {
+                pointer-events: auto !important;
             }
         }
     }
@@ -122,19 +237,23 @@
             height: 80px;
             cursor: pointer;
             border: 2px solid transparent;
-            border-radius: 4px;
+            border-radius: 6px;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             background: #f5f5f5;
+            pointer-events: auto !important;
 
             &:hover {
                 border-color: #333;
-                transform: translateY(-2px);
+                transform: translateY(-3px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             }
 
             &.active {
-                border-color: #333;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                border-color: #0073aa;
+                border-width: 3px;
+                box-shadow: 0 4px 12px rgba(0, 115, 170, 0.3);
+                transform: translateY(-2px);
             }
 
             .thumbnail-image {
@@ -142,6 +261,7 @@
                 height: 100%;
                 object-fit: cover;
                 display: block;
+                pointer-events: none; // Prevent image from blocking clicks
             }
         }
     }
@@ -184,7 +304,7 @@
 }
 
 // Lightbox styles
-.flatsome-lightbox {
+.modern-lightbox {
     position: fixed;
     top: 0;
     left: 0;

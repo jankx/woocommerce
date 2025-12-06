@@ -342,7 +342,49 @@ abstract class AbstractLayout implements LayoutInterface
         // Try to inject data attributes into first wrapper element
         $outputWithAttributes = $this->injectFingerprintAttributes($output);
         
-        return $fingerprintComment . $outputWithAttributes . $fingerprintComment;
+        // Generate console.log script
+        $consoleLogScript = $this->generateConsoleLogScript();
+        
+        return $fingerprintComment . $outputWithAttributes . $consoleLogScript . $fingerprintComment;
+    }
+
+    /**
+     * Generate console.log script for debugging
+     *
+     * @return string
+     */
+    protected function generateConsoleLogScript(): string
+    {
+        $data = $this->getFingerprintData();
+        
+        // Generate unique ID for this layout instance
+        $instanceId = 'jankx-layout-' . $this->id . '-' . uniqid();
+        
+        // Create formatted console.log with styled output
+        $script = sprintf(
+            '<script type="text/javascript">(function(){' .
+            'if(typeof console!==\'undefined\'&&console.log){' .
+            'console.log(\'%%c[Jankx WooCommerce Layout]%%c %s\',\'color:#4CAF50;font-weight:bold;font-size:12px;padding:2px 4px;background:#E8F5E9;border-radius:3px\',\'color:#333;font-size:11px\',{' .
+            'id:\'%s\',' .
+            'type:\'%s\',' .
+            'name:\'%s\',' .
+            'class:\'%s\',' .
+            'priority:%d,' .
+            'timestamp:\'%s\',' .
+            'instance:\'%s\'' .
+            '});' .
+            '}})();</script>',
+            esc_js($data['layout_name']),
+            esc_js($data['layout_id']),
+            esc_js($data['layout_type']),
+            esc_js($data['layout_name']),
+            esc_js($data['layout_class']),
+            $data['priority'],
+            esc_js(date('Y-m-d H:i:s', $data['timestamp'])),
+            esc_js($instanceId)
+        );
+        
+        return $script;
     }
 
     /**

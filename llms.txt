@@ -395,8 +395,8 @@ Xem SERVICE_PROVIDER.md để biết chi tiết về configuration system.
 
 ## Expand/Collapse Category Layout (NEW!)
 
-### Flatsome-Inspired Accordion Layout
-Layout mới theo style Flatsome theme với expand/collapse functionality.
+### Modern Accordion Layout
+Layout mới với modern design và expand/collapse functionality.
 
 **Class**: `ExpandCollapseCategoryLayout`
 **ID**: `expand-collapse-category`
