@@ -8,6 +8,7 @@ use Jankx\WooCommerce\Layouts\ProductLoop\GridProductLoopLayout;
 use Jankx\WooCommerce\Layouts\ProductLoop\ListProductLoopLayout;
 use Jankx\WooCommerce\Layouts\CategoryBlock\GridCategoryBlockLayout;
 use Jankx\WooCommerce\Layouts\Gallery\SliderGalleryLayout;
+use Jankx\WooCommerce\Layouts\Gallery\FlatsomeGalleryLayout;
 use Jankx\WooCommerce\Layouts\Cart\DefaultCartPageLayout;
 use Jankx\WooCommerce\Layouts\Checkout\DefaultCheckoutLayout;
 use Jankx\WooCommerce\Layouts\Checkout\MultiStepCheckoutLayout;
@@ -165,6 +166,7 @@ class LayoutBootstrap
         ]);
 
         // Gallery Layouts
+        $manager->register(new FlatsomeGalleryLayout());
         $manager->register(new SliderGalleryLayout());
 
         // Cart Layouts

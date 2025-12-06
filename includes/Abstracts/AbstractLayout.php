@@ -265,7 +265,142 @@ abstract class AbstractLayout implements LayoutInterface
         // Start output buffering
         ob_start();
         include $templatePath;
-        return ob_get_clean();
+        $output = ob_get_clean();
+
+        // Add fingerprint for debugging
+        return $this->wrapWithFingerprint($output);
+    }
+
+    /**
+     * Get fingerprint data for debugging
+     *
+     * @return array
+     */
+    protected function getFingerprintData(): array
+    {
+        return [
+            'layout_id' => $this->id,
+            'layout_type' => $this->type,
+            'layout_name' => $this->name,
+            'layout_class' => get_class($this),
+            'priority' => $this->priority,
+            'timestamp' => time(),
+        ];
+    }
+
+    /**
+     * Generate fingerprint comment
+     *
+     * @return string
+     */
+    protected function generateFingerprintComment(): string
+    {
+        $data = $this->getFingerprintData();
+        $fingerprint = sprintf(
+            'JANKX_WOO_LAYOUT: id=%s | type=%s | name=%s | class=%s | priority=%d | time=%s',
+            $data['layout_id'],
+            $data['layout_type'],
+            $data['layout_name'],
+            $data['layout_class'],
+            $data['priority'],
+            date('Y-m-d H:i:s', $data['timestamp'])
+        );
+
+        return sprintf(
+            "\n<!-- %s -->\n",
+            $fingerprint
+        );
+    }
+
+    /**
+     * Generate fingerprint data attribute
+     *
+     * @return string
+     */
+    protected function generateFingerprintAttributes(): string
+    {
+        $data = $this->getFingerprintData();
+        return sprintf(
+            ' data-jankx-layout-id="%s" data-jankx-layout-type="%s" data-jankx-layout-name="%s" data-jankx-layout-priority="%d"',
+            esc_attr($data['layout_id']),
+            esc_attr($data['layout_type']),
+            esc_attr($data['layout_name']),
+            $data['priority']
+        );
+    }
+
+    /**
+     * Wrap output with fingerprint
+     *
+     * @param string $output
+     * @return string
+     */
+    protected function wrapWithFingerprint(string $output): string
+    {
+        $fingerprintComment = $this->generateFingerprintComment();
+        
+        // Try to inject data attributes into first wrapper element
+        $outputWithAttributes = $this->injectFingerprintAttributes($output);
+        
+        return $fingerprintComment . $outputWithAttributes . $fingerprintComment;
+    }
+
+    /**
+     * Inject fingerprint data attributes into first wrapper element
+     *
+     * @param string $html
+     * @return string
+     */
+    protected function injectFingerprintAttributes(string $html): string
+    {
+        $attributes = $this->generateFingerprintAttributes();
+        
+        // Pattern to match first opening tag (div, section, article, etc.)
+        $pattern = '/<(\w+)([^>]*?)(\s*class\s*=\s*["\'][^"\']*["\'])?([^>]*?)>/i';
+        
+        $replacement = function($matches) use ($attributes) {
+            $tag = $matches[1];
+            $beforeClass = $matches[2];
+            $classAttr = $matches[3] ?? '';
+            $afterClass = $matches[4] ?? '';
+            
+            // Check if attributes already exist
+            if (strpos($matches[0], 'data-jankx-layout-id') !== false) {
+                return $matches[0]; // Already has fingerprint
+            }
+            
+            // Inject after class attribute if exists, otherwise after tag name
+            if (!empty($classAttr)) {
+                return '<' . $tag . $beforeClass . $classAttr . $attributes . $afterClass . '>';
+            } else {
+                return '<' . $tag . $beforeClass . $attributes . $afterClass . '>';
+            }
+        };
+        
+        // Only replace first occurrence
+        $count = 0;
+        return preg_replace_callback($pattern, function($matches) use ($attributes, &$count) {
+            if ($count++ > 0) {
+                return $matches[0]; // Skip after first match
+            }
+            
+            $tag = $matches[1];
+            $beforeClass = $matches[2];
+            $classAttr = $matches[3] ?? '';
+            $afterClass = $matches[4] ?? '';
+            
+            // Check if attributes already exist
+            if (strpos($matches[0], 'data-jankx-layout-id') !== false) {
+                return $matches[0];
+            }
+            
+            // Inject after class attribute if exists, otherwise after tag name
+            if (!empty($classAttr)) {
+                return '<' . $tag . $beforeClass . $classAttr . $attributes . $afterClass . '>';
+            } else {
+                return '<' . $tag . $beforeClass . $attributes . $afterClass . '>';
+            }
+        }, $html, 1);
     }
 
     /**

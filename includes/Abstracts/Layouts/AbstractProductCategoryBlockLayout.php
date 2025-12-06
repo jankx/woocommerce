@@ -62,7 +62,10 @@ abstract class AbstractProductCategoryBlockLayout extends AbstractLayout impleme
         }
         
         echo '</div>';
-        return ob_get_clean();
+        $output = ob_get_clean();
+        
+        // Add fingerprint for debugging
+        return $this->wrapWithFingerprint($output);
     }
 
     /**

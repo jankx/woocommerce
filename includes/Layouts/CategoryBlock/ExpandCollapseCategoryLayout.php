@@ -158,7 +158,10 @@ class ExpandCollapseCategoryLayout extends AbstractProductCategoryBlockLayout
         // Add inline JavaScript
         echo $this->renderScript();
         
-        return ob_get_clean();
+        $output = ob_get_clean();
+        
+        // Add fingerprint for debugging
+        return $this->wrapWithFingerprint($output);
     }
 
     /**
@@ -182,7 +185,10 @@ class ExpandCollapseCategoryLayout extends AbstractProductCategoryBlockLayout
         // Add inline JavaScript
         echo $this->renderScript();
         
-        return ob_get_clean();
+        $output = ob_get_clean();
+        
+        // Add fingerprint for debugging
+        return $this->wrapWithFingerprint($output);
     }
 
     /**
