@@ -27,16 +27,19 @@ class WooCommercePostLayoutHook
     {
         // Hook vào Post Layout generator filter
         add_filter('jankx/post-layout/generator', [self::class, 'provideGenerator'], 10, 3);
-        
+
+        // Hook into the new View Layout generator filter (for Dynamic Data Layout)
+        add_filter('jankx/view-layout/generator', [self::class, 'provideGenerator'], 10, 3);
+
         // Hook vào Post Layout options filter
         add_filter('jankx/post-layout/options', [self::class, 'provideOptions'], 10, 3);
-        
+
         // Register query preset "on-sale" for product post type
         add_filter('jankx/gutenberg/query-options/query-presets', [self::class, 'registerQueryPresets'], 10, 1);
-        
+
         // Register order by options for product post type
         add_filter('jankx/gutenberg/query-options/order-by', [self::class, 'registerOrderByOptions'], 10, 1);
-        
+
         // Hook into query builder filter to handle WooCommerce query presets
         add_filter('jankx/post-layout/query-builder', [self::class, 'buildQuery'], 10, 2);
 
@@ -60,13 +63,13 @@ class WooCommercePostLayoutHook
         // Debug
         $wc_active = class_exists('WooCommerce') || class_exists('WC') || function_exists('WC');
         Log::debug('WooCommercePostLayoutHook: post_type=' . $post_type . ', woocommerce_active=' . ($wc_active ? 'yes' : 'no'));
-        
+
         // Only for product post type and when WooCommerce is active
         if ($post_type === 'product' && $wc_active) {
             Log::debug('WooCommercePostLayoutHook: Returning WooCommerceContentGenerator');
             return new WooCommerceContentGenerator();
         }
-        
+
         return $generator;
     }
 
@@ -87,7 +90,7 @@ class WooCommercePostLayoutHook
             $options['showAddToCart'] = $attributes['showAddToCart'] ?? true;
             $options['showSaleBadge'] = $attributes['showSaleBadge'] ?? true;
         }
-        
+
         return $options;
     }
 
@@ -101,7 +104,7 @@ class WooCommercePostLayoutHook
     {
         // Check if WooCommerce is active
         $wc_active = class_exists('WooCommerce') || class_exists('WC') || function_exists('WC');
-        
+
         if (!$wc_active) {
             return $presets;
         }
@@ -184,7 +187,7 @@ class WooCommercePostLayoutHook
         foreach ($additional_presets as $preset_config) {
             $preset_value = $preset_config['value'];
             $has_preset = false;
-            
+
             foreach ($presets as $preset) {
                 if (isset($preset['value']) && $preset['value'] === $preset_value) {
                     $has_preset = true;
@@ -215,7 +218,7 @@ class WooCommercePostLayoutHook
     {
         // Check if WooCommerce is active
         $wc_active = class_exists('WooCommerce') || class_exists('WC') || function_exists('WC');
-        
+
         if (!$wc_active) {
             return $options;
         }
@@ -223,7 +226,7 @@ class WooCommercePostLayoutHook
         // Check if options already have product-specific order by
         $has_sales = false;
         $has_price = false;
-        
+
         foreach ($options as $option) {
             if (isset($option['value'])) {
                 if ($option['value'] === 'total_sales') {

@@ -2,14 +2,15 @@
 
 namespace Jankx\WooCommerce\PostLayout;
 
-use Jankx\Gutenberg\Blocks\PostLayoutTemplateBlock;
-use Jankx\Layouts\PostLayout\Generators\AbstractContentGenerator;
+use Jankx\Gutenberg\Blocks\DynamicDataTemplateBlock;
+use Jankx\Layouts\DynamicDataLayout\ViewLayouts\AbstractViewContentGenerator;
+use Jankx\Layouts\DynamicDataLayout\ViewLayouts\Contracts\ViewContentGeneratorInterface;
 use WP_Query;
 
 /**
  * WooCommerce Content Generator
  */
-class WooCommerceContentGenerator extends AbstractContentGenerator
+class WooCommerceContentGenerator extends AbstractViewContentGenerator implements ViewContentGeneratorInterface
 {
     protected $name = 'woocommerce';
     protected $title = 'WooCommerce Products';
@@ -64,11 +65,12 @@ class WooCommerceContentGenerator extends AbstractContentGenerator
 
         $options['postTemplate'] = $templateBlock;
 
-        $html = PostLayoutTemplateBlock::renderTemplateWithQuery(
+        // Use standard Gutenberg block rendering for consistency with WooCommerce styling
+        $html = DynamicDataTemplateBlock::renderTemplateWithQuery(
             $templateBlock,
             $query,
             $options,
-            $this->getLayout()
+            null
         );
 
         $layout = $this->getLayout();
@@ -79,7 +81,7 @@ class WooCommerceContentGenerator extends AbstractContentGenerator
         return $html;
     }
 
-    protected function renderPreviewContent(array $options = []): array
+    protected function renderPreview(array $options = []): array
     {
         return [
             'name' => $this->name,
@@ -104,7 +106,8 @@ class WooCommerceContentGenerator extends AbstractContentGenerator
 
         ob_start();
         ?>
-        <div data-wp-interactive="woocommerce/product-collection" data-wp-context='{"notices":[]}' class="wp-block-woocommerce-product-collection is-layout-flow wp-block-product-collection-is-layout-flow">
+        <div data-wp-interactive="woocommerce/product-collection" data-wp-context='{"notices":[]}'
+            class="wp-block-woocommerce-product-collection is-layout-flow wp-block-product-collection-is-layout-flow">
             <div data-wp-interactive="woocommerce/store-notices" class="wc-block-components-notices alignwide"></div>
             <?php echo $carouselHtml; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
         </div>
@@ -112,7 +115,7 @@ class WooCommerceContentGenerator extends AbstractContentGenerator
         return ob_get_clean();
     }
 
-   public function getName(): string
+    public function getName(): string
     {
         return $this->name;
     }
