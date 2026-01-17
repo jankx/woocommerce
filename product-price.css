@@ -1,0 +1,85 @@
+/**
+ * Block Styles: WooCommerce Product Price
+ * Design: Tiki & Shopee Mixed (Orange/Red, Bold, High Contrast)
+ * Location: vendor/jankx/woocommerce/product-price.css
+ */
+
+.wp-block-woocommerce-product-price {
+    margin-top: 8px !important;
+    margin-bottom: 12px !important;
+    font-family: var(--jankx-post-title-font, 'Outfit', 'Inter', sans-serif);
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    line-height: 1.2;
+}
+
+/* Main Price amount styling (Shopee/Tiki Style) */
+.wp-block-woocommerce-product-price .woocommerce-Price-amount {
+    color: var(--jankx-price-color, #ff424e);
+    /* High contrast Tiki Red */
+    font-size: 1.4rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em;
+}
+
+/* Currency symbol styling - subtle and smaller */
+.wp-block-woocommerce-product-price .woocommerce-Price-currencySymbol {
+    font-size: 0.75em;
+    vertical-align: baseline;
+    margin-right: 1px;
+    font-weight: 700;
+}
+
+/* Sale price specific overrides */
+.wp-block-woocommerce-product-price ins {
+    text-decoration: none !important;
+    background: transparent !important;
+    display: inline-block;
+}
+
+.wp-block-woocommerce-product-price ins .woocommerce-Price-amount {
+    color: var(--jankx-price-color, #ff424e);
+    /* Keep it very prominent */
+}
+
+/* Regular price (when on sale) - muted but clear */
+.wp-block-woocommerce-product-price del {
+    color: #929292 !important;
+    font-size: 0.95rem !important;
+    font-weight: 400 !important;
+    text-decoration: line-through;
+    opacity: 0.8;
+}
+
+.wp-block-woocommerce-product-price del .woocommerce-Price-amount {
+    color: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+}
+
+/* Discount Badge - Tiki Style (Prominent) */
+.wp-block-woocommerce-product-price .discount-badge {
+    background: #ff424e;
+    color: #fff;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-block;
+    vertical-align: middle;
+    box-shadow: 0 2px 4px rgba(255, 66, 78, 0.2);
+}
+
+/* Responsive adjustment */
+@media (max-width: 768px) {
+    .wp-block-woocommerce-product-price .woocommerce-Price-amount {
+        font-size: 1.2rem !important;
+    }
+
+    .wp-block-woocommerce-product-price del {
+        font-size: 0.85rem !important;
+    }
+}

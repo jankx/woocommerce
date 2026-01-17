@@ -7,6 +7,7 @@ use Jankx\WooCommerce\Blocks\DiscountPercentsBlock;
 use Jankx\WooCommerce\Blocks\StockStatusBlock;
 use Jankx\WooCommerce\Hooks\WooCommercePostLayoutHook;
 use Jankx\WooCommerce\Gutenberg\Extra\ProductImage as ExtraProductImage;
+use Jankx\WooCommerce\Gutenberg\Extra\ProductPrice as ExtraProductPrice;
 
 /**
  * WooCommerce Integration
@@ -313,6 +314,10 @@ class WooCommerce
     {
         if (class_exists(ExtraProductImage::class)) {
             $extraManager->register(ExtraProductImage::class);
+        }
+
+        if (class_exists(ExtraProductPrice::class)) {
+            $extraManager->register(ExtraProductPrice::class);
         }
     }
 
