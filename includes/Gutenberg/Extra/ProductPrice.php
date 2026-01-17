@@ -46,7 +46,7 @@ class ProductPrice extends AbstractBlockExtra
 
         // Define design tokens for Price
         $design_tokens = apply_filters('jankx/block/woocommerce/product_price/tokens', [
-            '--jankx-price-color' => '#ee4d2d', // Shopee Orange
+            '--jankx-price-color' => '#ff424e', // Tiki Red
         ]);
 
         $style_attr = '';
@@ -54,8 +54,8 @@ class ProductPrice extends AbstractBlockExtra
             $style_attr .= "{$name}: {$value}; ";
         }
 
-        // Apply styles to the block container
-        if (preg_match('/^<([a-z0-9]+)([^>]*class="[^"]*wp-block-woocommerce-product-price[^"]*"[^>]*)>/i', $block_content, $matches)) {
+        // Apply styles to the block container (Improved regex: removed ^ and added support for leading whitespace)
+        if (preg_match('/<([a-z0-9]+)([^>]*class="[^"]*wp-block-woocommerce-product-price[^"]*"[^>]*)>/i', $block_content, $matches)) {
             $tag_name = $matches[1];
             $attributes = $matches[2];
 
