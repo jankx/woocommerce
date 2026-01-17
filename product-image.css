@@ -1,0 +1,38 @@
+/**
+ * Block Styles: WooCommerce Product Image
+ * Isolated Style: Full Width Container
+ * Location: vendor/jankx/woocommerce/product-image.css
+ */
+
+.wp-block-woocommerce-product-image {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    display: block !important;
+}
+
+.wp-block-woocommerce-product-image figure {
+    margin: 0 !important;
+    width: 100% !important;
+}
+
+.wp-block-woocommerce-product-image img {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    object-fit: cover;
+    border-radius: var(--jankx-border-radius, 8px);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover effect for a premium feel */
+.wp-block-woocommerce-product-image:hover img {
+    transform: scale(1.02);
+}
+
+/* Wrapper alignment fix */
+.wp-block-woocommerce-product-image .woocommerce-product-gallery__wrapper {
+    width: 100% !important;
+    margin: 0 !important;
+}
