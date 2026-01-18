@@ -8,6 +8,7 @@ use Jankx\WooCommerce\Blocks\StockStatusBlock;
 use Jankx\WooCommerce\Hooks\WooCommercePostLayoutHook;
 use Jankx\WooCommerce\Gutenberg\Extra\ProductImage as ExtraProductImage;
 use Jankx\WooCommerce\Gutenberg\Extra\ProductPrice as ExtraProductPrice;
+use Jankx\WooCommerce\Gutenberg\Extra\CatalogSorting as ExtraCatalogSorting;
 
 /**
  * WooCommerce Integration
@@ -318,6 +319,10 @@ class WooCommerce
 
         if (class_exists(ExtraProductPrice::class)) {
             $extraManager->register(ExtraProductPrice::class);
+        }
+
+        if (class_exists(ExtraCatalogSorting::class)) {
+            $extraManager->register(ExtraCatalogSorting::class);
         }
     }
 
